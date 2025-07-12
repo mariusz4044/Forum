@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: rgb(19, 19, 33);
+  --whiteText: #fff;
+  --foreground: #171717;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--whiteText);
+}
+
+.button-aqua-shadow {
+  --shadow-color: #1b64be;
+  --accent-button-light-color: #1b64be;
+  --accent-button-default-color: #1b64be;
+
+  box-shadow:
+          0 1px 2px var(--shadow-color),
+          0 1px 0 0 var(--accent-button-light-color) inset,
+          0 -1px 0 0 var(--accent-button-default-color) inset !important;
+}
