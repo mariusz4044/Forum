@@ -23,3 +23,9 @@ body {
           0 1px 0 0 var(--accent-button-light-color) inset,
           0 -1px 0 0 var(--accent-button-default-color) inset !important;
 }
+
+.shadow-element {
+  bottom: 0;
+  left: 0;
+  opacity: 0.3;
+}
