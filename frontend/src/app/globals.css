@@ -29,3 +29,18 @@ body {
   left: 0;
   opacity: 0.3;
 }
+
+.form-element {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-input {
+  background-color: #1c1c2d;
+  border: 1px solid #131321;
+  @apply rounded-sm p-2;
+}
+
+.label-input {
+  @apply text-sm font-medium leading-tight mb-2;
+}

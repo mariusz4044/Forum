@@ -1,5 +1,5 @@
 import LoginButton from "@/components/Utils/Buttons/LoginButton";
-import RegisterButton from "@/components/Utils/Buttons/RegisterButton";
+import ClassicButton from "@/components/Utils/Buttons/ClassicButton";
 
 export default function NavigationBar() {
   return (
@@ -8,7 +8,7 @@ export default function NavigationBar() {
         <h2>Logo</h2>
       </span>
       <div className="flex flex-row gap-4 text-xl relative">
-        <RegisterButton>Register</RegisterButton>
+        <ClassicButton>Register</ClassicButton>
         <LoginButton>sign up</LoginButton>
       </div>
     </nav>
