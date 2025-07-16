@@ -15,6 +15,11 @@ export default function DialogWindow() {
         <div className="form-element">
           <FormInput name="Repeat Password"></FormInput>
         </div>
+        <div className="flex flex-row gap-2 items-center my-2 ml-1">
+          <input type="checkbox" id="rules-checkbox" required />
+          <label htmlFor="rules-checkbox">Accept terms and conditions</label>
+        </div>
+
         <ClassicButton type="submit"> Sign Up</ClassicButton>
       </form>
     </Window>

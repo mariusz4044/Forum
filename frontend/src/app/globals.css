@@ -41,6 +41,19 @@ body {
   @apply rounded-sm p-2;
 }
 
+
+textarea:focus, input:focus{
+  outline: none;
+}
+
 .label-input {
-  @apply text-sm font-medium leading-tight mb-2;
+  @apply text-sm font-medium leading-tight mb-2 relative;
+}
+
+.required-input {
+  @apply text-red-600 text-[.7em] relative bottom-1 opacity-80;
+}
+
+.separator {
+  @apply bottom-0 w-full h-1 bg-[#0000004a] my-4 rounded-xl;
 }
