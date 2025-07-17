@@ -20,7 +20,10 @@ export default function DialogWindow() {
           <label htmlFor="rules-checkbox">Accept terms and conditions</label>
         </div>
 
-        <ClassicButton type="submit"> Sign Up</ClassicButton>
+        <ClassicButton type="submit" className="w-full">
+          {" "}
+          Sign Up
+        </ClassicButton>
       </form>
     </Window>
   );

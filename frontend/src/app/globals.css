@@ -37,7 +37,6 @@ body {
 
 .form-input {
   background-color: #1c1c2d;
-  border: 1px solid #131321;
   @apply rounded-sm p-2;
 }
 

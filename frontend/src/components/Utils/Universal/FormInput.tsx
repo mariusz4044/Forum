@@ -11,15 +11,10 @@ export default function FormInput({ name, required = true }: FormInputProps) {
 
   return (
     <div className="flex flex-col my-2">
-      <label htmlFor={inputId} className="label-input">
+      <label htmlFor={inputId} className="label-input text-gray-400">
         {name} {required && <span className="required-input">Required</span>}
       </label>
-      <input
-        id={inputId}
-        className="form-input"
-        placeholder={name}
-        required={required}
-      />
+      <input id={inputId} className="form-input" required={required} />
     </div>
   );
 }
