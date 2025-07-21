@@ -27,7 +27,7 @@ export default function Window({ children, title }: WindowProps) {
       >
         <header className="flex flex-row justify-between items-center">
           <h2 className="text-2xl font-medium">{title}</h2>
-          <X size={25} />
+          <X size={25} className="font-semibold text-gray-500 cursor-pointer" />
         </header>
         <div className="separator"></div>
         <main>{children}</main>

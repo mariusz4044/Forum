@@ -2,7 +2,7 @@ import Window from "@/components/Utils/Universal/Window";
 import ClassicButton from "@/components/Utils/Buttons/ClassicButton";
 import FormInput from "@/components/Utils/Universal/FormInput";
 
-export default function DialogWindow() {
+export default function RegisterWindow() {
   return (
     <Window title="Register">
       <form>
@@ -21,7 +21,6 @@ export default function DialogWindow() {
         </div>
 
         <ClassicButton type="submit" className="w-full">
-          {" "}
           Sign Up
         </ClassicButton>
       </form>

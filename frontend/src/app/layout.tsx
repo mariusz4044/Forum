@@ -1,10 +1,13 @@
+"use client";
+
 import "./globals.css";
 import React from "react";
+import { useState } from "react";
 
 //Components
 import Header from "@/components/Header/Header";
-import HomePage from "@/views/forum/HomePage";
-import DialogWindow from "@/components/Dialog/DialogWindow";
+import Home from "@/app/page";
+import LoginWindow from "@/components/Dialog/LoginWindow";
 
 export default function RootLayout({
   children,
@@ -15,8 +18,8 @@ export default function RootLayout({
     <html lang="en">
       <body id={"root"}>
         <Header />
-        <DialogWindow />
-        <HomePage />
+        <Home />
+        <LoginWindow />
       </body>
     </html>
   );
