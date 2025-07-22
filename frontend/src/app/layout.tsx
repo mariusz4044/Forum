@@ -2,12 +2,20 @@
 
 import "./globals.css";
 import React from "react";
-import { useState } from "react";
+
+//animations
+import { AnimatePresence } from "framer-motion";
 
 //Components
-import Header from "@/components/Header/Header";
-import Home from "@/app/page";
+import Header from "@/components/Utils/Header";
+import RegisterWindow from "@/components/Dialog/RegisterWindow";
 import LoginWindow from "@/components/Dialog/LoginWindow";
+
+//Context's
+import { useDialogContext } from "@/context/DialogContext";
+import { Providers } from "@/app/providers";
+
+type DialogTypes = "Register" | "Login";
 
 export default function RootLayout({
   children,
@@ -17,10 +25,28 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body id={"root"}>
-        <Header />
-        <Home />
-        <LoginWindow />
+        <Providers>
+          <Content>{children}</Content>
+        </Providers>
       </body>
     </html>
+  );
+}
+
+function Content({ children }: { children: React.ReactNode }) {
+  const { mode } = useDialogContext();
+
+  return (
+    <>
+      {/*Header (login/register/show user)*/}
+      <Header />
+      {/*Router view*/}
+      {children}
+      {/*Dialogs*/}
+      <AnimatePresence>
+        {mode === "login" && <LoginWindow />}
+        {mode === "register" && <RegisterWindow />}
+      </AnimatePresence>
+    </>
   );
 }
