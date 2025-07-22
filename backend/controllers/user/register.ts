@@ -1,5 +1,14 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 import { z } from "zod";
+import { prisma } from "../../database/connection";
+
+import { checkUserExist } from "../dbqueries/user/getUser";
+import { logout } from "../dbqueries/user/logout";
+
+const isDev = process.env.NODE_ENV === "development";
+
+import forumConfig from "../../forum.config";
+const { USER_ACCOUNTS_LIMIT } = forumConfig;
 
 interface RegisterData {
   name: string;
@@ -40,6 +49,52 @@ export function validateRegisterData(data: RegisterData): ResponseValidate {
   return { success: "OK" };
 }
 
-export async function register(res: Response, body: RegisterData) {
-  return res.status(200).send({ success: "OK" });
+export async function register(req: Request, res: Response) {
+  const { login, name, password }: RegisterData = req.body;
+  const sessionId = req.session.id;
+  const userIp = req.session.userIP ?? null;
+
+  try {
+    const userExist = await checkUserExist(login, name);
+    if (userExist) {
+      return res
+        .status(400)
+        .json({ error: "User login or name already exist" });
+    }
+
+    const multiAccounts = await prisma.user.findMany({
+      where: { addressIp: userIp },
+    });
+
+    if (multiAccounts.length > USER_ACCOUNTS_LIMIT) {
+      return res
+        .status(400)
+        .json({ error: "Your cannot create more accounts!" });
+    }
+
+    // Unbind any previous session
+    const logoutStatus = await logout(sessionId);
+    if (logoutStatus !== true) {
+      return res.status(400).json(logoutStatus);
+    }
+
+    await prisma.user.create({
+      data: {
+        login,
+        name,
+        password,
+        sessionId,
+        addressIp: userIp,
+      },
+    });
+
+    return res.status(201).json({ message: "User created successfully" });
+  } catch (e: any) {
+    if (isDev) console.error(e);
+
+    return res.status(400).json({
+      error: "Error while creating user",
+      code: e.code ?? null,
+    });
+  }
 }

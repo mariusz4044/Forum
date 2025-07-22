@@ -6,9 +6,12 @@ export default () => {
   return session({
     secret: process.env.SESSION_SECRET as string,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 72,
+      secure: false,
+      httpOnly: true,
+      sameSite: "lax",
     },
     store: new PrismaSessionStore(prisma, {
       checkPeriod: 2 * 60 * 1000,
