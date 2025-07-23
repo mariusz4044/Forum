@@ -1,4 +1,5 @@
 import { Response, Request } from "express";
+import bcrypt from "bcrypt";
 import { z } from "zod";
 import { prisma } from "../../database/connection";
 
@@ -53,6 +54,7 @@ export async function register(req: Request, res: Response) {
   const { login, name, password }: RegisterData = req.body;
   const sessionId = req.session.id;
   const userIp = req.session.userIP ?? null;
+  const hashedPassword = await bcrypt.hash(password, 12);
 
   try {
     const userExist = await checkUserExist(login, name);
@@ -82,7 +84,7 @@ export async function register(req: Request, res: Response) {
       data: {
         login,
         name,
-        password,
+        password: hashedPassword,
         sessionId,
         addressIp: userIp,
       },

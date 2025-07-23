@@ -1,4 +1,3 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 const isDev = process.env.NODE_ENV === "development";
 import { prisma } from "../../../database/connection";
 
