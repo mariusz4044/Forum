@@ -1,27 +1,19 @@
+import { AppError } from "../../utils/AppError";
+
+const isDev = process.env.NODE_ENV === "development";
+
 import { Response, Request } from "express";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 import { z } from "zod";
 import { prisma } from "../../database/connection";
 
-import { checkUserExist } from "../dbqueries/user/getUser";
+import { checkUserExist } from "../dbqueries/user/checkUserExist";
 import { logout } from "../dbqueries/user/logout";
-
-const isDev = process.env.NODE_ENV === "development";
 
 import forumConfig from "../../forum.config";
 const { USER_ACCOUNTS_LIMIT } = forumConfig;
 
-interface RegisterData {
-  name: string;
-  password: string;
-  login: string;
-}
-
-interface ResponseValidate {
-  error?: string;
-  success?: string;
-  patch?: [string];
-}
+import { ResponseValidateData, RegisterData } from "../../types/types";
 
 const registerSchema = z.object({
   name: z
@@ -38,7 +30,7 @@ const registerSchema = z.object({
     .max(64, { message: "Maximum password length is 64!" }),
 });
 
-export function validateRegisterData(data: RegisterData): ResponseValidate {
+export function validateRegisterData(data: RegisterData): ResponseValidateData {
   const result = registerSchema.safeParse(data);
 
   if (!result.success) {
@@ -56,30 +48,24 @@ export async function register(req: Request, res: Response) {
   const userIp = req.session.userIP ?? null;
   const hashedPassword = await bcrypt.hash(password, 12);
 
+  const userExist = await checkUserExist(login, name);
+  if (userExist) {
+    throw new AppError("User login or name already exist");
+  }
+
+  const multiAccounts = await prisma.user.findMany({
+    where: { addressIp: userIp },
+  });
+
+  if (multiAccounts.length > USER_ACCOUNTS_LIMIT) {
+    throw new AppError("Your cannot create more accounts!");
+  }
+
+  // Unbind any previous session
+  // After success register process user does not have to log in
+  await logout(sessionId);
+
   try {
-    const userExist = await checkUserExist(login, name);
-    if (userExist) {
-      return res
-        .status(400)
-        .json({ error: "User login or name already exist" });
-    }
-
-    const multiAccounts = await prisma.user.findMany({
-      where: { addressIp: userIp },
-    });
-
-    if (multiAccounts.length > USER_ACCOUNTS_LIMIT) {
-      return res
-        .status(400)
-        .json({ error: "Your cannot create more accounts!" });
-    }
-
-    // Unbind any previous session
-    const logoutStatus = await logout(sessionId);
-    if (logoutStatus !== true) {
-      return res.status(400).json(logoutStatus);
-    }
-
     await prisma.user.create({
       data: {
         login,
@@ -93,10 +79,6 @@ export async function register(req: Request, res: Response) {
     return res.status(201).json({ message: "User created successfully" });
   } catch (e: any) {
     if (isDev) console.error(e);
-
-    return res.status(400).json({
-      error: "Error while creating user",
-      code: e.code ?? null,
-    });
+    throw new Error("Occured error while creating user!");
   }
 }

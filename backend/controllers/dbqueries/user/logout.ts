@@ -1,5 +1,6 @@
 const isDev = process.env.NODE_ENV === "development";
 import { prisma } from "../../../database/connection";
+import type { PrismaError } from "../../../types/types";
 
 export async function logout(sessionId: string) {
   try {
@@ -13,17 +14,14 @@ export async function logout(sessionId: string) {
     });
 
     return true;
-  } catch (err) {
-    if (isDev) console.error(err);
+  } catch (e) {
+    if (isDev) console.error(e);
 
-    if (err.code === "P2025") {
+    if (e.code === "P2025") {
       // User had no active session — treat as successful logout
       return true;
     }
 
-    return {
-      error: "Cannot destroy session!",
-      code: err.code,
-    };
+    throw Error(e);
   }
 }

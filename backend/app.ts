@@ -1,3 +1,5 @@
+const isDev = process.env.NODE_ENV !== "production";
+
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
@@ -28,6 +30,15 @@ app.use("/api/user", userRoutes);
 
 app.get("/get-session", (req, res) => {
   res.status(200).send(`Session ID: ${req.session.id}!`);
+});
+
+//global error handler
+app.use((err, req, res, next) => {
+  if (err.name === "AppError") {
+    return res.status(err.status).json({ error: err.message, data: err.data });
+  }
+
+  res.status(500).json({ error: "Internal Server Error" });
 });
 
 app.listen(3000, () => {

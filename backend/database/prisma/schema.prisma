@@ -8,15 +8,30 @@ datasource db {
 }
 
 model User {
+  id           Int      @id @default(autoincrement())
+  login        String   @unique
+  password     String
+  name         String   @unique
+  role         String   @default("USER")
+  createdAt    DateTime @default(now())
+  points       Int      @default(0)
+  addressIp    String?
+  sessionId    String?  @unique
+  bansReceived Ban[]    @relation("BannedUser")
+  bansGiven    Ban[]    @relation("BannedByUser")
+}
+
+model Ban {
   id        Int      @id @default(autoincrement())
-  login     String   @unique
-  password  String
-  name      String   @unique
-  role      String   @default("USER")
-  createdAt DateTime @default(now())
-  points    Int      @default(0)
-  addressIp String?
-  sessionId String?  @unique
+  endTime   DateTime
+  startTime DateTime @default(now())
+  reason    String
+
+  bannedUserId Int
+  banned       User @relation("BannedUser", fields: [bannedUserId], references: [id])
+
+  bannedById Int
+  bannedBy   User @relation("BannedByUser", fields: [bannedById], references: [id])
 }
 
 model Session {

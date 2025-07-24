@@ -1,7 +1,12 @@
-import Router from "express";
+import { Router } from "express";
 const router = Router();
 
-import { register, validateRegisterData } from "../controllers/user/register";
+import {
+  register,
+  validateRegisterData,
+} from "../controllers/newUser/register";
+
+import { login } from "../controllers/newUser/login";
 
 router.post("/register", async (req, res) => {
   const { error } = validateRegisterData(req.body);
@@ -9,8 +14,8 @@ router.post("/register", async (req, res) => {
   return await register(req, res);
 });
 
-router.get("/login", (req, res) => {
-  return res.send("Hi login!");
+router.post("/login", async (req, res) => {
+  return await login(req, res);
 });
 
 export default router;
