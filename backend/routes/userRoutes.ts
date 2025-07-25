@@ -7,6 +7,7 @@ import {
 } from "../controllers/newUser/register";
 
 import { login } from "../controllers/newUser/login";
+import { getUserData } from "../controllers/existUser/getUserData";
 
 router.post("/register", async (req, res) => {
   const { error } = validateRegisterData(req.body);
@@ -16,6 +17,11 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   return await login(req, res);
+});
+
+router.get("/", async (req, res) => {
+  const userData = await getUserData(req, res);
+  return res.status(200).send(userData);
 });
 
 export default router;

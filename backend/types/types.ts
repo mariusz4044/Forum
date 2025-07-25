@@ -18,3 +18,10 @@ export interface ResponseValidateData {
   success?: string;
   patch?: [string];
 }
+
+export interface UserData {
+  id: number;
+  name: string;
+  role: string;
+  points: number;
+}

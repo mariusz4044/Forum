@@ -1,3 +1,5 @@
+import checkUserSession from "./middleware/checkSessionCookie";
+
 const isDev = process.env.NODE_ENV !== "production";
 
 import dotenv from "dotenv";
@@ -8,6 +10,7 @@ import expressSession from "./middleware/express-session";
 import userRoutes from "./routes/userRoutes";
 import validateRequest from "./middleware/requestValidate/validateRequest";
 import getUserIp from "./middleware/getUserIp";
+import checkSessionCookie from "./middleware/checkSessionCookie";
 dotenv.config();
 
 const app = express();
@@ -23,6 +26,7 @@ app.use(expressSession());
 
 //Middleware
 app.use("/", validateRequest);
+app.use("/", checkSessionCookie);
 app.use("/", getUserIp);
 
 //User routes
