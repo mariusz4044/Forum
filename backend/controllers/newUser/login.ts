@@ -9,6 +9,7 @@ import findActiveBan from "../../utils/findActiveBan";
 import type { LoginBody } from "../../types/types";
 import { updateUniqueUser } from "../dbqueries/user/updateUniqueUser";
 import { AppError } from "../../utils/AppError";
+import specifyUserData from "../../utils/specifyUserData";
 
 export async function login(req: Request, res: Response) {
   const { login, password }: LoginBody = req.body;
@@ -55,7 +56,10 @@ export async function login(req: Request, res: Response) {
     },
   });
 
-  return res
-    .status(200)
-    .send({ success: "Successfully logged in!", updatedUser });
+  return res.status(200).send({
+    success: "Successfully logged in!",
+    data: {
+      ...specifyUserData(updatedUser),
+    },
+  });
 }

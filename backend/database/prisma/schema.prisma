@@ -17,21 +17,22 @@ model User {
   points       Int      @default(0)
   addressIp    String?
   sessionId    String?  @unique
+  session      Session? @relation(fields: [sessionId], references: [sid])
   bansReceived Ban[]    @relation("BannedUser")
   bansGiven    Ban[]    @relation("BannedByUser")
 }
 
 model Ban {
-  id        Int      @id @default(autoincrement())
-  endTime   DateTime
-  startTime DateTime @default(now())
-  reason    String
-
+  id           Int      @id @default(autoincrement())
+  endTime      DateTime
+  startTime    DateTime @default(now())
+  reason       String
   bannedUserId Int
-  banned       User @relation("BannedUser", fields: [bannedUserId], references: [id])
+  banned       User     @relation("BannedUser", fields: [bannedUserId], references: [id])
+  bannedById   Int
+  bannedBy     User     @relation("BannedByUser", fields: [bannedById], references: [id])
 
-  bannedById Int
-  bannedBy   User @relation("BannedByUser", fields: [bannedById], references: [id])
+  @@index([bannedUserId, endTime])
 }
 
 model Session {
@@ -40,4 +41,5 @@ model Session {
   data      String
   expiresAt DateTime
   createdAt DateTime @default(now())
+  User      User?
 }
