@@ -9,7 +9,6 @@ import { getActiveBan } from "../dbqueries/user/getActiveBan";
 import type { LoginBody } from "../../types/types";
 import { updateUniqueUser } from "../dbqueries/user/updateUniqueUser";
 import { AppError } from "../../utils/AppError";
-import specifyUserData from "../../utils/specifyUserData";
 import { connectSession } from "../dbqueries/user/connectSession";
 
 export async function loginFn(req: Request, res: Response) {
@@ -22,6 +21,14 @@ export async function loginFn(req: Request, res: Response) {
 
   const findUser: User | false = await getUniqueUser({
     where: { login },
+    select: {
+      id: true,
+      avatar: true,
+      name: true,
+      role: true,
+      points: true,
+      password: true,
+    },
   });
 
   if (!findUser) {
@@ -52,8 +59,6 @@ export async function loginFn(req: Request, res: Response) {
 
   return res.status(200).send({
     message: "Successfully logged in!",
-    data: {
-      ...specifyUserData(findUser),
-    },
+    data: findUser,
   });
 }

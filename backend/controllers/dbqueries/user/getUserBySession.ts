@@ -1,6 +1,5 @@
 import { prisma } from "../../../database/connection";
 import { Prisma, User } from "@prisma/client";
-import specifyUserData from "../../../utils/specifyUserData";
 import { UserData } from "../../../types/types";
 
 export async function getUserBySession(
@@ -10,7 +9,15 @@ export async function getUserBySession(
     const session = await prisma.session.findUnique({
       where: { id: sessionId },
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            avatar: true,
+            name: true,
+            role: true,
+            points: true,
+          },
+        },
       },
     });
 
@@ -18,7 +25,7 @@ export async function getUserBySession(
       return false;
     }
 
-    return specifyUserData(session.user);
+    return session.user;
   } catch (error) {
     throw new Error(error.message);
   }

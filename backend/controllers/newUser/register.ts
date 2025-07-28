@@ -73,13 +73,20 @@ export async function register(req: Request, res: Response) {
         password: hashedPassword,
         addressIp: userIp,
       },
+      select: {
+        id: true,
+        avatar: true,
+        name: true,
+        role: true,
+        points: true,
+      },
     });
 
     await connectSession(newUser.id, sessionId);
 
     return res.status(201).json({
       message: "User created successfully",
-      data: specifyUserData(newUser),
+      data: newUser,
     });
   } catch (e: any) {
     if (isDev) console.error(e);
