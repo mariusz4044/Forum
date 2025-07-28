@@ -6,7 +6,7 @@ import {
   validateRegisterData,
 } from "../controllers/newUser/register";
 
-import { login } from "../controllers/newUser/login";
+import { loginFn } from "../controllers/newUser/login";
 import { getUserData } from "../controllers/existUser/getUserData";
 
 router.post("/register", async (req, res) => {
@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  return await login(req, res);
+  return await loginFn(req, res);
 });
 
 router.get("/", async (req, res) => {

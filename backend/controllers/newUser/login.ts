@@ -12,7 +12,7 @@ import { AppError } from "../../utils/AppError";
 import specifyUserData from "../../utils/specifyUserData";
 import { connectSession } from "../dbqueries/user/connectSession";
 
-export async function login(req: Request, res: Response) {
+export async function loginFn(req: Request, res: Response) {
   const { login, password }: LoginBody = req.body;
   const sessionId = req.session.id;
 
@@ -22,13 +22,10 @@ export async function login(req: Request, res: Response) {
 
   const findUser: User | false = await getUniqueUser({
     where: { login },
-    include: {
-      bansReceived: true,
-    },
   });
 
   if (!findUser) {
-    throw new AppError("Authentication failed!");
+    throw new AppError("Login or password is incorrect!");
   }
 
   const comparePassword = await bcrypt.compare(password, findUser.password);
@@ -54,7 +51,7 @@ export async function login(req: Request, res: Response) {
   await connectSession(findUser.id, sessionId);
 
   return res.status(200).send({
-    success: "Successfully logged in!",
+    message: "Successfully logged in!",
     data: {
       ...specifyUserData(findUser),
     },

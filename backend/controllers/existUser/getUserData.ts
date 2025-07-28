@@ -3,14 +3,15 @@ import { UserData } from "../../types/types";
 import { getUniqueUser } from "../dbqueries/user/getUniqueUser";
 import { AppError } from "../../utils/AppError";
 import specifyUserData from "../../utils/specifyUserData";
+import { getUserBySession } from "../dbqueries/user/getUserBySession";
 
 export async function getUserData(
   req: Request,
   res: Response,
 ): Promise<UserData> {
-  const user = await getUniqueUser({
-    where: { sessionId: req.session.id },
-  });
+  const sessionId = req.session.id;
+
+  const user = await getUserBySession(sessionId);
 
   if (!user) throw new AppError("No user found!");
 
