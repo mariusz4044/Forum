@@ -7,6 +7,7 @@ export default () => {
     secret: process.env.SESSION_SECRET as string,
     resave: false,
     saveUninitialized: true,
+    rolling: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 72,
       secure: false,

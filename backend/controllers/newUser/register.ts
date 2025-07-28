@@ -14,6 +14,8 @@ import forumConfig from "../../forum.config";
 const { USER_ACCOUNTS_LIMIT } = forumConfig;
 
 import { ResponseValidateData, RegisterData } from "../../types/types";
+import specifyUserData from "../../utils/specifyUserData";
+import { connectSession } from "../dbqueries/user/connectSession";
 
 const registerSchema = z.object({
   name: z
@@ -46,9 +48,11 @@ export async function register(req: Request, res: Response) {
   const { login, name, password }: RegisterData = req.body;
   const sessionId = req.session.id;
   const userIp = req.session.userIP ?? null;
+
   const hashedPassword = await bcrypt.hash(password, 12);
 
   const userExist = await checkUserExist(login, name);
+
   if (userExist) {
     throw new AppError("User login or name already exist");
   }
@@ -61,22 +65,22 @@ export async function register(req: Request, res: Response) {
     throw new AppError("Your cannot create more accounts!");
   }
 
-  // Unbind any previous session
-  // After success register process user does not have to log in
-  await logout(sessionId);
-
   try {
-    await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         login,
         name,
         password: hashedPassword,
-        sessionId,
         addressIp: userIp,
       },
     });
 
-    return res.status(201).json({ message: "User created successfully" });
+    await connectSession(newUser.id, sessionId);
+
+    return res.status(201).json({
+      message: "User created successfully",
+      data: specifyUserData(newUser),
+    });
   } catch (e: any) {
     if (isDev) console.error(e);
     throw new Error("Occured error while creating user!");

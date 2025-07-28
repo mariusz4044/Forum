@@ -3,13 +3,14 @@ import { Response, Request } from "express";
 import bcrypt from "bcrypt";
 import { getUniqueUser } from "../dbqueries/user/getUniqueUser";
 import { User } from "@prisma/client";
-import findActiveBan from "../../utils/findActiveBan";
+import { getActiveBan } from "../dbqueries/user/getActiveBan";
 
 //types
 import type { LoginBody } from "../../types/types";
 import { updateUniqueUser } from "../dbqueries/user/updateUniqueUser";
 import { AppError } from "../../utils/AppError";
 import specifyUserData from "../../utils/specifyUserData";
+import { connectSession } from "../dbqueries/user/connectSession";
 
 export async function login(req: Request, res: Response) {
   const { login, password }: LoginBody = req.body;
@@ -27,7 +28,7 @@ export async function login(req: Request, res: Response) {
   });
 
   if (!findUser) {
-    throw new AppError("Invalid login data!");
+    throw new AppError("Authentication failed!");
   }
 
   const comparePassword = await bcrypt.compare(password, findUser.password);
@@ -35,13 +36,14 @@ export async function login(req: Request, res: Response) {
     throw new AppError("Invalid login data!");
   }
 
-  const isActiveBan = findActiveBan(findUser.bansReceived);
-  if (isActiveBan) {
+  const activeBan = await getActiveBan(findUser.id);
+
+  if (activeBan) {
     throw new AppError(
       "Your Account is banned!",
       {
-        reason: isActiveBan.reason,
-        endTime: isActiveBan.endTime,
+        reason: activeBan.reason,
+        endTime: activeBan.endTime,
         banned: true,
       },
       403,
@@ -49,17 +51,12 @@ export async function login(req: Request, res: Response) {
   }
 
   //update user session
-  const updatedUser = await updateUniqueUser({
-    where: { login },
-    data: {
-      sessionId,
-    },
-  });
+  await connectSession(findUser.id, sessionId);
 
   return res.status(200).send({
     success: "Successfully logged in!",
     data: {
-      ...specifyUserData(updatedUser),
+      ...specifyUserData(findUser),
     },
   });
 }

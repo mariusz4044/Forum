@@ -24,4 +24,5 @@ export interface UserData {
   name: string;
   role: string;
   points: number;
+  avatar: string;
 }

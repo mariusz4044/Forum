@@ -8,18 +8,20 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  login        String   @unique
+  id           Int       @id @default(autoincrement())
+  login        String    @unique
   password     String
-  name         String   @unique
-  role         String   @default("USER")
-  createdAt    DateTime @default(now())
-  points       Int      @default(0)
+  name         String    @unique
+  role         String    @default("USER")
+  avatar       String    @default("default.webp")
+  createdAt    DateTime  @default(now())
+  points       Int       @default(0)
   addressIp    String?
-  sessionId    String?  @unique
-  session      Session? @relation(fields: [sessionId], references: [sid])
-  bansReceived Ban[]    @relation("BannedUser")
-  bansGiven    Ban[]    @relation("BannedByUser")
+  bansReceived Ban[]     @relation("BannedUser")
+  bansGiven    Ban[]     @relation("BannedByUser")
+  sessions     Session[]
+
+  @@index([id, login])
 }
 
 model Ban {
@@ -41,5 +43,8 @@ model Session {
   data      String
   expiresAt DateTime
   createdAt DateTime @default(now())
-  User      User?
+  users     User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+
+  @@index([id])
 }

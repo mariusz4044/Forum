@@ -1,4 +1,4 @@
-import checkUserSession from "./middleware/checkSessionCookie";
+import checkUserSession from "./middleware/ensureSessionInDatabase";
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -10,7 +10,7 @@ import expressSession from "./middleware/express-session";
 import userRoutes from "./routes/userRoutes";
 import validateRequest from "./middleware/requestValidate/validateRequest";
 import getUserIp from "./middleware/getUserIp";
-import checkSessionCookie from "./middleware/checkSessionCookie";
+import ensureSessionInDatabase from "./middleware/ensureSessionInDatabase";
 dotenv.config();
 
 const app = express();
@@ -26,7 +26,7 @@ app.use(expressSession());
 
 //Middleware
 app.use("/", validateRequest);
-app.use("/", checkSessionCookie);
+app.use("/", ensureSessionInDatabase);
 app.use("/", getUserIp);
 
 //User routes
@@ -42,6 +42,7 @@ app.use((err, req, res, next) => {
     return res.status(err.status).json({ error: err.message, data: err.data });
   }
 
+  console.log(err);
   res.status(500).json({ error: "Internal Server Error" });
 });
 
