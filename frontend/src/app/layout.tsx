@@ -1,9 +1,11 @@
 "use client";
+import useSWR from "swr";
 
 import "./globals.css";
-import React from "react";
+import React, { useEffect } from "react";
 
 //animations
+import { ToastContainer, toast } from "react-toastify";
 import { AnimatePresence } from "framer-motion";
 
 //Components
@@ -14,6 +16,9 @@ import LoginWindow from "@/components/Dialog/LoginWindow";
 //Context's
 import { useDialogContext } from "@/context/DialogContext";
 import { Providers } from "@/app/providers";
+import Loading from "@/components/Utils/Universal/Loading";
+import fetcherGet from "@/functions/fetcherGet";
+import { useUserContext } from "@/context/UserContext";
 
 type DialogTypes = "Register" | "Login";
 
@@ -47,6 +52,7 @@ function Content({ children }: { children: React.ReactNode }) {
         {mode === "login" && <LoginWindow />}
         {mode === "register" && <RegisterWindow />}
       </AnimatePresence>
+      <ToastContainer />
     </>
   );
 }
