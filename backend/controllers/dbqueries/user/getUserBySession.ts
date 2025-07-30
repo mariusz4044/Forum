@@ -1,24 +1,29 @@
 import { prisma } from "../../../database/connection";
-import { Prisma, User } from "@prisma/client";
 import { UserData } from "../../../types/types";
 
 export async function getUserBySession(
   sessionId: string,
+  readyForm: boolean = false,
 ): Promise<UserData | false> {
+  let returnData: any = { user: true };
+
+  if (readyForm) {
+    returnData = {
+      user: {
+        select: {
+          id: true,
+          avatar: true,
+          name: true,
+          role: true,
+          points: true,
+        },
+      },
+    };
+  }
   try {
     const session = await prisma.session.findUnique({
       where: { id: sessionId },
-      include: {
-        user: {
-          select: {
-            id: true,
-            avatar: true,
-            name: true,
-            role: true,
-            points: true,
-          },
-        },
-      },
+      include: returnData,
     });
 
     if (!session) {

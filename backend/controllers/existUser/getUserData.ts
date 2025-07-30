@@ -10,7 +10,7 @@ export async function getUserData(
 ): Promise<UserData> {
   const sessionId = req.session.id;
 
-  const user = await getUserBySession(sessionId);
+  const user = await getUserBySession(sessionId, true);
 
   if (!user) throw new AppError("No user found!");
 

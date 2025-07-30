@@ -11,6 +11,7 @@ import userRoutes from "./routes/userRoutes";
 import validateRequest from "./middleware/requestValidate/validateRequest";
 import getUserIp from "./middleware/getUserIp";
 import ensureSessionInDatabase from "./middleware/ensureSessionInDatabase";
+import forumRoutes from "./routes/forumRoutes";
 dotenv.config();
 
 const app = express();
@@ -32,6 +33,9 @@ app.use("/", getUserIp);
 //User routes
 app.use("/api/user", userRoutes);
 
+//Forum routers
+app.use("/api/forum", forumRoutes);
+
 app.get("/get-session", (req, res) => {
   res.status(200).send(`Session ID: ${req.session.id}!`);
 });
@@ -46,7 +50,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Internal Server Error" });
 });
 
-app.listen(3000, () => {
+app.listen(2137, () => {
   console.log("Server is running on port 3000 (http://localhost:3000)");
 });
 

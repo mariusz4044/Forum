@@ -8,18 +8,21 @@ datasource db {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
-  login        String    @unique
+  id           Int          @id @default(autoincrement())
+  login        String       @unique
   password     String
-  name         String    @unique
-  role         String    @default("USER")
-  avatar       String    @default("default.webp")
-  createdAt    DateTime  @default(now())
-  points       Int       @default(0)
+  name         String       @unique
+  role         String       @default("USER")
+  avatar       String       @default("default.webp")
+  createdAt    DateTime     @default(now())
+  points       Int          @default(0)
   addressIp    String?
-  bansReceived Ban[]     @relation("BannedUser")
-  bansGiven    Ban[]     @relation("BannedByUser")
+  bansReceived Ban[]        @relation("BannedUser")
+  bansGiven    Ban[]        @relation("BannedByUser")
   sessions     Session[]
+  sections     Section[]
+  topics       Topic[]
+  SubSection   SubSection[]
 
   @@index([id, login])
 }
@@ -43,8 +46,45 @@ model Session {
   data      String
   expiresAt DateTime
   createdAt DateTime @default(now())
-  users     User?    @relation(fields: [userId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id])
   userId    Int?
 
   @@index([id])
+}
+
+model Section {
+  id          Int          @id @default(autoincrement())
+  title       String
+  createdAt   DateTime     @default(now())
+  roleRequire String[]     @default(["USER", "GUEST"])
+  createdById Int
+  createdBy   User         @relation(fields: [createdById], references: [id])
+  subSections SubSection[]
+  Topic       Topic[]
+}
+
+model SubSection {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+  roleRequire String[] @default(["USER", "GUEST"])
+  createdById Int
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  topics      Topic[]
+  Section     Section? @relation(fields: [sectionId], references: [id])
+  sectionId   Int?
+}
+
+model Topic {
+  id           Int         @id @default(autoincrement())
+  title        String
+  createdAt    DateTime    @default(now())
+  roleRequire  String[]    @default(["USER", "GUEST"])
+  createdById  Int
+  createdBy    User        @relation(fields: [createdById], references: [id])
+  SubSection   SubSection? @relation(fields: [subSectionId], references: [id])
+  subSectionId Int?
+  Section      Section?    @relation(fields: [sectionId], references: [id])
+  sectionId    Int?
 }

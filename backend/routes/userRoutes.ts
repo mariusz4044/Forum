@@ -8,6 +8,13 @@ import {
 
 import { loginFn } from "../controllers/newUser/login";
 import { getUserData } from "../controllers/existUser/getUserData";
+import authorization from "../middleware/auths/authUser";
+import { logoutUser } from "../controllers/user/logout";
+
+router.get("/", authorization, async (req, res) => {
+  const userData = await getUserData(req, res);
+  return res.status(200).send(userData);
+});
 
 router.post("/register", async (req, res) => {
   const { error } = validateRegisterData(req.body);
@@ -15,13 +22,7 @@ router.post("/register", async (req, res) => {
   return await register(req, res);
 });
 
-router.post("/login", async (req, res) => {
-  return await loginFn(req, res);
-});
-
-router.get("/", async (req, res) => {
-  const userData = await getUserData(req, res);
-  return res.status(200).send(userData);
-});
+router.post("/login", loginFn);
+router.post("/logout", authorization, logoutUser);
 
 export default router;

@@ -8,7 +8,6 @@ import { z } from "zod";
 import { prisma } from "../../database/connection";
 
 import { checkUserExist } from "../dbqueries/user/checkUserExist";
-import { logout } from "../dbqueries/user/logout";
 
 import forumConfig from "../../forum.config";
 const { USER_ACCOUNTS_LIMIT } = forumConfig;
