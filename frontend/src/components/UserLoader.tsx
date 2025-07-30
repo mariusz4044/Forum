@@ -17,21 +17,20 @@ export default function UserLoader({ children }: UserLoaderProps) {
   const { data, error, isLoading } = useSWR(
     `${process.env.SERVER_URL}/api/user`,
     fetcherGet,
+    {
+      shouldRetryOnError: false,
+      refreshInterval: 0,
+    },
   );
 
   useEffect(() => {
-    if (data && !user.id) {
+    if (data?.id) {
+      console.log(data, user);
       setNewUser(data);
     }
   }, [data, user.id, setNewUser]);
 
-  useEffect(() => {
-    if (error && error.status !== 401 && error.status !== 403) {
-      toast.error(error.message);
-    }
-  }, [error]);
-
-  if (isLoading && !user.id) {
+  if (isLoading) {
     return <Loading />;
   }
 
