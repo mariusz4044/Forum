@@ -1,12 +1,11 @@
 import { getUserBySession } from "../../controllers/dbqueries/user/getUserBySession";
 import { AppError } from "../../utils/AppError";
 import { Response, Request, NextFunction } from "express";
-import { UserData } from "../../types/types";
 import { User } from "@prisma/client";
 
 declare module "express-serve-static-core" {
   interface Request {
-    user?: UserData | User;
+    user?: User;
   }
 }
 

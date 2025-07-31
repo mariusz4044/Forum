@@ -19,10 +19,12 @@ model User {
   addressIp    String?
   bansReceived Ban[]        @relation("BannedUser")
   bansGiven    Ban[]        @relation("BannedByUser")
+  lastPostTs   DateTime     @default(dbgenerated("'1970-01-01 00:00:00'"))
   sessions     Session[]
   sections     Section[]
   topics       Topic[]
-  SubSection   SubSection[]
+  subsections  SubSection[]
+  posts        Post[]
 
   @@index([id, login])
 }
@@ -87,4 +89,15 @@ model Topic {
   subSectionId Int?
   Section      Section?    @relation(fields: [sectionId], references: [id])
   sectionId    Int?
+  posts        Post[]
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  message   String
+  authorId  Int
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id])
+  topicId   Int
+  topic     Topic    @relation(fields: [topicId], references: [id])
 }
