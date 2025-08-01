@@ -3,6 +3,7 @@ import { AppError } from "../../utils/AppError";
 import { createSectionQuery } from "../dbqueries/forum/createSectionQuery";
 import { createPostQuery } from "../dbqueries/forum/createPostQuery";
 import { prisma } from "../../database/connection";
+import { getLastTopicPostQuery } from "../dbqueries/forum/getLastTopicPostQuery";
 
 interface PostBody {
   message: string;
@@ -30,6 +31,14 @@ export async function createPost(req: Request, res: Response) {
     throw new AppError(
       `Slow down! Create post is possible every ${postDelay} second!`,
     );
+  }
+
+  const lastPostInTopic = await getLastTopicPostQuery({
+    topicId,
+  });
+
+  if (lastPostInTopic?.authorId === user.id) {
+    throw new AppError("You can't write two posts under a row!");
   }
 
   const createdPost = await createPostQuery({

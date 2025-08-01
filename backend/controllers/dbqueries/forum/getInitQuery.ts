@@ -4,7 +4,7 @@ export async function getInitQuery() {
   try {
     return await prisma.section.findMany({
       include: {
-        subSections: {
+        categories: {
           include: {
             _count: {
               select: {

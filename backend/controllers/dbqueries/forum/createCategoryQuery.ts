@@ -1,8 +1,8 @@
 import { prisma } from "../../../database/connection";
 import { AppError } from "../../../utils/AppError";
-import { SubSection } from "@prisma/client";
+import { Category } from "@prisma/client";
 
-interface SubSectionQuery {
+interface CreateCategoryQuery {
   title: string;
   createdById: number;
   sectionId: number;
@@ -10,15 +10,15 @@ interface SubSectionQuery {
   roleRequire: string[];
 }
 
-export async function createSubSectionQuery({
+export async function createCategoryQuery({
   title,
   createdById,
   sectionId,
   description,
   roleRequire,
-}: SubSectionQuery): Promise<SubSection | Error> {
+}: CreateCategoryQuery): Promise<Category | Error> {
   try {
-    return await prisma.subSection.create({
+    return await prisma.category.create({
       data: {
         title,
         createdById,

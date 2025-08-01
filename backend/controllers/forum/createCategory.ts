@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AppError } from "../../utils/AppError";
 import { createSectionQuery } from "../dbqueries/forum/createSectionQuery";
-import { createSubSectionQuery } from "../dbqueries/forum/createSubSectionQuery";
+import { createCategoryQuery } from "../dbqueries/forum/createCategoryQuery";
 
 interface SectionBody {
   title: string;
@@ -10,7 +10,7 @@ interface SectionBody {
   description: string;
 }
 
-export async function createSubSection(req: Request, res: Response) {
+export async function createCategory(req: Request, res: Response) {
   const { title, description, roleRequire, sectionId }: SectionBody = req.body;
 
   if (!title) {
@@ -25,7 +25,7 @@ export async function createSubSection(req: Request, res: Response) {
     throw new AppError(`Section id is invalid!`);
   }
 
-  const createdSection = await createSubSectionQuery({
+  const createdSection = await createCategoryQuery({
     title: title,
     createdById: req.user.id,
     sectionId,

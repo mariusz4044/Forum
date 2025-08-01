@@ -5,14 +5,14 @@ import { Topic } from "@prisma/client";
 interface TopicQuery {
   title: string;
   createdById: number;
-  subSectionId: number;
+  categoryId: number;
   roleRequire: string[];
 }
 
 export async function createTopicQuery({
   title,
   createdById,
-  subSectionId,
+  categoryId,
   roleRequire,
 }: TopicQuery): Promise<Topic | Error> {
   try {
@@ -20,11 +20,12 @@ export async function createTopicQuery({
       data: {
         title,
         createdById,
-        subSectionId,
+        categoryId,
         roleRequire,
       },
     });
   } catch (e) {
+    if (e.code === "P2003") throw new AppError("Category not exist!");
     throw new Error(e.message);
   }
 }
