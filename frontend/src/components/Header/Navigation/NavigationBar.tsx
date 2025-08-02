@@ -2,9 +2,10 @@
 
 import LoginButton from "@/components/Utils/Buttons/LoginButton";
 import ClassicButton from "@/components/Utils/Buttons/ClassicButton";
-import { useContext } from "react";
 import { useDialogContext } from "@/context/DialogContext";
 import { User, useUserContext } from "@/context/UserContext";
+
+import Link from "next/link";
 
 function UserPanel({ user, logout }: { user: User; logout: () => void }) {
   const userIsLoggedIn = !!user.id;
@@ -60,7 +61,7 @@ export default function NavigationBar() {
   return (
     <nav className="w-full h-13 flex flex-row justify-around text-white absolute bottom-16">
       <span>
-        <h2>Logo</h2>
+        <Link href="/">LOGO</Link>
       </span>
       <UserPanel user={user} logout={logout} />
     </nav>

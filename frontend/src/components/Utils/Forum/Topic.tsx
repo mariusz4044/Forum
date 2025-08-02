@@ -1,4 +1,5 @@
 import { Rss } from "lucide-react";
+import Link from "next/link";
 
 type LastPost = {
   userName: string;
@@ -13,12 +14,14 @@ export default function Topic({
   iconPath,
   messagesCount,
   lastPost,
+  categoryId,
 }: {
   title: string;
   description: string;
   messagesCount: number;
   iconPath: string;
   lastPost: LastPost;
+  categoryId: string;
 }) {
   return (
     <div
@@ -38,7 +41,11 @@ export default function Topic({
         </div>
         {/*Topic title and desc*/}
         <div className="flex flex-col w-full justify-center ml-4 tracking-wide">
-          <div className="text-sm z-20 font-medium">{title}</div>
+          <Link href={`/category/${categoryId}`}>
+            <div className="text-sm z-20 font-medium cursor-pointer hover:text-[#9686ff]">
+              {title}
+            </div>
+          </Link>
           <div className="text-[11px] text-[#9F9FC9] z-20">{description}</div>
         </div>
         {/*Topic last post*/}
@@ -55,7 +62,7 @@ export default function Topic({
             className="rounded-xl w-10 h-10 opacity-60"
           />
           <div className="flex flex-col text-sm text-[11px] w-32">
-            <div className="font-medium whitespace-nowrap">
+            <div className="font-medium whitespace-nowrap cursor-pointer hover:text-[#9686ff]">
               {lastPost.topicName}
             </div>
             <div className="text-[#9F9FC9] whitespace-nowrap">

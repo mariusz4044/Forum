@@ -24,10 +24,7 @@ export default function UserLoader({ children }: UserLoaderProps) {
   );
 
   useEffect(() => {
-    if (data?.id) {
-      console.log(data, user);
-      setNewUser(data);
-    }
+    if (data?.id) setNewUser(data);
   }, [data, user.id, setNewUser]);
 
   if (isLoading) {
