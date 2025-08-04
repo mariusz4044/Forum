@@ -10,6 +10,8 @@ interface PostBody {
   topicId: number;
 }
 
+const isDev = process.env.NODE_ENV === "development";
+
 const postDelay = parseInt(process.env.POST_DELAY_PER_USER);
 
 export async function createPost(req: Request, res: Response) {
@@ -27,7 +29,7 @@ export async function createPost(req: Request, res: Response) {
   const nextUserPostTime = new Date(user.lastPostTs);
   nextUserPostTime.setSeconds(nextUserPostTime.getSeconds() + postDelay);
 
-  if (nextUserPostTime.getTime() > Date.now()) {
+  if (nextUserPostTime.getTime() > Date.now() && !isDev) {
     throw new AppError(
       `Slow down! Create post is possible every ${postDelay} second!`,
     );
@@ -37,7 +39,7 @@ export async function createPost(req: Request, res: Response) {
     topicId,
   });
 
-  if (lastPostInTopic?.authorId === user.id) {
+  if (lastPostInTopic?.authorId === user.id && !isDev) {
     throw new AppError("You can't write two posts under a row!");
   }
 
@@ -52,6 +54,13 @@ export async function createPost(req: Request, res: Response) {
       where: { id: user.id },
       data: {
         lastPostTs: new Date(),
+      },
+    });
+
+    await prisma.category.update({
+      where: { id: createdPost.topic.category.id },
+      data: {
+        lastPostId: createdPost.id,
       },
     });
   } catch (e) {

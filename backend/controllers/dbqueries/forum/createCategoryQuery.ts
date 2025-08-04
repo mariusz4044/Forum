@@ -7,7 +7,6 @@ interface CreateCategoryQuery {
   createdById: number;
   sectionId: number;
   description: string;
-  roleRequire: string[];
 }
 
 export async function createCategoryQuery({
@@ -15,7 +14,6 @@ export async function createCategoryQuery({
   createdById,
   sectionId,
   description,
-  roleRequire,
 }: CreateCategoryQuery): Promise<Category | Error> {
   try {
     return await prisma.category.create({
@@ -24,7 +22,6 @@ export async function createCategoryQuery({
         createdById,
         sectionId,
         description,
-        roleRequire,
       },
     });
   } catch (e) {

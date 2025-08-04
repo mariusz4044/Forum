@@ -30,7 +30,6 @@ export async function createCategory(req: Request, res: Response) {
     createdById: req.user.id,
     sectionId,
     description,
-    roleRequire,
   });
 
   res.status(200).json({ message: "Section created!", data: createdSection });

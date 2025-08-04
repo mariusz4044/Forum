@@ -8,23 +8,23 @@ datasource db {
 }
 
 model User {
-  id           Int        @id @default(autoincrement())
-  login        String     @unique
-  password     String
-  name         String     @unique
-  role         String     @default("USER")
-  avatar       String     @default("default.webp")
-  createdAt    DateTime   @default(now())
-  points       Int        @default(0)
-  addressIp    String?
-  bansReceived Ban[]      @relation("BannedUser")
-  bansGiven    Ban[]      @relation("BannedByUser")
-  lastPostTs   DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
-  sessions     Session[]
-  sections     Section[]
-  topics       Topic[]
-  Categorys    Category[]
-  posts        Post[]
+  id                Int        @id @default(autoincrement())
+  login             String     @unique
+  password          String
+  name              String     @unique
+  role              String     @default("USER")
+  avatar            String     @default("default.webp")
+  createdAt         DateTime   @default(now())
+  points            Int        @default(0)
+  addressIp         String?
+  bansReceived      Ban[]      @relation("BannedUser")
+  bansGiven         Ban[]      @relation("BannedByUser")
+  lastPostTs        DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
+  sessions          Session[]
+  sections          Section[]
+  topicsCreated     Topic[]
+  categoriesCreated Category[]
+  posts             Post[]
 
   @@index([id, login])
 }
@@ -75,6 +75,8 @@ model Category {
   topics      Topic[]
   Section     Section? @relation(fields: [sectionId], references: [id])
   sectionId   Int?
+  lastPostId  Int?
+  lastPost    Post?    @relation(fields: [lastPostId], references: [id])
 
   @@index([id, sectionId])
 }
@@ -85,7 +87,7 @@ model Topic {
   createdAt   DateTime  @default(now())
   createdById Int
   createdBy   User      @relation(fields: [createdById], references: [id])
-  Category    Category? @relation(fields: [categoryId], references: [id])
+  category    Category? @relation(fields: [categoryId], references: [id])
   categoryId  Int
   posts       Post[]
 
@@ -93,13 +95,14 @@ model Topic {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   message   String
   authorId  Int
-  createdAt DateTime @default(now())
-  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime   @default(now())
+  author    User       @relation(fields: [authorId], references: [id])
   topicId   Int
-  topic     Topic    @relation(fields: [topicId], references: [id])
+  topic     Topic      @relation(fields: [topicId], references: [id])
+  category  Category[]
 
   @@index([id, authorId])
 }

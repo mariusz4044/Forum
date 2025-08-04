@@ -20,6 +20,17 @@ export async function createPostQuery({
         message,
         topicId,
       },
+      include: {
+        topic: {
+          select: {
+            category: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+      },
     });
   } catch (e) {
     if (e.code === "P2003") {
