@@ -7,7 +7,21 @@ import useSWR from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import Loading from "@/components/Utils/Universal/Loading";
 
-interface Category {
+export interface LastPost {
+  topic: {
+    id: number;
+    title: string;
+  };
+  author: {
+    id: number;
+    avatar: string;
+    name: string;
+  };
+  message: string;
+  createdAt: string;
+}
+
+interface Category extends LastPost {
   id: number;
   title: string;
   description: string;
@@ -15,6 +29,7 @@ interface Category {
     topics: number;
   };
   categoryId: number;
+  lastPost: LastPost;
 }
 
 interface Section {
@@ -44,16 +59,12 @@ export default function Home() {
       structure.push(
         <Topic
           title={category.title}
+          categoryId={category.id}
           description={category.description}
           iconPath="TopicIcons/topic1.png"
           messagesCount={category._count.topics}
-          lastPost={{
-            userName: "Lorem Ipsum",
-            date: "Dziś 09:34",
-            topicName: "Lorem Ipsum",
-            avatar: "/avatars/avatar2.png",
-          }}
-          key={category.title}
+          lastPost={category.lastPost}
+          key={`${category.id}-${category.title}`}
         />,
       );
     });
