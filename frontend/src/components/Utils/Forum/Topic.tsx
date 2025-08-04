@@ -66,16 +66,12 @@ export default function Topic({
     >
       <div className="flex flex-row w-full">
         {/*topic icon*/}
-        <div className="h-full h-full flex items-center justify-between">
+        <div className="h-full flex items-center justify-between">
           <img src={iconPath} alt="Image Topic" className=" h-10 opacity-40" />
         </div>
         {/*Topic title and desc*/}
         <div className="flex flex-col w-full justify-center ml-4 tracking-wide">
-          <Link href={`/category/${categoryId}`}>
-            <div className="text-sm z-20 font-medium cursor-pointer hover:text-[#9686ff]">
-              {title}
-            </div>
-          </Link>
+          <Link href={`/category/${categoryId}`}>{title}</Link>
           <div className="text-[11px] text-[#9F9FC9] z-20">{description}</div>
         </div>
         {/*Topic last post*/}
