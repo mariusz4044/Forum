@@ -11,6 +11,26 @@ export async function getInitQuery() {
                 topics: true,
               },
             },
+            lastPost: {
+              select: {
+                topic: {
+                  select: {
+                    id: true,
+                    title: true,
+                  },
+                },
+                message: true,
+                createdAt: true,
+                author: {
+                  select: {
+                    avatar: true,
+                    id: true,
+                    role: true,
+                    name: true,
+                  },
+                },
+              },
+            },
           },
         },
       },

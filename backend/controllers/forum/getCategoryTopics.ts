@@ -14,6 +14,8 @@ export async function getCategoryTopics(req: Request, res: Response) {
 
   const categoryData = await getCategoryTopicsQuery({
     categoryId: parseInt(id),
+    skip: +page * topicPerPage - topicPerPage,
+    take: topicPerPage,
   });
 
   if (categoryData._count?.topics) {
@@ -24,7 +26,7 @@ export async function getCategoryTopics(req: Request, res: Response) {
     data: categoryData,
     navigation: {
       itemsPerPage: topicPerPage,
-      currentPage: page,
+      currentPage: +page,
       maxPage,
     },
   });
