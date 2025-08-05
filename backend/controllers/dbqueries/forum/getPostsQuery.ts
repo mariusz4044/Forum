@@ -1,0 +1,47 @@
+import { prisma } from "../../../database/connection";
+
+export async function getPostsQuery({
+  topicId,
+  skip,
+  take,
+}: {
+  topicId: number;
+  skip: number;
+  take: number;
+}) {
+  try {
+    return await prisma.topic.findFirst({
+      where: { id: topicId },
+      include: {
+        createdBy: {
+          select: {
+            name: true,
+            avatar: true,
+            role: true,
+          },
+        },
+        _count: {
+          select: {
+            posts: true,
+          },
+        },
+        posts: {
+          skip,
+          take,
+          include: {
+            author: {
+              select: {
+                name: true,
+                avatar: true,
+                id: true,
+                role: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
