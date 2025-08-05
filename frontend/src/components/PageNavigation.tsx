@@ -79,10 +79,10 @@ export function PageNavigation({
           />
         ))}
         <div className="ml-2">
-          {currentPage !== 15 && (
+          {currentPage < maxPage - 5 && (
             <PageNumberElement
               pageNumber={maxPage}
-              isActive=""
+              isActive={false}
               onChangePage={onChangePage}
             />
           )}
