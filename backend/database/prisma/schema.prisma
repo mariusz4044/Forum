@@ -43,7 +43,7 @@ model Ban {
 }
 
 model Session {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   sid       String   @unique
   data      String
   expiresAt DateTime
@@ -51,7 +51,7 @@ model Session {
   user      User?    @relation(fields: [userId], references: [id])
   userId    Int?
 
-  @@index([id, userId])
+  @@index([userId, expiresAt])
 }
 
 model Section {
