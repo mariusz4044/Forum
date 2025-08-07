@@ -9,6 +9,7 @@ import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { Plus } from "lucide-react";
 import { TopicBox } from "@/components/Topic/TopicBox";
 import { JSX, useState } from "react";
+import { useDialogContext } from "@/context/DialogContext";
 
 export interface CreateBy {
   avatar: string;
@@ -27,6 +28,7 @@ export default function topicView() {
   const { categoryId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { open } = useDialogContext();
 
   const [page, setPage] = useState(() => {
     const pageFromUrl = parseInt(searchParams.get("page") || "1", 10);
@@ -59,6 +61,10 @@ export default function topicView() {
     );
   });
 
+  function createNewTopic() {
+    open("topic");
+  }
+
   function onChangePage(newPage: number) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", newPage.toString());
@@ -75,7 +81,7 @@ export default function topicView() {
             currentPage={data.navigation.currentPage}
             maxPage={data.navigation.maxPage}
           >
-            <ForumButton className="w-38">
+            <ForumButton className="w-38" onClick={createNewTopic}>
               New Topic
               <Plus size={12} />
             </ForumButton>

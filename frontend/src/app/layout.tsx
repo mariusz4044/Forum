@@ -19,6 +19,7 @@ import { Providers } from "@/app/providers";
 import Loading from "@/components/Utils/Universal/Loading";
 import fetcherGet from "@/functions/fetcherGet";
 import { useUserContext } from "@/context/UserContext";
+import NewTopicWindow from "@/components/Dialog/NewTopicWindow";
 
 type DialogTypes = "Register" | "Login";
 
@@ -51,6 +52,7 @@ function Content({ children }: { children: React.ReactNode }) {
       <AnimatePresence>
         {mode === "login" && <LoginWindow />}
         {mode === "register" && <RegisterWindow />}
+        {mode === "topic" && <NewTopicWindow />}
       </AnimatePresence>
       <ToastContainer />
     </>

@@ -1,6 +1,6 @@
 import Window from "@/components/Utils/Universal/Window";
 import ClassicButton from "@/components/Utils/Buttons/ClassicButton";
-import FormInput from "@/components/Utils/Universal/FormInput";
+import { FormInput } from "@/components/Utils/Universal/FormInput";
 import { fetchData } from "@/functions/fetchData";
 import { toast } from "react-toastify";
 import { useDialogContext } from "@/context/DialogContext";

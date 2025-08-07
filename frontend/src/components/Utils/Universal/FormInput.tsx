@@ -5,9 +5,29 @@ interface FormInputProps {
   required?: boolean;
   defaultValue?: string;
   type?: "password" | "text";
+  placeholder?: string;
+  height?: number;
 }
 
-export default function FormInput({ ...props }: FormInputProps) {
+export function FormInputArea({ ...props }: FormInputProps) {
+  const inputId = useId();
+
+  return (
+    <div className="flex flex-col my-2">
+      <label htmlFor={inputId} className="label-input text-gray-400">
+        {props.name}{" "}
+        {props.required && <span className="required-input">Required</span>}
+      </label>
+      <textarea
+        id={inputId}
+        className={`form-input resize-none ${props.height && `h-${props.height}`}`}
+        {...props}
+      />
+    </div>
+  );
+}
+
+export function FormInput({ ...props }: FormInputProps) {
   const inputId = useId();
 
   return (
