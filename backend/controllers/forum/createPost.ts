@@ -14,7 +14,11 @@ const isDev = process.env.NODE_ENV === "development";
 
 const postDelay = parseInt(process.env.POST_DELAY_PER_USER);
 
-export async function createPost(req: Request, res: Response) {
+export async function createPost(
+  req: Request,
+  res: Response,
+  sendResonse: boolean = true,
+) {
   const { message, topicId }: PostBody = req.body;
   const user = req.user;
 
@@ -66,6 +70,8 @@ export async function createPost(req: Request, res: Response) {
   } catch (e) {
     throw new Error(e);
   }
+
+  if (!sendResonse) return true;
 
   res.status(201).json({
     message: "Successfully created post!",

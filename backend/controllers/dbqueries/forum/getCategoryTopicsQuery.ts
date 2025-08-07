@@ -20,6 +20,9 @@ export async function getCategoryTopicsQuery({
           },
         },
         topics: {
+          orderBy: {
+            id: "desc",
+          },
           skip,
           take,
           include: {

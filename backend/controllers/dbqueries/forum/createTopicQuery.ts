@@ -6,22 +6,19 @@ interface TopicQuery {
   title: string;
   createdById: number;
   categoryId: number;
-  roleRequire: string[];
 }
 
 export async function createTopicQuery({
   title,
   createdById,
   categoryId,
-  roleRequire,
-}: TopicQuery): Promise<Topic | Error> {
+}: TopicQuery): Promise<Topic> {
   try {
     return await prisma.topic.create({
       data: {
         title,
         createdById,
         categoryId,
-        roleRequire,
       },
     });
   } catch (e) {
