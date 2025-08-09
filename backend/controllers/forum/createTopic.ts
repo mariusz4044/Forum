@@ -32,9 +32,10 @@ export async function createTopic(req: Request, res: Response) {
   req.body = {
     message: message,
     topicId: createdTopic.id,
+    blockResponse: true,
   };
 
-  await createPost(req, res, false);
+  await createPost(req, res);
 
   res
     .status(200)

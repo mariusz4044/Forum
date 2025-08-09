@@ -12,7 +12,7 @@ export async function createPostQuery({
   authorId,
   message,
   topicId,
-}: PostQuery): Promise<Post | Error> {
+}: PostQuery) {
   try {
     return await prisma.post.create({
       data: {

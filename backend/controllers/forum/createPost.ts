@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../utils/AppError";
 import { createSectionQuery } from "../dbqueries/forum/createSectionQuery";
 import { createPostQuery } from "../dbqueries/forum/createPostQuery";
@@ -8,18 +8,15 @@ import { getLastTopicPostQuery } from "../dbqueries/forum/getLastTopicPostQuery"
 interface PostBody {
   message: string;
   topicId: number;
+  blockResponse?: boolean;
 }
 
 const isDev = process.env.NODE_ENV === "development";
 
 const postDelay = parseInt(process.env.POST_DELAY_PER_USER);
 
-export async function createPost(
-  req: Request,
-  res: Response,
-  sendResonse: boolean = true,
-) {
-  const { message, topicId }: PostBody = req.body;
+export async function createPost(req: Request, res: Response) {
+  const { message, topicId, blockResponse }: PostBody = req.body;
   const user = req.user;
 
   if (isNaN(Number(topicId))) {
@@ -71,7 +68,7 @@ export async function createPost(
     throw new Error(e);
   }
 
-  if (!sendResonse) return true;
+  if (blockResponse) return true;
 
   res.status(201).json({
     message: "Successfully created post!",
