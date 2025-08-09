@@ -2,11 +2,15 @@
 
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import Loading from "@/components/Utils/Universal/Loading";
-import { PostBox } from "@/components/Topic/PostBox";
-import { JSX } from "react";
+import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
+import { JSX, useRef, useState } from "react";
+import { useUserContext } from "@/context/UserContext";
+import ClassicButton from "@/components/Utils/Buttons/ClassicButton";
+import ForumButton from "@/components/Utils/Buttons/ForumButton";
+import { fetchData } from "@/functions/fetchData";
 
 export interface PostProps {
   author: {
@@ -19,14 +23,42 @@ export interface PostProps {
   id: number;
 }
 
-interface PostReponse {
-  createdAt: string;
-  post: PostProps[];
-  navigation?: {
-    [key: string]: [number];
-  };
-}
+function NewPostElement() {
+  const [message, setMessage] = useState("");
+  const { user } = useUserContext();
+  const { topicId = 0 } = useParams();
+  const { mutate } = useSWRConfig();
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
+  async function handleSubmit() {
+    await fetchData("/api/forum/post/create", {
+      topicId: +topicId,
+      message: message,
+    });
+
+    await mutate(`${process.env.SERVER_URL}/api/forum/topic/${topicId}`);
+    setMessage("");
+    buttonRef.current?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  return (
+    <div className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 mt-10 mb-20 border-1 border-[#2d2d53] flex flex-row">
+      <PostBoxUserPanel avatar={user.avatar} role={user.role} />
+      <div className="w-full ml-4 flex flex-col gap-4">
+        <b className="text-sm">Add new post:</b>
+        <textarea
+          className="right bg-[#1e1e2f80] w-full h-auto rounded-sm min-h-32 p-4 resize-none"
+          placeholder="Type your answer..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <ForumButton className="w-full" onClick={handleSubmit}>
+          <span ref={buttonRef}>Create Post</span>
+        </ForumButton>
+      </div>
+    </div>
+  );
+}
 export default function postsView() {
   const { topicId } = useParams();
 
@@ -68,7 +100,9 @@ export default function postsView() {
         </div>
       </header>
       <main className="mt-10">{posts}</main>
-      <footer className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 mt-10 mb-20"></footer>
+      <footer>
+        <NewPostElement />
+      </footer>
     </div>
   );
 }
