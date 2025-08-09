@@ -54,7 +54,10 @@ function PostContentBox({
 }
 export function PostBox({ postData }: { postData: PostProps }) {
   return (
-    <div className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 flex flex-row mt-4">
+    <div
+      className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 flex flex-row mt-4"
+      id={`post-${postData.id}`}
+    >
       <PostBoxUserPanel
         avatar={postData.author.avatar}
         role={postData.author.role}
