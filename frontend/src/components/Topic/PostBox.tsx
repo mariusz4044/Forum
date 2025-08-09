@@ -1,6 +1,8 @@
-import { Send, User } from "lucide-react";
+import { Minus, Plus, Send, User } from "lucide-react";
 import { PostProps } from "@/app/topic/[topicId]/page";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
+import { fetchData } from "@/functions/fetchData";
+import { useState } from "react";
 
 export function PostBoxUserPanel({
   avatar,
@@ -33,22 +35,81 @@ export function PostBoxUserPanel({
   );
 }
 
+function RatingBox({
+  ratingSummary,
+  postId = 0,
+}: {
+  ratingSummary: number;
+  postId: number;
+}) {
+  const [rateNumber, setRateNumber] = useState(ratingSummary);
+
+  let className = "";
+
+  if (rateNumber < 0) className += "text-[red]";
+  else if (rateNumber === 0) className += "text-[white]";
+  else className += "text-[green]";
+
+  async function handleClick(rate: number) {
+    let res = await fetchData("/api/forum/rate", {
+      postId,
+      rate,
+    });
+
+    if (res?.ratingSummary) {
+      setRateNumber(res.ratingSummary);
+    }
+  }
+
+  return (
+    <div className="flex flex-row  items-center gap-2  absolute bottom-0 pr-8 opacity-50 hover:opacity-100">
+      <div className="bg-[#31314f] p-1 rounded-xl">
+        <Plus
+          size={12}
+          color="white"
+          onClick={async () => {
+            await handleClick(1);
+          }}
+        />
+      </div>
+      <b className={`select-none ${className}`}>
+        {rateNumber > 0 && "+"}
+        {rateNumber}
+      </b>
+      <div className="bg-[#31314f] p-1 rounded-xl">
+        <Minus
+          size={12}
+          color="white"
+          onClick={async () => {
+            await handleClick(-1);
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 function PostContentBox({
   message,
   createdAt,
+  ratingSummary,
   authorName,
+  postId,
 }: {
   message: string;
   createdAt: string;
+  ratingSummary: number;
   authorName: string;
+  postId: number;
 }) {
   return (
-    <div className="right-panel-post ml-6 text-sm">
+    <div className="right-panel-post  w-full ml-6 text-sm relative">
       <h1 className="font-bold">{authorName}!</h1>
       <span className="text-[#9F9FC9] text-[12px]">
         created {formatDateToRelative(createdAt)}
       </span>
       <div className="mt-3">{message}</div>
+      <RatingBox ratingSummary={ratingSummary} postId={postId} />
     </div>
   );
 }
@@ -66,6 +127,8 @@ export function PostBox({ postData }: { postData: PostProps }) {
         message={postData.message}
         createdAt={postData.createdAt}
         authorName={postData.author.name}
+        ratingSummary={postData.ratingSummary}
+        postId={postData.id}
       />
     </div>
   );

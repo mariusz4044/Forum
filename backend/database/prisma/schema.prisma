@@ -25,6 +25,7 @@ model User {
   topicsCreated     Topic[]
   categoriesCreated Category[]
   posts             Post[]
+  Rate              Rate[]
 
   @@index([id, login])
 }
@@ -95,14 +96,29 @@ model Topic {
 }
 
 model Post {
-  id        Int        @id @default(autoincrement())
-  message   String
-  authorId  Int
-  createdAt DateTime   @default(now())
-  author    User       @relation(fields: [authorId], references: [id])
-  topicId   Int
-  topic     Topic      @relation(fields: [topicId], references: [id])
-  category  Category[]
+  id            Int        @id @default(autoincrement())
+  message       String
+  authorId      Int
+  createdAt     DateTime   @default(now())
+  author        User       @relation(fields: [authorId], references: [id])
+  topicId       Int
+  topic         Topic      @relation(fields: [topicId], references: [id])
+  category      Category[]
+  ratings       Rate[]
+  ratingSummary Int        @default(0)
+
+  @@index([id, authorId])
+}
+
+model Rate {
+  id     Int @id @default(autoincrement())
+  status Int //rate -1 or 1
+
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
+
+  post   Post? @relation(fields: [postId], references: [id])
+  postId Int?
 
   @@index([id, authorId])
 }
