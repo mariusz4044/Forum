@@ -12,6 +12,7 @@ import validateRequest from "./middleware/requestValidate/validateRequest";
 import getUserIp from "./middleware/getUserIp";
 import ensureSessionInDatabase from "./middleware/ensureSessionInDatabase";
 import forumRoutes from "./routes/forumRoutes";
+import adminRoutes from "./routes/adminRoutes";
 dotenv.config();
 
 const app = express();
@@ -32,6 +33,9 @@ app.use("/", getUserIp);
 
 //User routes
 app.use("/api/user", userRoutes);
+
+//Admin routes
+app.use("/api/", adminRoutes);
 
 //Forum routers
 app.use("/api/forum", forumRoutes);
