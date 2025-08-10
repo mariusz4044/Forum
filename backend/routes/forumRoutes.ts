@@ -8,12 +8,14 @@ import { getInitData } from "../controllers/forum/getInitData";
 import { createPost } from "../controllers/forum/createPost";
 import { getCategoryTopics } from "../controllers/forum/getCategoryTopics";
 import { getPosts } from "../controllers/forum/getPosts";
+import { createRate } from "../controllers/forum/createRate";
 
 const router = Router();
 
 router.get("/", getInitData);
 router.get("/topic/:id", getPosts);
 router.get("/category/:id", getCategoryTopics);
+router.post("/rate/", authUser, createRate);
 router.post("/post/create", authUser, createPost);
 router.post("/section/create", authAdmin, createSection);
 router.post("/category/create", authAdmin, createCategory);

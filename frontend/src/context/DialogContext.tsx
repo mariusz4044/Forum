@@ -1,4 +1,3 @@
-// context/AuthDialogContext.tsx
 import React, { createContext, useContext, useState } from "react";
 
 const DialogContext = createContext({

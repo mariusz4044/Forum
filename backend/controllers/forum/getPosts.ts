@@ -19,7 +19,7 @@ export async function getPosts(req: Request, res: Response) {
   });
 
   if (postsData?._count?.posts) {
-    maxPage = Math.round(postsData._count?.posts / topicPerPage);
+    maxPage = Math.ceil(postsData._count?.posts / topicPerPage);
   }
 
   res.status(200).json({

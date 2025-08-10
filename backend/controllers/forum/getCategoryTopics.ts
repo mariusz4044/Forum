@@ -19,7 +19,7 @@ export async function getCategoryTopics(req: Request, res: Response) {
   });
 
   if (categoryData._count?.topics) {
-    maxPage = Math.round(categoryData._count?.topics / topicPerPage);
+    maxPage = Math.ceil(categoryData._count?.topics / topicPerPage);
   }
 
   res.status(200).json({

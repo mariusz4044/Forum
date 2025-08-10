@@ -16,6 +16,7 @@ export async function getUserBySession(
           name: true,
           role: true,
           points: true,
+          reputation: true,
         },
       },
     };

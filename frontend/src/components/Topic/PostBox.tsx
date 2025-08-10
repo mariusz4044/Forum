@@ -1,19 +1,51 @@
-import { Minus, Plus, Send, User } from "lucide-react";
-import { PostProps } from "@/app/topic/[topicId]/page";
+import {
+  ChartNoAxesCombined,
+  Meh,
+  Minus,
+  Plus,
+  Send,
+  ShieldAlert,
+  User,
+} from "lucide-react";
+
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { fetchData } from "@/functions/fetchData";
+import { useUserContext } from "@/context/UserContext";
+import { ReportPostElement } from "@/components/Topic/ReportPostElement";
+import { PostTools } from "@/components/Admin/PostTools";
+import { PostProps } from "@/types/types";
 import { useState } from "react";
+import Badge, { BadgeColors } from "@/components/Utils/Universal/Badge";
 
 export function PostBoxUserPanel({
   avatar,
   role,
+  messagesCount,
+  reputation,
 }: {
   avatar: string;
   role: string;
+  messagesCount?: number;
+  reputation?: number;
 }) {
+  let reputationIcon = Meh;
+  let reputationColor: BadgeColors = "gray";
+
+  if (reputation) {
+    if (reputation >= 5) {
+      reputationColor = "green";
+      reputationIcon = ChartNoAxesCombined;
+    }
+
+    if (reputation < 0) {
+      reputationColor = "red";
+      reputationIcon = ShieldAlert;
+    }
+  }
+
   return (
     <div
-      className="left-panel-post flex flex-col items-center w-32 min-w-32  pr-3"
+      className="left-panel-post flex flex-col items-center w-32 min-w-32 pr-3"
       style={{
         borderRight: "1px solid #6161614d",
       }}
@@ -23,13 +55,20 @@ export function PostBoxUserPanel({
         className="w-24 rounded-xl"
         alt="user avatar"
       />
-      <div className="font-bold flex flex-row items-center gap-1 bg-[#164529]/[0.5] text-[#4bcc5c] rounded p-1 mt-3 w-24">
-        <Send size={12} />
-        <span className="text-[10px]">2 messages</span>
-      </div>
-      <div className="font-bold flex flex-row items-center gap-1 bg-[#6f6f6f]/[0.5] text-[#bbbbbb] rounded p-1 mt-3 w-24">
-        <User size={12} />
-        <span className="text-[10px]">{role}</span>
+      <div className="p-1 mt-3 w-26 flex flex-col gap-2 items-center justify-center">
+        <div className="flex flex-row w-full gap-1">
+          {messagesCount && (
+            <Badge color="orange" Icon={Send} text={`${messagesCount}`} />
+          )}
+          {reputation !== undefined && (
+            <Badge
+              color={reputationColor}
+              Icon={reputationIcon}
+              text={`${reputation}`}
+            />
+          )}
+        </div>
+        <Badge color="gray" Icon={User} text={role} />
       </div>
     </div>
   );
@@ -37,7 +76,7 @@ export function PostBoxUserPanel({
 
 function RatingBox({
   ratingSummary,
-  postId = 0,
+  postId,
 }: {
   ratingSummary: number;
   postId: number;
@@ -45,7 +84,6 @@ function RatingBox({
   const [rateNumber, setRateNumber] = useState(ratingSummary);
 
   let className = "";
-
   if (rateNumber < 0) className += "text-[red]";
   else if (rateNumber === 0) className += "text-[white]";
   else className += "text-[green]";
@@ -56,80 +94,73 @@ function RatingBox({
       rate,
     });
 
-    if (res?.ratingSummary) {
+    if (res.hasOwnProperty("ratingSummary")) {
       setRateNumber(res.ratingSummary);
     }
   }
 
   return (
-    <div className="flex flex-row  items-center gap-2  absolute bottom-0 pr-8 opacity-50 hover:opacity-100">
-      <div className="bg-[#31314f] p-1 rounded-xl">
-        <Plus
-          size={12}
-          color="white"
-          onClick={async () => {
-            await handleClick(1);
-          }}
-        />
+    <div className="flex flex-row  items-center gap-2 pr-8 opacity-50 hover:opacity-100">
+      <div
+        className="bg-[#31314f] p-1 rounded-xl"
+        onClick={async () => {
+          await handleClick(1);
+        }}
+      >
+        <Plus size={12} color="white" />
       </div>
       <b className={`select-none ${className}`}>
         {rateNumber > 0 && "+"}
         {rateNumber}
       </b>
-      <div className="bg-[#31314f] p-1 rounded-xl">
-        <Minus
-          size={12}
-          color="white"
-          onClick={async () => {
-            await handleClick(-1);
-          }}
-        />
+      <div
+        className="bg-[#31314f] p-1 rounded-xl"
+        onClick={async () => {
+          await handleClick(-1);
+        }}
+      >
+        <Minus size={12} color="white" />
       </div>
     </div>
   );
 }
 
-function PostContentBox({
-  message,
-  createdAt,
-  ratingSummary,
-  authorName,
-  postId,
-}: {
-  message: string;
-  createdAt: string;
-  ratingSummary: number;
-  authorName: string;
-  postId: number;
-}) {
+function PostContentBox({ post }: { post: PostProps }) {
+  const { author, createdAt, message, ratingSummary, id } = post;
+  const { user } = useUserContext();
+
   return (
-    <div className="right-panel-post  w-full ml-6 text-sm relative">
-      <h1 className="font-bold">{authorName}!</h1>
-      <span className="text-[#9F9FC9] text-[12px]">
-        created {formatDateToRelative(createdAt)}
+    <div className="right-panel-post w-full ml-6 text-sm relative">
+      <h1 className="font-bold">{author.name}!</h1>
+      <span className="text-[#9F9FC9] text-sm">
+        Created {formatDateToRelative(createdAt)}
       </span>
       <div className="mt-3">{message}</div>
-      <RatingBox ratingSummary={ratingSummary} postId={postId} />
+      <div className="absolute bottom-0 flex flex-row items-center">
+        <RatingBox ratingSummary={ratingSummary} postId={id} />
+        {user.role === "ADMIN" && <PostTools />}
+      </div>
     </div>
   );
 }
+
 export function PostBox({ postData }: { postData: PostProps }) {
+  const { author, id } = postData;
+
+  console.log(author, id);
   return (
     <div
-      className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 flex flex-row mt-4"
-      id={`post-${postData.id}`}
+      className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 flex flex-row mt-4 relative"
+      id={`post-${id}`}
     >
       <PostBoxUserPanel
-        avatar={postData.author.avatar}
-        role={postData.author.role}
+        avatar={author.avatar}
+        role={author.role}
+        messagesCount={author._count.posts}
+        reputation={author.reputation}
       />
-      <PostContentBox
-        message={postData.message}
-        createdAt={postData.createdAt}
-        authorName={postData.author.name}
-        ratingSummary={postData.ratingSummary}
-        postId={postData.id}
-      />
+      <PostContentBox post={postData} />
+      <ReportPostElement postId={id} />
     </div>
   );
 }

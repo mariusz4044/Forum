@@ -2,6 +2,7 @@ import { AppError } from "../../utils/AppError";
 import { Request, Response } from "express";
 import { createRateQuery } from "../dbqueries/forum/createRateQuery";
 import { prisma } from "../../database/connection";
+import { updateUniqueUser } from "../dbqueries/user/updateUniqueUser";
 
 export interface RateBody {
   rate: 1 | -1;
@@ -38,10 +39,19 @@ export async function createRate(req: Request, res: Response) {
     authorId: req.user.id,
   });
 
+  const rateType = rate === 1 ? { increment: 1 } : { decrement: 1 };
+
   const postUpdated = await prisma.post.update({
     where: { id: postId },
     data: {
-      ratingSummary: rate === 1 ? { increment: 1 } : { decrement: 1 },
+      ratingSummary: rateType,
+    },
+  });
+
+  await updateUniqueUser({
+    where: { id: postUpdated.authorId },
+    data: {
+      reputation: rateType,
     },
   });
 

@@ -31,10 +31,16 @@ export async function getPostsQuery({
           include: {
             author: {
               select: {
+                _count: {
+                  select: {
+                    posts: true,
+                  },
+                },
                 name: true,
                 avatar: true,
                 id: true,
                 role: true,
+                reputation: true,
               },
             },
           },

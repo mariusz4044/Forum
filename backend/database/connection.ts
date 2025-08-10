@@ -9,7 +9,7 @@ export const prisma = new PrismaClient({
   ],
 });
 
-prisma.$on("query", (e) => {
-  console.log(`→ QUERY: ${e.query} |  ${e.duration}ms`);
-  console.log(`→ PARAMS: ${e.params}`);
-});
+// prisma.$on("query", (e) => {
+//   console.log(`→ QUERY: ${e.query} |  ${e.duration}ms`);
+//   console.log(`→ PARAMS: ${e.params}`);
+// });

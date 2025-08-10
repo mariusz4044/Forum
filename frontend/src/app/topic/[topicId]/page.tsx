@@ -6,30 +6,15 @@ import useSWR, { useSWRConfig } from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import Loading from "@/components/Utils/Universal/Loading";
 import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
-import { JSX, useEffect, useRef, useState } from "react";
-import { useUserContext } from "@/context/UserContext";
+import { createContext, JSX, useRef, useState } from "react";
+import { User, useUserContext } from "@/context/UserContext";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { fetchData } from "@/functions/fetchData";
 import { PageNavigation } from "@/components/PageNavigation";
-import { Plus } from "lucide-react";
 
-export interface PostProps {
-  author: {
-    name: string;
-    avatar: string;
-    role: string;
-  };
-  createdAt: string;
-  message: string;
-  id: number;
-}
-
-interface TopicHeaderProps {
-  authorAvatar: string;
-  authorName: string;
-  createdAt: string;
-  title: string;
-}
+import { PostProps, TopicResponseData } from "@/types/types";
+import { TopicHeader } from "@/components/Topic/TopicHeader";
+import { TopicContext } from "@/context/TopicContext";
 
 function NewPostElement({
   mutateString,
@@ -72,36 +57,6 @@ function NewPostElement({
   );
 }
 
-function TopicInfoHeader({
-  authorAvatar,
-  authorName,
-  createdAt,
-  title,
-}: TopicHeaderProps) {
-  return (
-    <div
-      className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6"
-      style={{ border: "1px solid rgba(58, 58, 95, 0.29)" }}
-    >
-      <h1 className="text-xl ml-2">{title}</h1>
-      <div className="bg-[#6161614d] mt-4 h-[1px]"></div>
-      <div className="flex flex-row items-center mt-4">
-        <img
-          src={`/avatars/${authorAvatar}`}
-          alt="user avatar"
-          className="size-12 opacity-70 rounded-full ml-1"
-        />
-        <div className="flex flex-col text-sm justify-center ml-2">
-          <span>From {authorName}</span>
-          <span className="text-[#9F9FC9] text-sm">
-            created {formatDateToRelative(createdAt)}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function postsView() {
   const { user } = useUserContext();
   const { topicId } = useParams();
@@ -114,14 +69,12 @@ export default function postsView() {
   });
 
   const mutateString = `${process.env.SERVER_URL}/api/forum/topic/${topicId}?page=${page}`;
-  const { data, error, isLoading } = useSWR(mutateString, fetcherGet);
+  const { data, isLoading } = useSWR(mutateString, fetcherGet);
 
-  const resData = data?.data;
-
+  const resData: TopicResponseData | undefined = data?.data;
   if (!resData || isLoading) return <Loading />;
 
   let posts: JSX.Element[] = [];
-
   resData.posts.forEach((post: PostProps) => {
     posts.push(<PostBox postData={post} key={`post-${post.id}`} />);
   });
@@ -134,26 +87,23 @@ export default function postsView() {
   }
 
   return (
-    <div className="flex w-[80%] ml-[10%] flex-col mt-10">
-      <header>
-        <TopicInfoHeader
-          authorAvatar={resData.createdBy.avatar}
-          title={resData.title}
-          authorName={resData.createdBy.name}
-          createdAt={resData.createdAt}
-        />
-        <div className="mt-2">
-          <PageNavigation
-            onChangePage={onChangePage}
-            currentPage={data.navigation.currentPage}
-            maxPage={data.navigation.maxPage}
-          ></PageNavigation>
-        </div>
-      </header>
-      <main className="mt-10">{posts}</main>
-      <footer className=" mt-10 mb-20 ">
-        {user.id && <NewPostElement mutateString={mutateString} />}
-      </footer>
-    </div>
+    <TopicContext value={resData}>
+      <div className="flex w-[80%] ml-[10%] flex-col mt-10">
+        <header>
+          <TopicHeader />
+          <div className="mt-2">
+            <PageNavigation
+              onChangePage={onChangePage}
+              currentPage={data.navigation.currentPage}
+              maxPage={data.navigation.maxPage}
+            ></PageNavigation>
+          </div>
+        </header>
+        <main className="mt-10">{posts}</main>
+        <footer className=" mt-10 mb-20 ">
+          {user.id && <NewPostElement mutateString={mutateString} />}
+        </footer>
+      </div>
+    </TopicContext>
   );
 }

@@ -29,7 +29,7 @@ function LastPostElement({ lastPost }: { lastPost: LastPost }): JSX.Element {
         className="rounded-xl w-10 h-10 opacity-60"
       />
       <div className="flex flex-col text-sm text-[11px] w-32">
-        <div className="font-medium whitespace-nowrap cursor-pointer hover:text-[#9686ff]">
+        <div className="font-medium whitespace-nowrap cursor-pointer hover:text-[#9686ff] truncate">
           <Link href={`/topic/${lastPost.topic.id}`}>
             {lastPost.topic.title}
           </Link>
@@ -70,7 +70,7 @@ export default function Topic({
           <img src={iconPath} alt="Image Topic" className=" h-10 opacity-40" />
         </div>
         {/*Topic title and desc*/}
-        <div className="flex flex-col w-full justify-center ml-4 tracking-wide">
+        <div className="flex flex-col w-full justify-center ml-4 tracking-wide ">
           <Link href={`/category/${categoryId}`}>{title}</Link>
           <div className="text-[11px] text-[#9F9FC9] z-20">{description}</div>
         </div>
