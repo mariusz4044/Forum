@@ -54,7 +54,9 @@ export default function Home() {
   const structure = [];
 
   for (const section of data) {
-    structure.push(<TopicHeader title={section.title} key={section.title} />);
+    structure.push(
+      <TopicHeader title={section.title} key={section.title} id={section.id} />,
+    );
     section.categories.forEach((category: Category) => {
       structure.push(
         <Topic

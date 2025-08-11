@@ -5,6 +5,7 @@ import { LastPost } from "@/app/(main)/page";
 import { JSX } from "react";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { motion } from "motion/react";
+import { useUserContext } from "@/context/UserContext";
 
 function MessageCountElement({
   messagesCount,
@@ -58,6 +59,8 @@ export default function Topic({
   lastPost: LastPost;
   categoryId: number;
 }) {
+  const { user } = useUserContext();
+
   return (
     <div
       className="bg-[#1e1e2f]/[.5] p-4 my-4 rounded-lg relative flex flex-row pl-4 h-24"
@@ -72,7 +75,14 @@ export default function Topic({
         </div>
         {/*Topic title and desc*/}
         <div className="flex flex-col w-full justify-center ml-4 tracking-wide ">
-          <Link href={`/category/${categoryId}`}>{title}</Link>
+          <Link href={`/category/${categoryId}`}>
+            {title}
+            {user.role === "ADMIN" && (
+              <span className="text-[11px] ml-1 opacity-30">
+                (#{categoryId})
+              </span>
+            )}
+          </Link>
           <div className="text-[11px] text-[#9F9FC9] z-20">{description}</div>
         </div>
         {/*Topic last post*/}
