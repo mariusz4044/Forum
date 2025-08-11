@@ -16,6 +16,7 @@ import { PostTools } from "@/components/Admin/PostTools";
 import { PostProps } from "@/types/types";
 import { useState } from "react";
 import Badge, { BadgeColors } from "@/components/Utils/Universal/Badge";
+import { UserNick } from "@/components/Utils/UserNick";
 
 export function PostBoxUserPanel({
   avatar,
@@ -30,6 +31,9 @@ export function PostBoxUserPanel({
 }) {
   let reputationIcon = Meh;
   let reputationColor: BadgeColors = "gray";
+  let roleColor: BadgeColors = "gray";
+
+  if (role === "ADMIN") roleColor = "red";
 
   if (reputation) {
     if (reputation >= 5) {
@@ -58,17 +62,23 @@ export function PostBoxUserPanel({
       <div className="p-1 mt-3 w-26 flex flex-col gap-2 items-center justify-center">
         <div className="flex flex-row w-full gap-1">
           {messagesCount && (
-            <Badge color="orange" Icon={Send} text={`${messagesCount}`} />
+            <Badge
+              color="orange"
+              tooltip="User Messages"
+              Icon={Send}
+              text={`${messagesCount}`}
+            />
           )}
           {reputation !== undefined && (
             <Badge
               color={reputationColor}
               Icon={reputationIcon}
+              tooltip="User Reputatnion"
               text={`${reputation}`}
             />
           )}
         </div>
-        <Badge color="gray" Icon={User} text={role} />
+        <Badge color={roleColor} Icon={User} text={role} />
       </div>
     </div>
   );
@@ -131,7 +141,8 @@ function PostContentBox({ post }: { post: PostProps }) {
 
   return (
     <div className="right-panel-post w-full ml-6 text-sm relative">
-      <h1 className="font-bold">{author.name}!</h1>
+      <UserNick nickname={author.name} role={author.role} />
+      <br />
       <span className="text-[#9F9FC9] text-sm">
         Created {formatDateToRelative(createdAt)}
       </span>
@@ -147,7 +158,6 @@ function PostContentBox({ post }: { post: PostProps }) {
 export function PostBox({ postData }: { postData: PostProps }) {
   const { author, id } = postData;
 
-  console.log(author, id);
   return (
     <div
       className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 flex flex-row mt-4 relative"

@@ -6,6 +6,7 @@ import { useDialogContext } from "@/context/DialogContext";
 import { User, useUserContext } from "@/context/UserContext";
 
 import Link from "next/link";
+import { UserNick } from "@/components/Utils/UserNick";
 
 function UserPanel({ user, logout }: { user: User; logout: () => void }) {
   const userIsLoggedIn = !!user.id;
@@ -27,7 +28,7 @@ function UserPanel({ user, logout }: { user: User; logout: () => void }) {
     <div className="flex h-32 bottom-20 px-3 flex-col gap-2 text-xl relative bg-[#1e1e2f]/60 rounded-lg p-3 text-[#9F9FC9]">
       <div className="flex flex-row gap-1 text-sm">
         <span>Hello, </span>
-        <b className="text-[#9686ff] ">{user.name}</b>!
+        <UserNick nickname={user.name} role={user.role} />
       </div>
       <h1 className="text"></h1>
       <div className="flex flex-row gap-2">

@@ -1,5 +1,6 @@
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { useTopicContext } from "@/context/TopicContext";
+import { UserNick } from "@/components/Utils/UserNick";
 
 export function TopicHeader() {
   const { title, createdBy, createdAt } = useTopicContext();
@@ -18,7 +19,9 @@ export function TopicHeader() {
           className="size-12 opacity-70 rounded-full ml-1"
         />
         <div className="flex flex-col text-sm justify-center ml-2">
-          <span>From {createdBy.name}</span>
+          <span>
+            From <UserNick nickname={createdBy.name} role={createdBy.role} />
+          </span>
           <span className="text-[#9F9FC9] text-sm">
             created {formatDateToRelative(createdAt)}
           </span>

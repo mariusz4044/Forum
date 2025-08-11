@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LastPost } from "@/app/(main)/page";
 import { JSX } from "react";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
+import { motion } from "motion/react";
 
 function MessageCountElement({
   messagesCount,

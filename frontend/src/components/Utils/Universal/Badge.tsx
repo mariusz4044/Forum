@@ -1,11 +1,13 @@
 import { ComponentType } from "react";
 import clsx from "clsx";
+import { Tooltip } from "react-tooltip";
 
 export type BadgeColors = "orange" | "gray" | "red" | "green";
 
 interface BadgeProps {
   color: BadgeColors;
   text: string;
+  tooltip?: string;
   Icon: ComponentType<{ size?: number }>;
 }
 
@@ -17,17 +19,22 @@ const colors = {
 };
 
 export default function Badge(props: BadgeProps) {
-  const { text, color, Icon } = props;
+  const { text, color, Icon, tooltip } = props;
 
   return (
-    <div
-      className={clsx(
-        `font-bold flex flex-row items-center rounded p-1 gap-1 w-full`,
-        colors[color],
-      )}
-    >
-      {Icon && <Icon size={12} />}
-      <span className="text-[11px]">{text}</span>
-    </div>
+    <>
+      <div
+        className={clsx(
+          `font-bold flex flex-row items-center rounded p-1 gap-1 w-full `,
+          colors[color],
+        )}
+        data-tooltip-id="badge-tooltip"
+        data-tooltip-content={tooltip}
+      >
+        {Icon && <Icon size={12} />}
+        <span className="text-[11px]">{text}</span>
+      </div>
+      {tooltip && <Tooltip id="badge-tooltip" />}
+    </>
   );
 }
