@@ -1,3 +1,11 @@
+
+export interface AppErrorProps {
+  status: number,
+  data: any;
+  name: string;
+  message: string;
+}
+
 export class AppError extends Error {
   status: number;
   data?: any;
