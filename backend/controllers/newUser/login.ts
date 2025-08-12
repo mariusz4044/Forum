@@ -10,6 +10,7 @@ import type { LoginBody } from "../../types/types";
 import { updateUniqueUser } from "../dbqueries/user/updateUniqueUser";
 import { AppError } from "../../utils/AppError";
 import { connectSession } from "../dbqueries/user/connectSession";
+import { saveExpressSession } from "../../utils/saveExpressSession";
 
 export async function loginFn(req: Request, res: Response) {
   const { login, password }: LoginBody = req.body;
@@ -55,6 +56,7 @@ export async function loginFn(req: Request, res: Response) {
   }
 
   //update user session
+  await saveExpressSession(req);
   await connectSession(findUser.id, sessionId);
 
   return res.status(200).send({

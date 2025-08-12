@@ -14,6 +14,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
   const user = await getUserDataBySession(req.session.id);
   if (!user) throw new AppError("You are not authorized to do this!");
+
   if (!["ADMIN", "MOD"].includes(user.role)) {
     throw new AppError("Only admin roles are allowed!");
   }
