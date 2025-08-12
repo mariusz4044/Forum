@@ -37,7 +37,7 @@ export async function getCategoryTopicsQuery({
         },
       },
     });
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e.message);
   }
 }

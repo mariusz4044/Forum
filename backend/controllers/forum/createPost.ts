@@ -13,11 +13,12 @@ interface PostBody {
 
 const isDev = process.env.NODE_ENV === "development";
 
-const postDelay = parseInt(process.env.POST_DELAY_PER_USER);
+const postDelay = parseInt(`${process.env.POST_DELAY_PER_USER}`);
 
 export async function createPost(req: Request, res: Response) {
   const { message, topicId, blockResponse }: PostBody = req.body;
-  const user = req.user;
+
+  const user = req.user!;
 
   if (isNaN(Number(topicId))) {
     throw new AppError(`Not found topic id: ${topicId}!`);
@@ -59,12 +60,12 @@ export async function createPost(req: Request, res: Response) {
     });
 
     await prisma.category.update({
-      where: { id: createdPost.topic.category.id },
+      where: { id: createdPost!.topic!.category!.id },
       data: {
         lastPostId: createdPost.id,
       },
     });
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e);
   }
 

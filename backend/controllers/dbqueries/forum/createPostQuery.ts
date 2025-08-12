@@ -32,7 +32,7 @@ export async function createPostQuery({
         },
       },
     });
-  } catch (e) {
+  } catch (e: any) {
     if (e.code === "P2003") {
       throw new AppError("Topic not found!");
     }

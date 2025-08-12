@@ -5,23 +5,20 @@ import { Section } from "@prisma/client";
 interface SectionQuery {
   title: string;
   createdById: number;
-  roleRequire: string[];
 }
 
 export async function createSectionQuery({
   title,
   createdById,
-  roleRequire,
 }: SectionQuery): Promise<Section | Error> {
   try {
     return await prisma.section.create({
       data: {
         title,
         createdById,
-        roleRequire,
       },
     });
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e.message);
   }
 }

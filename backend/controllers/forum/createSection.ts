@@ -4,11 +4,10 @@ import { createSectionQuery } from "../dbqueries/forum/createSectionQuery";
 
 interface SectionBody {
   title: string;
-  roleRequire: string[];
 }
 
 export async function createSection(req: Request, res: Response) {
-  const { title, roleRequire }: SectionBody = req.body;
+  const { title }: SectionBody = req.body;
 
   if (!title) {
     throw new AppError(`Section title is required!`);
@@ -16,8 +15,7 @@ export async function createSection(req: Request, res: Response) {
 
   const createdSection = await createSectionQuery({
     title: title,
-    createdById: req.user.id,
-    roleRequire,
+    createdById: req.user!.id,
   });
 
   res.status(200).json({ message: "Section created!", data: createdSection });

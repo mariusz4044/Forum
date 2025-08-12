@@ -35,7 +35,7 @@ export async function getInitQuery() {
         },
       },
     });
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e.message);
   }
 }

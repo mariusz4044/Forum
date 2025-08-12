@@ -1,4 +1,5 @@
 import session from "express-session";
+//@ts-ignore
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { prisma } from "../database/connection";
 

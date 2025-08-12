@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getPostsQuery } from "../dbqueries/forum/getPostsQuery";
 
-const topicPerPage = parseInt(process.env.POSTS_PER_PAGE);
+const topicPerPage = parseInt(`${process.env.POSTS_PER_PAGE}`);
 
 export async function getPosts(req: Request, res: Response) {
   const { id } = req.params;

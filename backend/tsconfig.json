@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
+    "module": "CommonJS",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "moduleResolution": "node",
     "outDir": "./dist",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "sourceMap": false
   },
+  "include": ["./**/*"],
   "exclude": ["node_modules"]
 }

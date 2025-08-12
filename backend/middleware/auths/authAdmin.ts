@@ -1,4 +1,4 @@
-import { getUserBySession } from "../../controllers/dbqueries/user/getUserBySession";
+import { getUserDataBySession } from "../../controllers/dbqueries/user/getUserDataBySession";
 import { AppError } from "../../utils/AppError";
 import { Response, Request, NextFunction } from "express";
 import { User } from "@prisma/client";
@@ -12,7 +12,7 @@ declare module "express-serve-static-core" {
 export default async (req: Request, res: Response, next: NextFunction) => {
   if (!req.session.id) throw new AppError("No such session!");
 
-  const user = await getUserBySession(req.session.id);
+  const user = await getUserDataBySession(req.session.id);
   if (!user) throw new AppError("You are not authorized to do this!");
   if (!["ADMIN", "MOD"].includes(user.role)) {
     throw new AppError("Only admin roles are allowed!");

@@ -27,7 +27,7 @@ export async function createCategory(req: Request, res: Response) {
 
   const createdSection = await createCategoryQuery({
     title: title,
-    createdById: req.user.id,
+    createdById: req.user!.id,
     sectionId,
     description,
   });

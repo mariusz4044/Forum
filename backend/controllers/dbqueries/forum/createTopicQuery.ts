@@ -21,7 +21,7 @@ export async function createTopicQuery({
         categoryId,
       },
     });
-  } catch (e) {
+  } catch (e: any) {
     if (e.code === "P2003") throw new AppError("Category not exist!");
     throw new Error(e.message);
   }

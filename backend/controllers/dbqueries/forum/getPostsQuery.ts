@@ -47,7 +47,7 @@ export async function getPostsQuery({
         },
       },
     });
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e.message);
   }
 }

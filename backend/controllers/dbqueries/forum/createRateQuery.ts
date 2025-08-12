@@ -11,7 +11,7 @@ export async function createRateQuery({ postId, rate, authorId }: RateBody) {
         postId,
       },
     });
-  } catch (e) {
+  } catch (e: any) {
     if (e.code === "P2003") {
       throw new AppError("Post not found!");
     }

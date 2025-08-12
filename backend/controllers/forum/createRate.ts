@@ -7,7 +7,7 @@ import { updateUniqueUser } from "../dbqueries/user/updateUniqueUser";
 export interface RateBody {
   rate: 1 | -1;
   postId: number;
-  authorId?: number;
+  authorId: number;
 }
 
 export async function createRate(req: Request, res: Response) {
@@ -26,17 +26,17 @@ export async function createRate(req: Request, res: Response) {
   }
 
   const isRated = await prisma.rate.findFirst({
-    where: { postId, authorId: req.user.id },
+    where: { postId, authorId: req.user!.id },
   });
 
-  if (req.user.role !== "ADMIN" && isRated) {
+  if (req.user!.role !== "ADMIN" && isRated) {
     throw new AppError(`You already rated this post!`);
   }
 
   await createRateQuery({
     rate,
     postId,
-    authorId: req.user.id,
+    authorId: req.user!.id,
   });
 
   const rateType = rate === 1 ? { increment: 1 } : { decrement: 1 };

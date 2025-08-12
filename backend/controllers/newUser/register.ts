@@ -13,8 +13,8 @@ import forumConfig from "../../forum.config";
 const { USER_ACCOUNTS_LIMIT } = forumConfig;
 
 import { ResponseValidateData, RegisterData } from "../../types/types";
-import specifyUserData from "../../utils/specifyUserData";
 import { connectSession } from "../dbqueries/user/connectSession";
+import { saveExpressSession } from "../../utils/saveExpressSession";
 
 const registerSchema = z.object({
   name: z
@@ -81,6 +81,8 @@ export async function register(req: Request, res: Response) {
       },
     });
 
+    //Expres-session not saved if user dont' have data
+    await saveExpressSession(req);
     await connectSession(newUser.id, sessionId);
 
     return res.status(201).json({

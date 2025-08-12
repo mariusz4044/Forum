@@ -19,8 +19,10 @@ export async function getLastTopicPostQuery({
       },
     });
 
+    if (!res) throw new Error("Topic not found");
+
     return res?.posts[0];
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e.message);
   }
 }

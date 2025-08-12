@@ -7,7 +7,7 @@ export async function updateUniqueUser(
 ): Promise<User> {
   try {
     return await prisma.user.update(args);
-  } catch (e) {
+  } catch (e: any) {
     if (isDev) console.error(e);
 
     if (e instanceof Prisma.PrismaClientKnownRequestError) {

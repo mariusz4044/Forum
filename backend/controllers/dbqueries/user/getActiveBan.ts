@@ -17,7 +17,7 @@ export async function getActiveBan(userId: number): Promise<Ban | false> {
     }
 
     return ban;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(error.message);
   }
 }

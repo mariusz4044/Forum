@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getCategoryTopicsQuery } from "../dbqueries/forum/getCategoryTopicsQuery";
 
-const topicPerPage = parseInt(process.env.TOPIC_PER_PAGE);
+const topicPerPage = parseInt(`${process.env.TOPIC_PER_PAGE}`);
 
 export async function getCategoryTopics(req: Request, res: Response) {
   const { id } = req.params;
@@ -18,8 +18,8 @@ export async function getCategoryTopics(req: Request, res: Response) {
     take: topicPerPage,
   });
 
-  if (categoryData._count?.topics) {
-    maxPage = Math.ceil(categoryData._count?.topics / topicPerPage);
+  if (categoryData?._count.topics) {
+    maxPage = Math.ceil(categoryData._count.topics / topicPerPage);
   }
 
   res.status(200).json({

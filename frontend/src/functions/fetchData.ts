@@ -18,10 +18,14 @@ const tostOptions = {
   theme: "dark",
 };
 
-export const fetchData = async (endpoint: string, data: RequestProps) => {
+export const fetchData = async (
+  endpoint: string,
+  data: RequestProps,
+  method?: string,
+) => {
   try {
     const res = await fetch(`${SERVER_URL}${endpoint}`, {
-      method: data ? "POST" : "GET",
+      method: data && !method ? "POST" : "GET",
       headers: { "Content-Type": "application/json" },
       body: data ? JSON.stringify(data) : undefined,
       credentials: "include",
@@ -37,7 +41,7 @@ export const fetchData = async (endpoint: string, data: RequestProps) => {
     }
 
     return responseData;
-  } catch (err) {
+  } catch (err: any) {
     console.error("fetchData network error");
   }
 };

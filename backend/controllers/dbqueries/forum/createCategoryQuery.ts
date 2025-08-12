@@ -1,5 +1,4 @@
 import { prisma } from "../../../database/connection";
-import { AppError } from "../../../utils/AppError";
 import { Category } from "@prisma/client";
 
 interface CreateCategoryQuery {
@@ -24,7 +23,7 @@ export async function createCategoryQuery({
         description,
       },
     });
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e.message);
   }
 }

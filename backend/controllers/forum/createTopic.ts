@@ -25,7 +25,7 @@ export async function createTopic(req: Request, res: Response) {
 
   const createdTopic = await createTopicQuery({
     title: title,
-    createdById: req.user.id,
+    createdById: req.user!.id,
     categoryId,
   });
 

@@ -1,19 +1,16 @@
-import checkUserSession from "./middleware/ensureSessionInDatabase";
-
 const isDev = process.env.NODE_ENV !== "production";
 
 import dotenv from "dotenv";
-import express, { ErrorRequestHandler, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 
 import expressSession from "./middleware/express-session";
 import userRoutes from "./routes/userRoutes";
 import validateRequest from "./middleware/requestValidate/validateRequest";
 import getUserIp from "./middleware/getUserIp";
-import ensureSessionInDatabase from "./middleware/ensureSessionInDatabase";
 import forumRoutes from "./routes/forumRoutes";
 import adminRoutes from "./routes/adminRoutes";
-import { AppError, AppErrorProps } from "./utils/AppError";
+import { AppErrorProps } from "./utils/AppError";
 dotenv.config();
 
 const app = express();
@@ -29,7 +26,6 @@ app.use(expressSession());
 
 //Middleware
 app.use("/", validateRequest);
-app.use("/", ensureSessionInDatabase);
 app.use("/", getUserIp);
 
 //User routes
@@ -42,16 +38,16 @@ app.use("/api/", adminRoutes);
 app.use("/api/forum", forumRoutes);
 
 //global error handler
-app.use((err: AppErrorProps, req: Request, res: Response) => {
+app.use((err: AppErrorProps, req: Request, res: Response, next: any) => {
   if (err.name === "AppError") {
     return res.status(err.status).json({ error: err.message, data: err.data });
   }
 
-  const errRes = isDev
-    ? { error: "Internal Server Error", err }
-    : { error: "Internal Server Error" };
+  if (isDev) {
+    return res.status(500).json({ error: "Internal Server Error", err });
+  }
 
-  res.status(500).json(errRes);
+  res.status(500).json({ error: "Internal Server Error" });
 });
 
 app.listen(2137, () => {
