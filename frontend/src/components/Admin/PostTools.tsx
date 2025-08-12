@@ -2,6 +2,8 @@ import { Ban, Delete, Edit, Trash } from "lucide-react";
 import { ComponentType } from "react";
 import { UserNick } from "../Utils/UserNick";
 import { fetchData } from "@/functions/fetchData";
+import { useSWRConfig } from "swr";
+import { getSWRKey } from "../Utils/getSWRKey";
 
 function AdminTool({
   title,
@@ -23,26 +25,33 @@ function AdminTool({
   );
 }
 
-async function deletePost({ postId }: { postId: number }) {
-  const res = await fetchData(
-    "/post/delete",
+function deletePost({ postId }: { postId: number }) {
+  return fetchData(
+    "/api/post/delete",
     {
       postId: postId,
     },
     "DELETE",
   );
-
-  console.log(res);
 }
 
 export function PostTools({ postId }: { postId: number }) {
+  const { cache, mutate } = useSWRConfig();
+
+  function reloadSwrFetch() {
+    const SWRString = getSWRKey(cache, "/forum/topic");
+    mutate(SWRString);
+  }
+
   return (
     <div className="flex flex-row gap-1 ">
       <AdminTool
         title="Delete"
         Icon={Trash}
         key="admin-delete"
-        clickEvent={() => deletePost({ postId })}
+        clickEvent={() => {
+          deletePost({ postId }).then(reloadSwrFetch);
+        }}
       />
       <AdminTool title="Edit" Icon={Edit} key="admin-edit" />
       <AdminTool title="Ban user" Icon={Ban} key="admin-ban" />

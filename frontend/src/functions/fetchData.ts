@@ -1,3 +1,4 @@
+import { HTTP_METHOD } from "next/dist/server/web/http";
 import { toast } from "react-toastify";
 
 const SERVER_URL = process.env.SERVER_URL || "";
@@ -21,11 +22,12 @@ const tostOptions = {
 export const fetchData = async (
   endpoint: string,
   data: RequestProps,
-  method?: string,
+  method?: HTTP_METHOD,
 ) => {
   try {
+    console.log();
     const res = await fetch(`${SERVER_URL}${endpoint}`, {
-      method: data && !method ? "POST" : "GET",
+      method: method || (data ? "POST" : "GET"),
       headers: { "Content-Type": "application/json" },
       body: data ? JSON.stringify(data) : undefined,
       credentials: "include",
@@ -42,6 +44,6 @@ export const fetchData = async (
 
     return responseData;
   } catch (err: any) {
-    console.error("fetchData network error");
+    console.error("fetchData network error", err);
   }
 };

@@ -76,7 +76,13 @@ export default function postsView() {
 
   let posts: JSX.Element[] = [];
   resData.posts.forEach((post: PostProps) => {
-    posts.push(<PostBox postData={post} key={`post-${post.id}`} />);
+    posts.push(
+      <PostBox
+        postData={post}
+        key={`post-${post.id}`}
+        mutateString={mutateString}
+      />,
+    );
   });
 
   function onChangePage(newPage: number) {

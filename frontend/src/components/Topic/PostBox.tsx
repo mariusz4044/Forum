@@ -17,6 +17,7 @@ import { PostProps } from "@/types/types";
 import { useState } from "react";
 import Badge, { BadgeColors } from "@/components/Utils/Universal/Badge";
 import { UserNick } from "@/components/Utils/UserNick";
+import { SWRConfig, useSWRConfig } from "swr";
 
 export function PostBoxUserPanel({
   avatar,
