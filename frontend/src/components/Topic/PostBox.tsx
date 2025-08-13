@@ -150,7 +150,7 @@ function PostContentBox({ post }: { post: PostProps }) {
       <div className="mt-3">{message}</div>
       <div className="absolute bottom-0 flex flex-row items-center">
         <RatingBox ratingSummary={ratingSummary} postId={id} />
-        {user.role === "ADMIN" && <PostTools postId={id} />}
+        {user.role === "ADMIN" && <PostTools post={post} />}
       </div>
     </div>
   );

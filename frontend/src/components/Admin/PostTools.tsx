@@ -1,9 +1,10 @@
 import { Ban, Delete, Edit, Trash } from "lucide-react";
 import { ComponentType } from "react";
-import { UserNick } from "../Utils/UserNick";
 import { fetchData } from "@/functions/fetchData";
 import { useSWRConfig } from "swr";
 import { getSWRKey } from "../Utils/getSWRKey";
+import { useDialogContext } from "@/context/DialogContext";
+import { PostProps } from "@/types/types";
 
 function AdminTool({
   title,
@@ -35,8 +36,9 @@ function deletePost({ postId }: { postId: number }) {
   );
 }
 
-export function PostTools({ postId }: { postId: number }) {
+export function PostTools({ post }: { post: PostProps }) {
   const { cache, mutate } = useSWRConfig();
+  const { open, setDialogData } = useDialogContext();
 
   function reloadSwrFetch() {
     const SWRString = getSWRKey(cache, "/forum/topic");
@@ -50,10 +52,18 @@ export function PostTools({ postId }: { postId: number }) {
         Icon={Trash}
         key="admin-delete"
         clickEvent={() => {
-          deletePost({ postId }).then(reloadSwrFetch);
+          deletePost({ postId: post.id }).then(reloadSwrFetch);
         }}
       />
-      <AdminTool title="Edit" Icon={Edit} key="admin-edit" />
+      <AdminTool
+        title="Edit"
+        Icon={Edit}
+        key="admin-edit"
+        clickEvent={() => {
+          setDialogData(post);
+          open("editPost");
+        }}
+      />
       <AdminTool title="Ban user" Icon={Ban} key="admin-ban" />
       <AdminTool
         title="Delete all posts"
