@@ -18,7 +18,7 @@ export default function Window({ children, title }: WindowProps) {
   return (
     <div>
       <motion.div
-        className="fixed w-screen h-screen bg-black/80 left-0 top-0 z-30"
+        className="fixed w-screen h-screen bg-black/70 left-0 top-0 z-30"
         id="dialog-background"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -32,11 +32,11 @@ export default function Window({ children, title }: WindowProps) {
         transition={{ duration: 0.2, ease: "easeOut" }}
         exit={{ opacity: 0, y: -30 }}
         className="
-    fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2
-    w-sm h-auto bg-[#23233a] z-30 rounded-lg p-5"
+    fixed top-2/4 left-1/2 -translate-x-1/2 -translate-y-1/2
+    w-sm h-auto bg-[#1a1a2ee6] z-30 rounded-lg p-5 px-8 pb-8"
       >
         <header className="flex flex-row justify-between items-center">
-          <h2 className="text-2xl font-medium">{title}</h2>
+          <h2 className="text-xl font-medium">{title}</h2>
           <X
             size={25}
             className="font-semibold text-gray-500 cursor-pointer"

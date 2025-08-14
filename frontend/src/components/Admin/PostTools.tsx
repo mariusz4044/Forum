@@ -36,13 +36,25 @@ function deletePost({ postId }: { postId: number }) {
   );
 }
 
+function deleteAllPosts({ userId }: { userId: number }) {
+  return fetchData(
+    "/api/posts/delete",
+    {
+      userId,
+    },
+    "DELETE",
+  );
+}
+
 export function PostTools({ post }: { post: PostProps }) {
   const { cache, mutate } = useSWRConfig();
   const { open, setDialogData } = useDialogContext();
 
-  function reloadSwrFetch() {
-    const SWRString = getSWRKey(cache, "/forum/topic");
-    mutate(SWRString);
+  async function reloadSwrFetch() {
+    const path = window.location.pathname;
+    const segments = path.split("/").filter(Boolean).join("/");
+    const SWRString = getSWRKey(cache, segments);
+    await mutate(SWRString);
   }
 
   return (
@@ -64,11 +76,22 @@ export function PostTools({ post }: { post: PostProps }) {
           open("editPost");
         }}
       />
-      <AdminTool title="Ban user" Icon={Ban} key="admin-ban" />
+      <AdminTool
+        title="Ban user"
+        Icon={Ban}
+        key="admin-ban"
+        clickEvent={() => {
+          setDialogData(post);
+          open("banUser");
+        }}
+      />
       <AdminTool
         title="Delete all posts"
         Icon={Delete}
         key="admin-remove-all"
+        clickEvent={() => {
+          deleteAllPosts({ userId: post.author.id }).then(reloadSwrFetch);
+        }}
       />
     </div>
   );

@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState } from "react";
 
 const DialogContext = createContext({
-  open: (mode: "login" | "register" | "topic" | "editPost") => {},
+  open: (mode: "login" | "register" | "topic" | "editPost" | "banUser") => {},
   close: () => {},
   isOpen: false,
   setDialogData: (data: any) => {},
   data: null,
-  mode: null as "login" | "register" | "topic" | "editPost" | null,
+  mode: null as "login" | "register" | "topic" | "editPost" | "banUser" | null,
 });
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
@@ -14,10 +14,12 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
   const [data, setData] = useState(null);
 
   const [mode, setMode] = useState<
-    "login" | "register" | "topic" | "editPost" | null
+    "login" | "register" | "topic" | "editPost" | "banUser" | null
   >(null);
 
-  const open = (mode: "login" | "register" | "topic" | "editPost") => {
+  const open = (
+    mode: "login" | "register" | "topic" | "editPost" | "banUser",
+  ) => {
     setMode(mode);
     setIsOpen(true);
   };

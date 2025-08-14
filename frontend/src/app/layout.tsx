@@ -21,6 +21,7 @@ import fetcherGet from "@/functions/fetcherGet";
 import { useUserContext } from "@/context/UserContext";
 import NewTopicWindow from "@/components/Dialog/NewTopicWindow";
 import EditPostEditPostWindow from "@/components/Dialog/EditPostWindow";
+import BanUserWindow from "@/components/Dialog/BanUserWindow";
 
 type DialogTypes = "Register" | "Login";
 
@@ -55,6 +56,7 @@ function Content({ children }: { children: React.ReactNode }) {
         {mode === "register" && <RegisterWindow />}
         {mode === "topic" && <NewTopicWindow />}
         {mode === "editPost" && <EditPostEditPostWindow />}
+        {mode === "banUser" && <BanUserWindow />}
       </AnimatePresence>
       <ToastContainer />
     </>

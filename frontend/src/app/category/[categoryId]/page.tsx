@@ -93,6 +93,7 @@ export default function topicView() {
             onChangePage={onChangePage}
             currentPage={data.navigation.currentPage}
             maxPage={data.navigation.maxPage}
+            reversed={true}
           ></PageNavigation>
         </footer>
       </div>

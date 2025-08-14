@@ -30,6 +30,7 @@ interface PageNavigationProps {
   children?: React.ReactNode;
   maxPage: number;
   currentPage: number;
+  reversed?: boolean;
   onChangePage: (pageNumber: number) => void;
 }
 
@@ -38,6 +39,7 @@ export function PageNavigation({
   maxPage,
   onChangePage,
   currentPage,
+  reversed,
 }: PageNavigationProps) {
   const pagesTruncated = useMemo(() => {
     const totalPages = maxPage;
@@ -62,12 +64,13 @@ export function PageNavigation({
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }, [currentPage, maxPage]);
 
+  let styles: any = { borderTop: "1px solid rgb(50, 50, 79)" };
+  if (reversed) styles = { borderBottom: "1px solid rgb(50, 50, 79)" };
+
   return (
     <div
       className="bg-[#1e1e2f]/[.8] p-4 h-14 rounded-lg relative flex flex-row justify-between items-center"
-      style={{
-        borderTop: "1px solid rgb(50, 50, 79)",
-      }}
+      style={styles}
     >
       <div className="flex flex-row gap-1">
         {pagesTruncated.map((pageNumber) => (

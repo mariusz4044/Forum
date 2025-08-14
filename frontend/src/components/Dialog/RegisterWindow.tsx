@@ -37,18 +37,34 @@ export default function RegisterWindow() {
     <Window title="Register">
       <form onSubmit={handleSubmit}>
         <div className="form-element">
-          <FormInput name="Login" required></FormInput>
+          <FormInput
+            name="Login"
+            placeholder="Enter your login"
+            required
+          ></FormInput>
         </div>
         <div className="form-element">
-          <FormInput name="Username" required></FormInput>
+          <FormInput
+            name="Username"
+            placeholder="Enter your public username"
+            required
+          ></FormInput>
         </div>
         <div className="form-element">
-          <FormInput name="Password" required></FormInput>
+          <FormInput
+            name="Password"
+            placeholder="Enter your password"
+            required
+          ></FormInput>
         </div>
         <div className="form-element">
-          <FormInput name="Repeat Password" required></FormInput>
+          <FormInput
+            name="Repeat Password"
+            placeholder="Repeat your password"
+            required
+          ></FormInput>
         </div>
-        <div className="flex flex-row gap-2 items-center my-2 ml-1">
+        <div className="flex flex-row gap-2 items-center my-4 ml-1">
           <input type="checkbox" id="rules-checkbox" required />
           <label htmlFor="rules-checkbox">Accept terms and conditions</label>
         </div>

@@ -2,6 +2,7 @@ import { User } from "@/context/UserContext";
 
 export interface PostProps {
   author: {
+    id: number;
     name: string;
     avatar: string;
     role: string;

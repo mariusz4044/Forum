@@ -6,17 +6,14 @@ import Topic from "@/components/Utils/Forum/Topic";
 import useSWR from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import Loading from "@/components/Utils/Universal/Loading";
+import { User } from "@/context/UserContext";
 
 export interface LastPost {
   topic: {
     id: number;
     title: string;
   };
-  author: {
-    id: number;
-    avatar: string;
-    name: string;
-  };
+  author: User;
   message: string;
   createdAt: string;
 }

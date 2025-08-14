@@ -17,9 +17,12 @@ export default function ClassicButton({
     <button
       onClick={onClick}
       type={type}
+      style={{
+        background: "linear-gradient(45deg, #5669db, #667eea)",
+      }}
       className={clsx(
         "text-[12px] uppercase font-bold p-3 tracking-[1.2px]",
-        "bg-black/[.5] rounded-lg cursor-pointer",
+        "border-1 border-[#383875] rounded-lg cursor-pointer",
         "flex items-center justify-center gap-2 flex-row-reverse",
         "w-32 h-10",
         className,

@@ -6,6 +6,7 @@ import { JSX } from "react";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { motion } from "motion/react";
 import { useUserContext } from "@/context/UserContext";
+import { UserNick } from "../UserNick";
 
 function MessageCountElement({
   messagesCount,
@@ -37,7 +38,13 @@ function LastPostElement({ lastPost }: { lastPost: LastPost }): JSX.Element {
           </Link>
         </div>
         <div className="text-[#9F9FC9] whitespace-nowrap flex flex-col">
-          <span>Od {lastPost.author.name}</span>
+          <span>
+            Od{" "}
+            <UserNick
+              nickname={lastPost.author.name}
+              role={lastPost.author.role}
+            />
+          </span>
           {formatDateToRelative(lastPost.createdAt)}
         </div>
       </div>

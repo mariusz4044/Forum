@@ -61,13 +61,13 @@ export function PostBoxUserPanel({
         alt="user avatar"
       />
       <div className="p-1 mt-3 w-26 flex flex-col gap-2 items-center justify-center">
-        <div className="flex flex-row w-full gap-1">
+        <div className="flex flex-col-reverse w-full gap-1">
           {messagesCount && (
             <Badge
               color="orange"
               tooltip="User Messages"
               Icon={Send}
-              text={`${messagesCount}`}
+              text={`${messagesCount} messages`}
             />
           )}
           {reputation !== undefined && (
@@ -75,11 +75,11 @@ export function PostBoxUserPanel({
               color={reputationColor}
               Icon={reputationIcon}
               tooltip="User Reputatnion"
-              text={`${reputation}`}
+              text={`${reputation} reputation`}
             />
           )}
         </div>
-        <Badge color={roleColor} Icon={User} text={role} />
+        {/*<Badge color={roleColor} Icon={User} text={role} />*/}
       </div>
     </div>
   );
@@ -93,6 +93,7 @@ function RatingBox({
   postId: number;
 }) {
   const [rateNumber, setRateNumber] = useState(ratingSummary);
+  const { user } = useUserContext();
 
   let className = "";
   if (rateNumber < 0) className += "text-[red]";
@@ -110,6 +111,18 @@ function RatingBox({
     }
   }
 
+  if (!user.id) {
+    return (
+      <div className="flex flex-row justify-center items-center gap-2 pr-8 opacity-50 hover:opacity-100">
+        Rep:
+        <b className={`select-none mt-0.5 ${className}`}>
+          {rateNumber > 0 && "+"}
+          {rateNumber}
+        </b>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-row  items-center gap-2 pr-8 opacity-50 hover:opacity-100">
       <div
@@ -120,6 +133,7 @@ function RatingBox({
       >
         <Plus size={12} color="white" />
       </div>
+      Rep:
       <b className={`select-none ${className}`}>
         {rateNumber > 0 && "+"}
         {rateNumber}
@@ -141,13 +155,15 @@ function PostContentBox({ post }: { post: PostProps }) {
   const { user } = useUserContext();
 
   return (
-    <div className="right-panel-post w-full ml-6 text-sm relative">
+    <div className="right-panel-post w-full ml-6 relative">
       <UserNick nickname={author.name} role={author.role} />
       <br />
       <span className="text-[#9F9FC9] text-sm">
         Created {formatDateToRelative(createdAt)}
       </span>
-      <div className="mt-3">{message}</div>
+      <div className="mt-3 wrap-anywhere mb-10 whitespace-pre-line">
+        {message}
+      </div>
       <div className="absolute bottom-0 flex flex-row items-center">
         <RatingBox ratingSummary={ratingSummary} postId={id} />
         {user.role === "ADMIN" && <PostTools post={post} />}

@@ -37,7 +37,11 @@ export default function NewTopicWindow() {
     <Window title="Add new Topic">
       <form onSubmit={handleSubmit}>
         <div className="form-element">
-          <FormInput name="Title" required></FormInput>
+          <FormInput
+            name="Title"
+            placeholder="Enter topic name"
+            required
+          ></FormInput>
         </div>
         <div className="form-element">
           <FormInputArea

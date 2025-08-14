@@ -3,8 +3,8 @@ import { useId } from "react";
 interface FormInputProps {
   name: string;
   required?: boolean;
-  defaultValue?: string;
-  type?: "password" | "text";
+  defaultValue?: string | number;
+  type?: "password" | "text" | "number";
   placeholder?: string;
   height?: number;
 }
@@ -14,13 +14,13 @@ export function FormInputArea({ ...props }: FormInputProps) {
 
   return (
     <div className="flex flex-col my-2">
-      <label htmlFor={inputId} className="label-input text-gray-400">
+      <label htmlFor={inputId} className="label-input text-gray-300">
         {props.name}{" "}
         {props.required && <span className="required-input">Required</span>}
       </label>
       <textarea
         id={inputId}
-        className={`form-input resize-none ${props.height && `h-${props.height}`}`}
+        className={`form-input resize-none text-sm ${props.height && `h-${props.height}`}`}
         {...props}
       />
     </div>
@@ -32,11 +32,11 @@ export function FormInput({ ...props }: FormInputProps) {
 
   return (
     <div className="flex flex-col my-2">
-      <label htmlFor={inputId} className="label-input text-gray-400">
-        {props.name}{" "}
-        {props.required && <span className="required-input">Required</span>}
+      <label htmlFor={inputId} className="label-input text-gray-300">
+        {props.name}
+        {/*{props.required && <span className="required-input">Required</span>}*/}
       </label>
-      <input id={inputId} className="form-input" {...props} />
+      <input id={inputId} className="form-input text-sm" {...props} />
     </div>
   );
 }

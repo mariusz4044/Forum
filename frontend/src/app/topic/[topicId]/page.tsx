@@ -44,12 +44,12 @@ function NewPostElement({
       <div className="w-full ml-4 flex flex-col gap-4">
         <b className="text-sm">Add new post:</b>
         <textarea
-          className="right bg-[#1e1e2f80] w-full h-auto rounded-sm min-h-32 p-4 resize-none"
+          className="right bg-[#1e1e2f80] w-full h-auto rounded-sm min-h-32 p-4  resize-none"
           placeholder="Type your answer..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <ForumButton className="w-full" onClick={handleSubmit}>
+        <ForumButton className="w-full h-10" onClick={handleSubmit}>
           <span ref={buttonRef}>Create Post</span>
         </ForumButton>
       </div>
