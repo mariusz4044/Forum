@@ -45,7 +45,7 @@ export default function BanUserWindow() {
           <FormInput
             name="User ID"
             type="number"
-            defaultValue={post.author.id}
+            defaultValue={post.author.id!}
             height={32}
           ></FormInput>
           <FormInput

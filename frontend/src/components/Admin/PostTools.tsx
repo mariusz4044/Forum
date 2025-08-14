@@ -90,7 +90,7 @@ export function PostTools({ post }: { post: PostProps }) {
         Icon={Delete}
         key="admin-remove-all"
         clickEvent={() => {
-          deleteAllPosts({ userId: post.author.id }).then(reloadSwrFetch);
+          deleteAllPosts({ userId: post.author.id! }).then(reloadSwrFetch);
         }}
       />
     </div>
