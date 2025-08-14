@@ -10,6 +10,7 @@ import { loginFn } from "../controllers/newUser/login";
 import { getUserData } from "../controllers/existUser/getUserData";
 import authorization from "../middleware/auths/authUser";
 import { logoutUser } from "../controllers/user/logout";
+import { getUserProfile } from "../controllers/forum/getUserProfile";
 
 router.get("/", authorization, async (req, res) => {
   const userData = await getUserData(req, res);
@@ -24,5 +25,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", loginFn);
 router.post("/logout", authorization, logoutUser);
+
+router.get("/profile/:userId", getUserProfile);
 
 export default router;

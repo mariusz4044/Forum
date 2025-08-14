@@ -43,6 +43,8 @@ app.use((err: AppErrorProps, req: Request, res: Response, next: any) => {
     return res.status(err.status).json({ error: err.message, data: err.data });
   }
 
+  console.log(err);
+
   if (isDev) {
     return res.status(500).json({ error: "Internal Server Error", err });
   }

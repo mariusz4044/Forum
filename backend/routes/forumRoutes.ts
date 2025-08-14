@@ -15,7 +15,7 @@ const router = Router();
 router.get("/", getInitData);
 router.get("/topic/:id", getPosts);
 router.get("/category/:id", getCategoryTopics);
-router.post("/rate/", authUser, createRate);
+router.post("/rate", authUser, createRate);
 router.post("/post/create", authUser, createPost);
 router.post("/section/create", authAdmin, createSection);
 router.post("/category/create", authAdmin, createCategory);
