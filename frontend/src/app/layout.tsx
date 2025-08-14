@@ -22,6 +22,7 @@ import { useUserContext } from "@/context/UserContext";
 import NewTopicWindow from "@/components/Dialog/NewTopicWindow";
 import EditPostEditPostWindow from "@/components/Dialog/EditPostWindow";
 import BanUserWindow from "@/components/Dialog/BanUserWindow";
+import UserProfileWindow from "@/components/Dialog/UserProfileWindow";
 
 type DialogTypes = "Register" | "Login";
 
@@ -57,6 +58,7 @@ function Content({ children }: { children: React.ReactNode }) {
         {mode === "topic" && <NewTopicWindow />}
         {mode === "editPost" && <EditPostEditPostWindow />}
         {mode === "banUser" && <BanUserWindow />}
+        {mode === "userProfile" && <UserProfileWindow />}
       </AnimatePresence>
       <ToastContainer />
     </>

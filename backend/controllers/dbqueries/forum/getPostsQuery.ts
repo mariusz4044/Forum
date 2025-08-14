@@ -18,6 +18,7 @@ export async function getPostsQuery({
             name: true,
             avatar: true,
             role: true,
+            id: true,
           },
         },
         _count: {

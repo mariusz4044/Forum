@@ -1,6 +1,13 @@
 import { Request, Response } from "express";
 import { AppError } from "../../utils/AppError";
 import { getUniqueUser } from "../../controllers/dbqueries/user/getUniqueUser";
+import { User } from "@prisma/client";
+
+type UserWithPostCount = User & {
+  _count?: {
+    posts: number;
+  };
+};
 
 export async function getUserProfile(req: Request, res: Response) {
   const { userId } = req.params;
@@ -10,8 +17,15 @@ export async function getUserProfile(req: Request, res: Response) {
     throw new AppError("userId is number!");
   }
 
-  const user = await getUniqueUser({
+  const user: UserWithPostCount | false = await getUniqueUser({
     where: { id: parsedId },
+    include: {
+      _count: {
+        select: {
+          posts: true,
+        },
+      },
+    },
   });
 
   if (!user) {
@@ -22,8 +36,9 @@ export async function getUserProfile(req: Request, res: Response) {
     avatar: user.avatar,
     name: user.name,
     id: user.id,
-    accountCreatedAt: user.createdAt,
+    createdAt: user.createdAt,
     reputation: user.reputation,
     role: user.role,
+    posts: user._count?.posts,
   });
 }

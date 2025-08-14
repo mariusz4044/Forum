@@ -18,7 +18,6 @@ export default function EditPostEditPostWindow() {
     const segments = path.split("/").filter(Boolean).join("/");
     const SWRString = getSWRKey(cache, segments);
     await mutate(SWRString);
-    console.log(segments);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

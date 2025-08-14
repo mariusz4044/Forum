@@ -8,7 +8,7 @@ import { X } from "lucide-react";
 import { useDialogContext } from "@/context/DialogContext";
 
 interface WindowProps {
-  title: string;
+  title?: string;
   children?: ReactNode;
 }
 
@@ -36,14 +36,18 @@ export default function Window({ children, title }: WindowProps) {
     w-sm h-auto bg-[#1a1a2ee6] z-30 rounded-lg p-5 px-8 pb-8"
       >
         <header className="flex flex-row justify-between items-center">
-          <h2 className="text-xl font-medium">{title}</h2>
-          <X
-            size={25}
-            className="font-semibold text-gray-500 cursor-pointer"
-            onClick={close}
-          />
+          {title && (
+            <div>
+              <h2 className="text-xl font-medium">{title}</h2>{" "}
+              <X
+                size={25}
+                className="font-semibold text-gray-500 cursor-pointer"
+                onClick={close}
+              />
+              <div className="separator"></div>
+            </div>
+          )}
         </header>
-        <div className="separator"></div>
         <main>{children}</main>
       </motion.div>
     </div>

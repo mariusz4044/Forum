@@ -21,7 +21,7 @@ const tostOptions = {
 
 export const fetchData = async (
   endpoint: string,
-  data: RequestProps,
+  data: RequestProps | null,
   method?: HTTP_METHOD,
 ) => {
   try {

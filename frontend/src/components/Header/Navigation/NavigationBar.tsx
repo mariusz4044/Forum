@@ -28,7 +28,7 @@ function UserPanel({ user, logout }: { user: User; logout: () => void }) {
     <div className="flex h-32 bottom-20 px-3 flex-col gap-2 text-xl relative bg-[#1e1e2f]/60 rounded-lg p-3 text-[#9F9FC9]">
       <div className="flex flex-row gap-1 text-sm">
         <span>Hello, </span>
-        <UserNick nickname={user.name} role={user.role} />
+        <UserNick user={user} />
       </div>
       <h1 className="text"></h1>
       <div className="flex flex-row gap-2">

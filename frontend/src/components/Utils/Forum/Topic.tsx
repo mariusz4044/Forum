@@ -39,11 +39,7 @@ function LastPostElement({ lastPost }: { lastPost: LastPost }): JSX.Element {
         </div>
         <div className="text-[#9F9FC9] whitespace-nowrap flex flex-col">
           <span>
-            Od{" "}
-            <UserNick
-              nickname={lastPost.author.name}
-              role={lastPost.author.role}
-            />
+            Od <UserNick user={lastPost.author} />
           </span>
           {formatDateToRelative(lastPost.createdAt)}
         </div>

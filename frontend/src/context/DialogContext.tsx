@@ -1,12 +1,27 @@
 import React, { createContext, useContext, useState } from "react";
 
 const DialogContext = createContext({
-  open: (mode: "login" | "register" | "topic" | "editPost" | "banUser") => {},
+  open: (
+    mode:
+      | "login"
+      | "register"
+      | "topic"
+      | "editPost"
+      | "banUser"
+      | "userProfile",
+  ) => {},
   close: () => {},
   isOpen: false,
   setDialogData: (data: any) => {},
   data: null,
-  mode: null as "login" | "register" | "topic" | "editPost" | "banUser" | null,
+  mode: null as
+    | "login"
+    | "register"
+    | "topic"
+    | "editPost"
+    | "banUser"
+    | "userProfile"
+    | null,
 });
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
@@ -14,11 +29,23 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
   const [data, setData] = useState(null);
 
   const [mode, setMode] = useState<
-    "login" | "register" | "topic" | "editPost" | "banUser" | null
+    | "login"
+    | "register"
+    | "topic"
+    | "editPost"
+    | "banUser"
+    | null
+    | "userProfile"
   >(null);
 
   const open = (
-    mode: "login" | "register" | "topic" | "editPost" | "banUser",
+    mode:
+      | "login"
+      | "register"
+      | "topic"
+      | "editPost"
+      | "banUser"
+      | "userProfile",
   ) => {
     setMode(mode);
     setIsOpen(true);

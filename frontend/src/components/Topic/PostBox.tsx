@@ -156,7 +156,7 @@ function PostContentBox({ post }: { post: PostProps }) {
 
   return (
     <div className="right-panel-post w-full ml-6 relative">
-      <UserNick nickname={author.name} role={author.role} />
+      <UserNick user={author} />
       <br />
       <span className="text-[#9F9FC9] text-sm">
         Created {formatDateToRelative(createdAt)}

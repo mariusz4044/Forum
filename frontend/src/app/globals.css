@@ -187,7 +187,8 @@ input:focus {
 }
 
 .separator {
-  @apply bottom-0 w-full h-[1px] bg-[#2c2c49] my-4 rounded-xl;
+  background: rgba(86, 105, 219, 0.1);
+  @apply bottom-0 w-full h-[1px] my-4 rounded-xl;
 }
 
 .spinner {
@@ -209,4 +210,8 @@ a {
 
 * {
   transition: all 200ms ease;
+}
+
+div [role="dialog"] {
+  border: 1px solid rgba(86, 105, 219, 0.2);
 }

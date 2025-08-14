@@ -7,6 +7,7 @@ export interface User {
   name: string;
   avatar: string;
   points: number;
+  reputation: number;
   role: "USER" | "ADMIN";
 }
 
@@ -24,6 +25,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     name: "",
     avatar: "",
     points: 0,
+    reputation: 0,
     role: "USER",
   });
 

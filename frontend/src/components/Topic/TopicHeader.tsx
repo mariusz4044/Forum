@@ -20,7 +20,7 @@ export function TopicHeader() {
         />
         <div className="flex flex-col text-sm justify-center ml-2">
           <span>
-            From <UserNick nickname={createdBy.name} role={createdBy.role} />
+            From <UserNick user={createdBy} />
           </span>
           <span className="text-[#9F9FC9] text-sm">
             created {formatDateToRelative(createdAt)}
