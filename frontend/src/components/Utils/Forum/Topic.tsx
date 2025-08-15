@@ -66,15 +66,19 @@ export default function Topic({
 
   return (
     <div
-      className="bg-[#1e1e2f]/[.5] p-4 my-4 rounded-lg relative flex flex-row pl-4 h-24"
+      className="bg-[#1a1a2ecc]/[.5] p-4 my-4 rounded-lg relative flex flex-row pl-4 h-24"
       style={{
-        border: "1px solid #3a3a5f4a",
+        border: "1px solid rgba(86, 105, 219, 0.2)",
       }}
     >
       <div className="flex flex-row w-full">
         {/*topic icon*/}
         <div className="h-full flex items-center justify-between">
-          <img src={iconPath} alt="Image Topic" className=" h-10 opacity-40" />
+          <img
+            src={iconPath}
+            alt="Image Topic"
+            className="size-10 opacity-40"
+          />
         </div>
         {/*Topic title and desc*/}
         <div className="flex flex-col w-full justify-center ml-4 tracking-wide ">

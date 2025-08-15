@@ -41,8 +41,8 @@ export async function createPost(req: Request, res: Response) {
     topicId,
   });
 
-  if (lastPostInTopic?.authorId === user.id && !isDev) {
-    throw new AppError("You can't write two posts under a row!");
+  if (lastPostInTopic?.authorId === user.id && user.role !== "ADMIN") {
+    throw new AppError("You can't write posts under a row!");
   }
 
   const createdPost = await createPostQuery({

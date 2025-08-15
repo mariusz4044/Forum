@@ -1,15 +1,5 @@
 import { User } from "@/context/UserContext";
 
-export interface UserProfileData {
-  avatar: string;
-  name: string;
-  id: number;
-  createdAt: string;
-  reputation: number;
-  role: string;
-  posts: number;
-}
-
 type PostAuthor = User & {
   _count: {
     posts: number;

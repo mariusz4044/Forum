@@ -23,7 +23,9 @@ export function TopicBox({
           className="rounded-xl size-10 opacity-50"
         />
         <div className="flex flex-col gap-1 text-md">
-          <Link href={`/topic/${topic.id}`}>{topic.title}</Link>
+          <Link href={`/topic/${topic.id}`} className="capitalize">
+            {topic.title}
+          </Link>
           <span className="text-[11px] text-[#9F9FC9]">
             Przez {user.name}, {formatDateToRelative(topic.createdAt)}
           </span>

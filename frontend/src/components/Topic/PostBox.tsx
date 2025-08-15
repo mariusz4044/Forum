@@ -177,8 +177,11 @@ export function PostBox({ postData }: { postData: PostProps }) {
 
   return (
     <div
-      className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 flex flex-row mt-4 relative"
+      className="h-auto w-full bg-[#1a1a2ecc]/[0.7] rounded-xl p-6 flex flex-row mt-4 relative"
       id={`post-${id}`}
+      style={{
+        border: "1px solid rgba(86, 105, 219, 0.2)",
+      }}
     >
       <PostBoxUserPanel
         avatar={author.avatar}

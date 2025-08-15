@@ -2,7 +2,7 @@ import Window from "@/components/Utils/Universal/Window";
 import { useDialogContext } from "@/context/DialogContext";
 import { User, useUserContext } from "@/context/UserContext";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
-import { UserProfileData } from "@/types/types";
+import { UserNick } from "../Utils/UserNick";
 
 function BadgeProfile({ text }: { text: string }) {
   return (
@@ -20,14 +20,16 @@ function BadgeProfile({ text }: { text: string }) {
 
 export default function UserProfileWindow() {
   const { close, data } = useDialogContext();
-  const user: UserProfileData = data!;
+  const user: User & { posts: number; createdAt: string } = data!;
 
   return (
     <Window>
       <div className="flex flex-col">
         <header className="pt-6 flex flex-col items-center border-b-1 border-[#5669db1a] pb-8">
           <img src={`/avatars/${user.avatar}`} className="w-24 rounded-xl" />
-          <span className="text-xl tracking-wider mt-4">{user.name}</span>
+          <span className="text-xl tracking-wider mt-4">
+            <UserNick user={user} />
+          </span>
           <BadgeProfile text={user.role} />
         </header>
         <main className="flex items-center flex-row gap-2 mt-6">
@@ -46,8 +48,8 @@ export default function UserProfileWindow() {
         </main>
         <footer>
           <div className="p-4 bg-[#ffffff0d] mt-4 justify-center items-center flex flex-col  rounded-xl border-l-3 border-l-[#5669db66]">
-            <span className="text-sm uppercase text-white/[0.5]">Joined</span>
-            <span className="text-sm mt-1">
+            <span className="text-sm uppercase text-white/[0.5] ">Joined</span>
+            <span className="text-sm mt-1 capitalize">
               {formatDateToRelative(user.createdAt)}
             </span>
           </div>

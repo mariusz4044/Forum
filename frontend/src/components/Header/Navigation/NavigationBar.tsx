@@ -25,33 +25,27 @@ function UserPanel({ user, logout }: { user: User; logout: () => void }) {
   const avatarPath = `/avatars/${user.avatar}`;
 
   return (
-    <div className="flex h-32 bottom-20 px-3 flex-col gap-2 text-xl relative bg-[#1e1e2f]/60 rounded-lg p-3 text-[#9F9FC9]">
-      <div className="flex flex-row gap-1 text-sm">
-        <span>Hello, </span>
-        <UserNick user={user} />
-      </div>
-      <h1 className="text"></h1>
+    <div
+      className="flex flex-col bg-[#1a1a2ecc] p-4 rounded-xl w-64 w-hauto  relative"
+      style={{
+        border: "1px solid rgba(86, 105, 219, 0.2)",
+      }}
+    >
       <div className="flex flex-row gap-2">
-        <img
-          src={avatarPath}
-          alt={user.avatar}
-          className="size-18 rounded-lg"
-        />
-        <div className="flex flex-col text-sm mr-10">
+        <img src={`/avatars/${user.avatar}`} className="size-16 rounded-lg" />
+        <div className="flex flex-col ">
           <span>
-            Points: <span className="text-[#9686ff]">{user.points}</span>
+            Hello, <UserNick user={user} />
           </span>
-          <span>
-            Role: <span className="text-[#9686ff]">{user.role}</span>
-          </span>
-          <div
-            className="mt-2 cursor-pointer hover:opacity-70 select-none"
-            onClick={logout}
-          >
-            Logout
-          </div>
+          <span className="text-gray-400 text-sm">{user.role}</span>
         </div>
       </div>
+      <button
+        className="w-full bg-[#ff47571a] text-sm border-1 border-[#ff47574d] rounded-lg mt-4 p-1 hover:scale-105 font-light cursor-pointer"
+        onClick={logout}
+      >
+        Logout
+      </button>
     </div>
   );
 }
@@ -60,7 +54,7 @@ export default function NavigationBar() {
   const { user, logout } = useUserContext();
 
   return (
-    <nav className="w-full h-13 flex flex-row justify-around text-white absolute bottom-16">
+    <nav className="w-full h-full flex flex-row justify-around text-white absolute items-center">
       <span>
         <Link href="/">LOGO</Link>
       </span>

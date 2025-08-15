@@ -10,7 +10,7 @@ export function TopicHeader() {
       className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6"
       style={{ border: "1px solid rgba(58, 58, 95, 0.29)" }}
     >
-      <h1 className="text-xl ml-2">{title}</h1>
+      <h1 className="text-xl ml-2 capitalize">{title}</h1>
       <div className="bg-[#6161614d] mt-4 h-[1px]"></div>
       <div className="flex flex-row items-center mt-4">
         <img
