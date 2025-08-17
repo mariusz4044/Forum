@@ -57,6 +57,14 @@ function NewPostElement({
   );
 }
 
+function PostClose() {
+  return (
+    <div className="w-full bg-[#ff47571a] text-sm border-1 border-[#ff47574d] rounded-lg text-center p-4 hover:scale-105 font-light cursor-pointer">
+      The topic is closed.
+    </div>
+  );
+}
+
 export default function postsView() {
   const { user } = useUserContext();
   const { topicId } = useParams();
@@ -101,7 +109,10 @@ export default function postsView() {
         </header>
         <main className="mt-10">{posts}</main>
         <footer className=" mt-10 mb-20 ">
-          {user.id && <NewPostElement mutateString={mutateString} />}
+          {user.id && resData.isOpen && (
+            <NewPostElement mutateString={mutateString} />
+          )}
+          {!resData.isOpen && <PostClose />}
         </footer>
       </div>
     </TopicContext>

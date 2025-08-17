@@ -150,8 +150,12 @@ function RatingBox({
   );
 }
 
+function EditedBox({ message }: { message: string }) {
+  return <div className="text-[11px] mt-7 text-gray-400">{message}</div>;
+}
+
 function PostContentBox({ post }: { post: PostProps }) {
-  const { author, createdAt, message, ratingSummary, id } = post;
+  const { author, createdAt, message, ratingSummary, id, editedMessage } = post;
   const { user } = useUserContext();
 
   return (
@@ -163,6 +167,7 @@ function PostContentBox({ post }: { post: PostProps }) {
       </span>
       <div className="mt-3 wrap-anywhere mb-10 whitespace-pre-line">
         {message}
+        {editedMessage && <EditedBox message={editedMessage} />}
       </div>
       <div className="absolute bottom-0 flex flex-row items-center">
         <RatingBox ratingSummary={ratingSummary} postId={id} />

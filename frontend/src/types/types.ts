@@ -11,6 +11,7 @@ export interface PostProps {
   ratingSummary: number;
   createdAt: string;
   message: string;
+  editedMessage?: string;
   id: number;
 }
 
@@ -20,5 +21,6 @@ export interface TopicResponseData {
   posts: PostProps[];
   categoryId: number;
   createdBy: User;
+  isOpen: boolean;
   _count: { count: number };
 }
