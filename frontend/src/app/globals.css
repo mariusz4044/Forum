@@ -205,7 +205,7 @@ input:focus {
 }
 
 a {
-  @apply text-sm z-20 font-medium cursor-pointer hover:text-[#9686ff];
+  @apply text-sm z-20 font-medium cursor-pointer hover:text-blue-500;
 }
 
 * {

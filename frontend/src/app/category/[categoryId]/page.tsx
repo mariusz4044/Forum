@@ -10,18 +10,13 @@ import { Plus } from "lucide-react";
 import { TopicBox } from "@/components/Topic/TopicBox";
 import { JSX, useState } from "react";
 import { useDialogContext } from "@/context/DialogContext";
-
-export interface CreateBy {
-  avatar: string;
-  id: number;
-  name: string;
-}
+import { User } from "@/context/UserContext";
 
 export interface TopicProps {
   createdAt: string;
   id: string;
   title: string;
-  createdBy: CreateBy;
+  createdBy: User;
 }
 
 export default function topicView() {
@@ -88,7 +83,7 @@ export default function topicView() {
           </PageNavigation>
         </header>
         <main>{topicList}</main>
-        <footer>
+        <footer className="mb-6">
           <PageNavigation
             onChangePage={onChangePage}
             currentPage={data.navigation.currentPage}

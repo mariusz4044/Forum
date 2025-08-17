@@ -1,14 +1,10 @@
-import { CreateBy, TopicProps } from "@/app/category/[categoryId]/page";
+import { TopicProps } from "@/app/category/[categoryId]/page";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import Link from "next/link";
+import { UserNick } from "../Utils/UserNick";
+import { User } from "@/context/UserContext";
 
-export function TopicBox({
-  user,
-  topic,
-}: {
-  user: CreateBy;
-  topic: TopicProps;
-}) {
+export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
   return (
     <div
       className="bg-[#1e1e2f]/[.2] rounded-xs px-6 h-20 relative flex flex-row justify-between items-center"
@@ -27,7 +23,8 @@ export function TopicBox({
             {topic.title}
           </Link>
           <span className="text-[11px] text-[#9F9FC9]">
-            Przez {user.name}, {formatDateToRelative(topic.createdAt)}
+            Przez <UserNick user={user} />,{" "}
+            {formatDateToRelative(topic.createdAt)}
           </span>
         </div>
       </div>
