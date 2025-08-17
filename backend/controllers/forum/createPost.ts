@@ -4,6 +4,8 @@ import { createSectionQuery } from "../dbqueries/forum/createSectionQuery";
 import { createPostQuery } from "../dbqueries/forum/createPostQuery";
 import { prisma } from "../../database/connection";
 import { getLastTopicPostQuery } from "../dbqueries/forum/getLastTopicPostQuery";
+import { getUniqueTopicQuery } from "../../controllers/dbqueries/forum/getUniqueTopicQuery";
+import { Topic } from "@prisma/client";
 
 interface PostBody {
   message: string;
@@ -43,6 +45,18 @@ export async function createPost(req: Request, res: Response) {
 
   if (lastPostInTopic?.authorId === user.id && user.role !== "ADMIN") {
     throw new AppError("You can't write posts under a row!");
+  }
+
+  const topic: Topic | null = await getUniqueTopicQuery({
+    where: { id: topicId },
+  });
+
+  if (!topic) {
+    throw new AppError("Topic not found!");
+  }
+
+  if (!topic.isOpen) {
+    throw new AppError("Topic is closed!");
   }
 
   const createdPost = await createPostQuery({
