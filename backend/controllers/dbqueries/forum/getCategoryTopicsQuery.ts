@@ -31,6 +31,7 @@ export async function getCategoryTopicsQuery({
                 name: true,
                 avatar: true,
                 id: true,
+                role: true,
               },
             },
           },

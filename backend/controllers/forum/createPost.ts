@@ -28,14 +28,14 @@ export async function createPost(req: Request, res: Response) {
     throw new AppError(`Message is required!`);
   }
 
-  const nextUserPostTime = new Date(user.lastPostTs);
-  nextUserPostTime.setSeconds(nextUserPostTime.getSeconds() + postDelay);
+  // const nextUserPostTime = new Date(user.lastPostTs);
+  // nextUserPostTime.setSeconds(nextUserPostTime.getSeconds() + postDelay);
 
-  if (nextUserPostTime.getTime() > Date.now() && !isDev) {
-    throw new AppError(
-      `Slow down! Create post is possible every ${postDelay} second!`,
-    );
-  }
+  // if (nextUserPostTime.getTime() > Date.now() && !isDev) {
+  //   throw new AppError(
+  //     `Slow down! Create post is possible every ${postDelay} second!`,
+  //   );
+  // }
 
   const lastPostInTopic = await getLastTopicPostQuery({
     topicId,
