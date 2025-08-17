@@ -22,5 +22,6 @@ export interface TopicResponseData {
   categoryId: number;
   createdBy: User;
   isOpen: boolean;
+  id: number;
   _count: { count: number };
 }
