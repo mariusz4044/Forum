@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppError } from "../../utils/AppError";
 import { editUniquePostQuery } from "../../controllers/dbqueries/forum/editUniquePostQuery";
+import { getFormattedDate } from "../../utils/getFormattedDate";
 
 export async function editPost(req: Request, res: Response) {
   const { postId, message } = req.body;
@@ -12,7 +13,8 @@ export async function editPost(req: Request, res: Response) {
   await editUniquePostQuery({
     where: { id: +postId },
     data: {
-      message,
+      message: `${message}`,
+      editedMessage: `//admin edit ${getFormattedDate()}`,
     },
   });
 

@@ -87,6 +87,7 @@ model Category {
 model Topic {
   id          Int       @id @default(autoincrement())
   title       String
+  isOpen        Boolean   @default(true)
   createdAt   DateTime  @default(now())
   createdById Int
   createdBy   User      @relation(fields: [createdById], references: [id])
@@ -106,6 +107,7 @@ model Post {
   topicId       Int
   topic         Topic      @relation(fields: [topicId], references: [id])
   category      Category[]
+  editedMessage String?
   ratings       Rate[]
   ratingSummary Int        @default(0)
 
