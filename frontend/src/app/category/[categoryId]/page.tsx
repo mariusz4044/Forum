@@ -10,7 +10,7 @@ import { Plus } from "lucide-react";
 import { TopicBox } from "@/components/Topic/TopicBox";
 import { JSX, useState } from "react";
 import { useDialogContext } from "@/context/DialogContext";
-import { User } from "@/context/UserContext";
+import { User, useUserContext } from "@/context/UserContext";
 
 export interface TopicProps {
   createdAt: string;
@@ -20,6 +20,7 @@ export interface TopicProps {
 }
 
 export default function topicView() {
+  const { user } = useUserContext();
   const { categoryId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -76,10 +77,12 @@ export default function topicView() {
             currentPage={data.navigation.currentPage}
             maxPage={data.navigation.maxPage}
           >
-            <ForumButton className="w-38" onClick={createNewTopic}>
-              New Topic
-              <Plus size={12} />
-            </ForumButton>
+            {user.id && (
+              <ForumButton className="w-38" onClick={createNewTopic}>
+                New Topic
+                <Plus size={12} />
+              </ForumButton>
+            )}
           </PageNavigation>
         </header>
         <main>{topicList}</main>

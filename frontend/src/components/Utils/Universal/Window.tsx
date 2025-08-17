@@ -35,9 +35,9 @@ export default function Window({ children, title }: WindowProps) {
     fixed top-2/4 left-1/2 -translate-x-1/2 -translate-y-1/2
     w-sm h-auto bg-[#1a1a2ee6] z-30 rounded-lg p-5 px-8 pb-8"
       >
-        <header className="flex flex-row justify-between items-center relative">
+        <header className="flex flex-col justify-between items-center relative">
           {title && (
-            <div>
+            <div className="w-full flex flex-col items-center">
               <h2 className="text-xl font-medium">{title}</h2>{" "}
               <div className="separator"></div>
             </div>
