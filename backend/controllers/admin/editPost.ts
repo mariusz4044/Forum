@@ -14,7 +14,7 @@ export async function editPost(req: Request, res: Response) {
     where: { id: +postId },
     data: {
       message: `${message}`,
-      editedMessage: `//admin edit ${getFormattedDate()} ${reason ? `| reason: ${reason}` : ""}`,
+      editedMessage: `//Admin Edit ${getFormattedDate()} ${reason ? `| Reason: ${reason}` : ""}`,
     },
   });
 

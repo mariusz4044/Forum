@@ -17,7 +17,7 @@ export default function TopicHeader({
         borderTop: "1px solid #32324f",
       }}
     >
-      <h1 className="text-sm z-20 font-bold">
+      <h1 className="text-sm z-20 font-medium tracking-wider">
         {title}
         {user.role === "ADMIN" && (
           <span className="text-[11px] ml-1 opacity-30">(#{id})</span>

@@ -17,6 +17,7 @@ export interface TopicProps {
   id: string;
   title: string;
   createdBy: User;
+  isOpen: boolean;
 }
 
 export default function topicView() {

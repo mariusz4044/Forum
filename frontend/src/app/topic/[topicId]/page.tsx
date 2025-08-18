@@ -15,6 +15,7 @@ import { PageNavigation } from "@/components/PageNavigation";
 import { PostProps, TopicResponseData } from "@/types/types";
 import { TopicHeader } from "@/components/Topic/TopicHeader";
 import { TopicContext } from "@/context/TopicContext";
+import { Info } from "lucide-react";
 
 function NewPostElement({
   mutateString,
@@ -59,8 +60,9 @@ function NewPostElement({
 
 function PostClose() {
   return (
-    <div className="w-full bg-[#ff47571a] text-sm border-1 border-[#ff47574d] rounded-lg text-center p-4 hover:scale-105 font-light cursor-pointer">
-      The topic is closed.
+    <div className=" flex flex-row gap-3 w-full bg-[#ff47571a] text-sm border-1 border-[#ff47574d] rounded-lg  p-4 hover:scale-105 font-light cursor-pointer">
+      <Info size={18} />
+      <span>The topic is closed.</span>
     </div>
   );
 }
@@ -81,6 +83,10 @@ export default function postsView() {
 
   const resData: TopicResponseData | undefined = data?.data;
   if (!resData || isLoading) return <Loading />;
+
+  if (!resData.id) {
+    return <h1>Topic not exist!</h1>;
+  }
 
   let posts: JSX.Element[] = [];
   resData.posts.forEach((post: PostProps) => {

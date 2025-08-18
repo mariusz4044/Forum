@@ -64,9 +64,11 @@ export default function RegisterWindow() {
             required
           ></FormInput>
         </div>
-        <div className="flex flex-row gap-2 items-center my-4 ml-1">
+        <div className="flex flex-row gap-2 items-center my-4 ml-1 text-sm">
           <input type="checkbox" id="rules-checkbox" required />
-          <label htmlFor="rules-checkbox">Accept terms and conditions</label>
+          <label htmlFor="rules-checkbox" className="mt-0.5">
+            Accept terms and conditions
+          </label>
         </div>
 
         <ClassicButton type="submit" className="w-full">

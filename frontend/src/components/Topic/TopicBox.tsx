@@ -3,11 +3,20 @@ import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import Link from "next/link";
 import { UserNick } from "../Utils/UserNick";
 import { User } from "@/context/UserContext";
+import { MessageSquareOff, SquareX } from "lucide-react";
+
+function TopicClosed() {
+  return (
+    <span className="px-2 rounded-full text-sm bg-[#ff47571a] text-[#f72c3e] border-1 border-[#ff47574d] text-[10px] lowercase">
+      closed
+    </span>
+  );
+}
 
 export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
   return (
     <div
-      className="bg-[#1e1e2f]/[.2] rounded-xs px-6 h-20 relative flex flex-row justify-between items-center"
+      className="bg-[#1e1e2f]/[.2] rounded-xs px-6 h-25 relative flex flex-row justify-between items-center"
       style={{
         borderBottom: "1px solid #a3a3a325",
       }}
@@ -16,13 +25,16 @@ export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
         <img
           src={`/avatars/${user.avatar}`}
           alt="user avatar"
-          className="rounded-xl size-10 opacity-50"
+          className="rounded-xl size-13 opacity-50"
         />
-        <div className="flex flex-col gap-1 text-md">
-          <Link href={`/topic/${topic.id}`} className="capitalize">
-            {topic.title}
+        <div className="flex flex-col gap-1 text-lg">
+          <Link
+            href={`/topic/${topic.id}`}
+            className="capitalize flex flex-row gap-2 items-center"
+          >
+            {topic.title} {!topic.isOpen && <TopicClosed />}
           </Link>
-          <span className="text-[11px] text-[#9F9FC9]">
+          <span className="text-[12px] text-[#9F9FC9]">
             Przez <UserNick user={user} />,{" "}
             {formatDateToRelative(topic.createdAt)}
           </span>

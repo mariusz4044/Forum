@@ -2,7 +2,7 @@ import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { useTopicContext } from "@/context/TopicContext";
 import { UserNick } from "@/components/Utils/UserNick";
 import { useUserContext } from "@/context/UserContext";
-import { CloseTopicButton } from "../Admin/TopicTools";
+import { CloseTopicButton, DelteTopicButton } from "../Admin/TopicTools";
 
 export function TopicHeader() {
   const { title, createdBy, createdAt, id, isOpen } = useTopicContext();
@@ -18,7 +18,10 @@ export function TopicHeader() {
         <h1 className="text-xl ml-2 capitalize">{title}</h1>
         <div>
           {user.role === "ADMIN" && (
-            <CloseTopicButton topicId={id} isOpen={isOpen} />
+            <div className="flex flex-row gap-2">
+              <CloseTopicButton topicId={id} isOpen={isOpen} />
+              <DelteTopicButton topicId={id} />
+            </div>
           )}
         </div>
       </div>

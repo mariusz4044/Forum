@@ -2,6 +2,28 @@ import { fetchData } from "@/functions/fetchData";
 import ForumButton from "../Utils/Buttons/ForumButton";
 import { getSWRKey } from "../Utils/getSWRKey";
 import { useSWRConfig } from "swr";
+import { X, Edit } from "lucide-react";
+
+export function DelteTopicButton({ topicId }: { topicId: number }) {
+  async function deleteTopic() {
+    await fetchData(
+      `/api/topic`,
+      {
+        topicId: +topicId,
+      },
+      "DELETE",
+    );
+  }
+
+  return (
+    <ForumButton onClick={deleteTopic}>
+      <div className="flex flex-row gap-2 items-center">
+        <X size={12} />
+        <span>Delete topic</span>
+      </div>
+    </ForumButton>
+  );
+}
 
 export function CloseTopicButton({
   topicId,
@@ -25,12 +47,11 @@ export function CloseTopicButton({
   }
 
   return (
-    <ForumButton
-      onClick={() => {
-        editTopicStatus();
-      }}
-    >
-      {isOpen ? "Close topic" : "Open Topic"}
+    <ForumButton onClick={editTopicStatus}>
+      <div className="flex flex-row gap-2 items-center">
+        <Edit size={12} />
+        {isOpen ? "Close topic" : "Open Topic"}
+      </div>
     </ForumButton>
   );
 }
