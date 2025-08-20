@@ -12,7 +12,7 @@ import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { fetchData } from "@/functions/fetchData";
 import { PageNavigation } from "@/components/PageNavigation";
 
-import { PostProps, TopicResponseData } from "@/types/types";
+import { PostAuthor, PostProps, TopicResponseData } from "@/types/types";
 import { TopicHeader } from "@/components/Topic/TopicHeader";
 import { TopicContext } from "@/context/TopicContext";
 import { Info } from "lucide-react";
@@ -41,7 +41,7 @@ function NewPostElement({
 
   return (
     <div className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 border-1 border-[#2d2d53] flex flex-row">
-      <PostBoxUserPanel avatar={user.avatar} role={user.role} />
+      <PostBoxUserPanel user={user as PostAuthor} />
       <div className="w-full ml-4 flex flex-col gap-4">
         <b className="text-sm">Add new post:</b>
         <textarea
@@ -102,7 +102,7 @@ export default function postsView() {
 
   return (
     <TopicContext value={resData}>
-      <div className="flex w-[80%] ml-[10%] flex-col mt-10">
+      <div className="flex w-[80%] ml-[10%] flex-col mt-10 max-sm:w-[90%] max-sm:ml-[5%]">
         <header>
           <TopicHeader />
           <div className="mt-2">

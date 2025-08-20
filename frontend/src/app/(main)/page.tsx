@@ -12,6 +12,7 @@ import { PostProps, TopicResponseData } from "@/types/types";
 import { TopicProps } from "../category/[categoryId]/page";
 import { timeAgo } from "@/functions/timeAgo";
 import Link from "next/link";
+import { UserAvatar } from "@/components/Utils/UserAvatar";
 
 export interface LastPost {
   topic: {
@@ -47,7 +48,7 @@ type UserBestPosts = User & {
 function ForumBox({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="min-w-1/3 bg-[#1a1a2ecc] min-h-32 mt-4 rounded-xl"
+      className="min-w-1/3 bg-[#1a1a2ecc] min-h-32 mt-4 rounded-xl max-sm:w-full"
       style={{
         border: "1px solid rgba(86, 105, 219, 0.2)",
       }}
@@ -63,7 +64,7 @@ function ForumBoxHeader({ children }: { children: React.ReactNode }) {
       className="w-full rounded-t-lg h-12 bg-[#1a1a2ecc] flex items-center text-md pl-4 font-medium"
       style={{
         background:
-          "linear-gradient(90deg, rgba(79, 70, 229, 0.8), rgba(139, 92, 246, 0.8))",
+          "linear-gradient(90deg, rgb(55 47 179 / 80%), rgb(52 32 99 / 80%))",
       }}
     >
       <h1>{children}</h1>
@@ -87,11 +88,11 @@ function LastPostStatistic({
   redir: string;
 }) {
   return (
-    <div className="px-4 py-4 border-b-1 border-[#5669db1a]">
-      <div className="flex flex-row gap-2 text-[#94a3b8] text-sm items-center justify-between">
+    <div className="px-4 py-3 border-b-1 border-[#5669db1a]">
+      <div className="flex flex-row gap-2 text-[#94a3b8] text-sm items-center justify-between ">
         <div className="flex flex-row gap-2 items-center ">
-          <img
-            src={`/avatars/${user.avatar}`}
+          <UserAvatar
+            user={user}
             className="size-7 rounded-full"
           />
           <span className="font-medium">
@@ -158,8 +159,8 @@ function PositionRanking({
           {rank}
         </div>
         <div className="flex flex-row gap-2 items-center text-[#e2e8f0] text-sm">
-          <img
-            src={`/avatars/${user.avatar}`}
+          <UserAvatar
+            user={user}
             className="size-5.5 rounded-full"
           />
           <span className="font-medium">
@@ -194,6 +195,7 @@ export default function Home() {
     structure.push(
       <TopicHeader title={section.title} key={section.title} id={section.id} />,
     );
+
     section.categories.forEach((category: Category) => {
       structure.push(
         <Topic
@@ -238,11 +240,11 @@ export default function Home() {
 
   const LastPosts = [];
   for (let i in data.lastPosts) {
-    const post: PostProps & { topic: { id: number } } = data.lastPosts[i];
+    const post: PostProps & { topic: { id: number, title: string } } = data.lastPosts[i];
     LastPosts.push(
       <LastPostStatistic
         user={post.author}
-        title={post.message}
+        title={post.topic.title}
         redir={`/topic/${post.topic.id}`}
         createdAt={post.createdAt}
         key={`poststat-${i}`}
@@ -251,9 +253,9 @@ export default function Home() {
   }
 
   return (
-    <main className="w-full flex justify-center flex-row mt-10 gap-12 mb-10">
-      <div className="w-[65%] h-full ">{structure.length > 0 && structure}</div>
-      <div className="w-[20%] max-w-80 h-full ">
+    <main className="w-full flex justify-center flex-row mt-10 gap-12 mb-10 max-sm:flex-col">
+      <div className="w-[65%] h-full max-sm:w-full max-sm:p-4">{structure.length > 0 && structure}</div>
+      <div className="w-[20%] max-w-80 h-full max-sm:w-full max-sm:max-w-full max-sm:p-4">
         <ForumBox>
           <ForumBoxHeader>💬 Best posters </ForumBoxHeader>
           <ForumBoxContent>{BestPosters}</ForumBoxContent>

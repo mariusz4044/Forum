@@ -6,9 +6,8 @@ import { CloseTopicButton, DelteTopicButton } from "../Admin/TopicTools";
 
 export function TopicHeader() {
   const { title, createdBy, createdAt, id, isOpen } = useTopicContext();
-  console.log(id);
-  const { user } = useUserContext();
 
+  const { user } = useUserContext();
   return (
     <div
       className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6"

@@ -7,6 +7,7 @@ import { User, useUserContext } from "@/context/UserContext";
 
 import Link from "next/link";
 import { UserNick } from "@/components/Utils/UserNick";
+import { UserAvatar } from "@/components/Utils/UserAvatar";
 
 function UserPanel({ user, logout }: { user: User; logout: () => void }) {
   const userIsLoggedIn = !!user.id;
@@ -22,8 +23,6 @@ function UserPanel({ user, logout }: { user: User; logout: () => void }) {
     );
   }
 
-  const avatarPath = `/avatars/${user.avatar}`;
-
   return (
     <div
       className="flex flex-col bg-[#1a1a2ecc] p-4 rounded-xl w-64 w-hauto  relative"
@@ -32,7 +31,7 @@ function UserPanel({ user, logout }: { user: User; logout: () => void }) {
       }}
     >
       <div className="flex flex-row gap-2">
-        <img src={`/avatars/${user.avatar}`} className="size-16 rounded-lg" />
+        <UserAvatar user={user} className="size-16 rounded-lg" />
         <div className="flex flex-col ">
           <span>
             Hello, <UserNick user={user} />
@@ -54,7 +53,7 @@ export default function NavigationBar() {
   const { user, logout } = useUserContext();
 
   return (
-    <nav className="w-full h-full flex flex-row justify-around text-white absolute items-center">
+    <nav className="w-full h-full flex flex-row justify-around text-white absolute items-center max-sm:flex-col">
       <span>
         <Link href="/">LOGO</Link>
       </span>

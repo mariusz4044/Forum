@@ -16,7 +16,7 @@ export function DelteTopicButton({ topicId }: { topicId: number }) {
   }
 
   return (
-    <ForumButton onClick={deleteTopic}>
+    <ForumButton onClick={deleteTopic}className="w-36">
       <div className="flex flex-row gap-2 items-center">
         <X size={12} />
         <span>Delete topic</span>
@@ -47,7 +47,7 @@ export function CloseTopicButton({
   }
 
   return (
-    <ForumButton onClick={editTopicStatus}>
+    <ForumButton onClick={editTopicStatus} className="w-34">
       <div className="flex flex-row gap-2 items-center">
         <Edit size={12} />
         {isOpen ? "Close topic" : "Open Topic"}

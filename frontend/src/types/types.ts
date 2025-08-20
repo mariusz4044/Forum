@@ -1,6 +1,6 @@
 import { User } from "@/context/UserContext";
 
-type PostAuthor = User & {
+export type PostAuthor = User & {
   _count: {
     posts: number;
   };

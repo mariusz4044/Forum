@@ -1,4 +1,4 @@
-import { Rss } from "lucide-react";
+import { MessageCircle, MessageSquarePlus, Rss } from "lucide-react";
 import Link from "next/link";
 
 import { LastPost } from "@/app/(main)/page";
@@ -14,10 +14,10 @@ function MessageCountElement({
   messagesCount: number;
 }): JSX.Element {
   return (
-    <div className="mr-3 flex items-center justify-between">
-      <div className="bg-[#9f9fc90d] rounded-xl py-1 font-bold text-[14px] text-[#fff] flex flex-row items-center justify-center gap-1 w-16">
+    <div className="mr-3 flex items-center justify-between max-sm:hidden">
+      <div className="bg-[#9f9fc90d] rounded-xl py-1 font-bold text-[14px] text-[gray] flex flex-row items-center justify-center gap-1 w-16">
         <span>{messagesCount}</span>
-        <Rss size={14} strokeWidth={3} />
+        <MessageSquarePlus size={13} strokeWidth={3} />
       </div>
     </div>
   );
@@ -66,14 +66,15 @@ export default function Topic({
 
   return (
     <div
-      className="bg-[#1a1a2ecc]/[.5] p-4 my-4 rounded-lg relative flex flex-row pl-4 h-24"
+      className="bg-[#1a1a2ecc]/[1] p-2 my-4 rounded-lg relative flex flex-row pl-4 h-24  max-sm:h-auto"
       style={{
         border: "1px solid rgba(86, 105, 219, 0.2)",
       }}
     >
+      <div className="flex flex-row w-full max-sm:flex-col">
       <div className="flex flex-row w-full">
         {/*topic icon*/}
-        <div className="h-full flex items-center justify-between">
+        <div className="h-full min-w-12 flex items-center justify-between max-sm:py-4">
           <img
             src={iconPath}
             alt="Image Topic"
@@ -81,7 +82,7 @@ export default function Topic({
           />
         </div>
         {/*Topic title and desc*/}
-        <div className="flex flex-col w-full justify-center ml-4 tracking-wide ">
+        <div className="flex flex-col w-full justify-center ml-2 tracking-wide ">
           <Link href={`/category/${categoryId}`}>
             {title}
             {user.role === "ADMIN" && (
@@ -92,8 +93,10 @@ export default function Topic({
           </Link>
           <div className="text-[11px] text-[#9F9FC9] z-20">{description}</div>
         </div>
+      </div>
         {/*Topic last post*/}
-        <div className="flex flex-row mr-8 min-w-64 max-w-64 h-full items-center gap-3 tracking-wide">
+
+        <div className="flex flex-row mr-8 min-w-64 max-w-64 h-full items-center gap-3 tracking-wide max-sm:py-4">
           <MessageCountElement messagesCount={messagesCount} />
           {lastPost?.message && <LastPostElement lastPost={lastPost} />}
         </div>

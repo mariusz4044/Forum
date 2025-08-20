@@ -13,36 +13,31 @@ import { fetchData } from "@/functions/fetchData";
 import { useUserContext } from "@/context/UserContext";
 import { ReportPostElement } from "@/components/Topic/ReportPostElement";
 import { PostTools } from "@/components/Admin/PostTools";
-import { PostProps } from "@/types/types";
+import { PostAuthor, PostProps } from "@/types/types";
 import { useState } from "react";
 import Badge, { BadgeColors } from "@/components/Utils/Universal/Badge";
 import { UserNick } from "@/components/Utils/UserNick";
 import { SWRConfig, useSWRConfig } from "swr";
+import { UserAvatar } from "../Utils/UserAvatar";
 
 export function PostBoxUserPanel({
-  avatar,
-  role,
-  messagesCount,
-  reputation,
+  user
 }: {
-  avatar: string;
-  role: string;
-  messagesCount?: number;
-  reputation?: number;
+  user: PostAuthor
 }) {
   let reputationIcon = Meh;
   let reputationColor: BadgeColors = "gray";
   let roleColor: BadgeColors = "gray";
 
-  if (role === "ADMIN") roleColor = "red";
+  if (user.role === "ADMIN") roleColor = "red";
 
-  if (reputation) {
-    if (reputation >= 5) {
+  if (user.reputation) {
+    if (user.reputation >= 5) {
       reputationColor = "green";
       reputationIcon = ChartNoAxesCombined;
     }
 
-    if (reputation < 0) {
+    if (user.reputation < 0) {
       reputationColor = "red";
       reputationIcon = ShieldAlert;
     }
@@ -55,27 +50,26 @@ export function PostBoxUserPanel({
         borderRight: "1px solid #6161614d",
       }}
     >
-      <img
-        src={`/avatars/${avatar}`}
+      <UserAvatar
+        user={user}
         className="w-24 rounded-xl"
-        alt="user avatar"
       />
       <div className="p-1 mt-3 w-26 flex flex-col gap-2 items-center justify-center">
         <div className="flex flex-col-reverse w-full gap-1">
-          {messagesCount && (
+          {user._count?.posts && (
             <Badge
               color="orange"
               tooltip="User Messages"
               Icon={Send}
-              text={`${messagesCount} messages`}
+              text={`${user._count.posts} messages`}
             />
           )}
-          {reputation !== undefined && (
+          {user.reputation !== undefined && (
             <Badge
               color={reputationColor}
               Icon={reputationIcon}
               tooltip="User Reputatnion"
-              text={`${reputation} reputation`}
+              text={`${user.reputation} reputation`}
             />
           )}
         </div>
@@ -180,6 +174,7 @@ function PostContentBox({ post }: { post: PostProps }) {
 export function PostBox({ postData }: { postData: PostProps }) {
   const { author, id } = postData;
 
+
   return (
     <div
       className="h-auto w-full bg-[#1a1a2ecc]/[0.7] rounded-xl p-6 flex flex-row mt-4 relative"
@@ -188,12 +183,7 @@ export function PostBox({ postData }: { postData: PostProps }) {
         border: "1px solid rgba(86, 105, 219, 0.2)",
       }}
     >
-      <PostBoxUserPanel
-        avatar={author.avatar}
-        role={author.role}
-        messagesCount={author._count.posts}
-        reputation={author.reputation}
-      />
+      <PostBoxUserPanel user={author}/>
       <PostContentBox post={postData} />
       <ReportPostElement postId={id} />
     </div>

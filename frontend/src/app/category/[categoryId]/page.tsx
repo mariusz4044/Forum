@@ -71,7 +71,7 @@ export default function topicView() {
 
   return (
     <main className="w-full flex justify-center items-center flex-row mt-10">
-      <div className="w-[70%] h-full ">
+      <div className="w-[70%] h-full max-sm:w-full max-sm:mx-3">
         <header>
           <PageNavigation
             onChangePage={onChangePage}

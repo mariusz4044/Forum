@@ -3,6 +3,7 @@ import { useDialogContext } from "@/context/DialogContext";
 import { User, useUserContext } from "@/context/UserContext";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { UserNick } from "../Utils/UserNick";
+import { UserAvatar } from "../Utils/UserAvatar";
 
 function BadgeProfile({ text }: { text: string }) {
   return (
@@ -26,13 +27,13 @@ export default function UserProfileWindow() {
     <Window>
       <div className="flex flex-col">
         <header className="pt-6 flex flex-col items-center border-b-1 border-[#5669db1a] pb-8">
-          <img src={`/avatars/${user.avatar}`} className="w-24 rounded-xl" />
+          <UserAvatar user={user} className="w-24 rounded-xl" />
           <span className="text-xl tracking-wider mt-4">
             <UserNick user={user} />
           </span>
           <BadgeProfile text={user.role} />
         </header>
-        <main className="flex items-center flex-row gap-2 mt-6">
+        <main className="flex items-center flex-row gap-2 mt-6 max-sm:flex-col">
           <div className="flex flex-col p-4 bg-[#5669db1a] border-1 border-[#5669db33] rounded-xl w-full items-center">
             <span>💬</span>
             <span>{user.posts}</span>
