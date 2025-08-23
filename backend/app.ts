@@ -4,18 +4,20 @@ import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import cors from "cors";
 
+import { AppErrorProps } from "./utils/AppError";
 import expressSession from "./middleware/express-session";
 import userRoutes from "./routes/userRoutes";
 import validateRequest from "./middleware/requestValidate/validateRequest";
 import getUserIp from "./middleware/getUserIp";
 import forumRoutes from "./routes/forumRoutes";
 import adminRoutes from "./routes/adminRoutes";
-import { AppErrorProps } from "./utils/AppError";
+import captchaRoutes from "./routes/captchaRoutes";
+
 dotenv.config();
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({limit: "512kb"}));
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -27,6 +29,7 @@ app.use(expressSession());
 //Middleware
 app.use("/", validateRequest);
 app.use("/", getUserIp);
+app.use("/api/captcha", captchaRoutes);
 
 //User routes
 app.use("/api/user", userRoutes);
