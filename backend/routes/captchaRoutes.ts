@@ -6,7 +6,7 @@ const router = Router();
 
 declare module "express-session" {
   interface SessionData {
-    captchaAnswer?: string;
+    captchaAnswer?: string|null;
   }
 }
 

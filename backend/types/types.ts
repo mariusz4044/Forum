@@ -7,6 +7,7 @@ export interface RegisterData {
   name: string;
   password: string;
   login: string;
+  captcha: string;
 }
 
 export type PrismaError = {

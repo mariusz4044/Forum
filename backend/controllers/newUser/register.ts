@@ -29,6 +29,9 @@ const registerSchema = z.object({
     .string()
     .min(5, { message: "Minimum password length is 5!" })
     .max(64, { message: "Maximum password length is 64!" }),
+    captcha: z
+    .string()
+    .length(4, { message: "Captcha length is 4!" })
 });
 
 export function validateRegisterData(data: RegisterData): ResponseValidateData {
@@ -44,12 +47,15 @@ export function validateRegisterData(data: RegisterData): ResponseValidateData {
 }
 
 export async function register(req: Request, res: Response) {
-  const { login, name, password }: RegisterData = req.body;
+  const { login, name, password, captcha }: RegisterData = req.body;
   const sessionId = req.session.id;
   const userIp = req.session.userIP ?? null;
 
-  const hashedPassword = await bcrypt.hash(password, 12);
+  if(req.session.captchaAnswer && captcha !== req.session.captchaAnswer) {
+      throw new AppError("Wrong captcha answer", );
+  }
 
+  const hashedPassword = await bcrypt.hash(password, 12);
   const userExist = await checkUserExist(login, name);
 
   if (userExist) {
@@ -84,6 +90,7 @@ export async function register(req: Request, res: Response) {
     //Expres-session not saved if user dont' have data
     await saveExpressSession(req);
     await connectSession(newUser.id, sessionId);
+    req.session.captchaAnswer = null;
 
     return res.status(201).json({
       message: "User created successfully",
