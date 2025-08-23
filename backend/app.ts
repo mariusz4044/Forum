@@ -17,7 +17,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.json({limit: "512kb"}));
+app.use(express.json({ limit: "512kb" }));
 app.use(
   cors({
     origin: "http://localhost:3000",
