@@ -8,6 +8,7 @@ import { User, useUserContext } from "@/context/UserContext";
 import Link from "next/link";
 import { UserNick } from "@/components/Utils/UserNick";
 import { UserAvatar } from "@/components/Utils/UserAvatar";
+import { Settings } from "lucide-react";
 
 function UserPanel({ user, logout }: { user: User; logout: () => void }) {
   const userIsLoggedIn = !!user.id;
@@ -36,7 +37,10 @@ function UserPanel({ user, logout }: { user: User; logout: () => void }) {
           <span>
             Hello, <UserNick user={user} />
           </span>
-          <span className="text-gray-400 text-sm">{user.role}</span>
+          <span className="text-gray-400 text-[12px]">{user.role}</span>
+          <div className="text-gray-400 text-[12px] flex flex-row gap-1 items-center"><Settings size={12}/> 
+          <span>Account settings</span>
+          </div>
         </div>
       </div>
       <button

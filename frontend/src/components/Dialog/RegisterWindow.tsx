@@ -2,13 +2,15 @@ import Window from "@/components/Utils/Universal/Window";
 import ClassicButton from "@/components/Utils/Buttons/ClassicButton";
 import { FormInput } from "@/components/Utils/Universal/FormInput";
 import { fetchData } from "@/functions/fetchData";
-import { toast } from "react-toastify";
 import { useDialogContext } from "@/context/DialogContext";
 import { useUserContext } from "@/context/UserContext";
+import { Captcha } from "@/components/Utils/Captcha";
+import { useRef, useState } from "react";
 
 export default function RegisterWindow() {
   const { open, close } = useDialogContext();
   const { setNewUser } = useUserContext();
+  const [captchaId, setCaptchaId] = useState<number>(1);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -18,16 +20,15 @@ export default function RegisterWindow() {
       name: formData.get("Username"),
       password: formData.get("Password"),
       login: formData.get("Login"),
-      repeatPassword: formData.get("Repeat Password"),
+      captcha: formData.get("captcha"),
     };
-
-    if (data.password !== data.repeatPassword) {
-      return toast.error("Passwords is different!");
-    }
 
     const res = await fetchData("/api/user/register", data);
 
-    if (res.error) return;
+    if (res.error) {
+      setCaptchaId(Date.now());
+      return;
+    }
 
     setNewUser(res.data);
     close();
@@ -57,10 +58,12 @@ export default function RegisterWindow() {
             required
           ></FormInput>
         </div>
-        <div className="form-element">
+        <Captcha key={captchaId} />
+        <div className="form-element mt-2">
           <FormInput
-            name="Repeat Password"
-            placeholder="Repeat your password"
+            name="captcha"
+            hideLabel={true}
+            placeholder="Captcha answer"
             required
           ></FormInput>
         </div>
