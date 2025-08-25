@@ -7,6 +7,7 @@ interface FormInputProps {
   type?: "password" | "text" | "number";
   placeholder?: string;
   height?: number;
+  hideLabel?: boolean;
 }
 
 export function FormInputArea({ ...props }: FormInputProps) {
@@ -32,10 +33,10 @@ export function FormInput({ ...props }: FormInputProps) {
 
   return (
     <div className="flex flex-col my-2">
-      <label htmlFor={inputId} className="label-input text-gray-300">
-        {props.name}
-        {/*{props.required && <span className="required-input">Required</span>}*/}
-      </label>
+        <label htmlFor={inputId} className="label-input text-gray-300">
+            {!props.hideLabel && `${props.name}` }
+            {/*{props.required && <span className="required-input">Required</span>}*/}
+        </label>
       <input id={inputId} className="form-input text-sm" {...props} />
     </div>
   );

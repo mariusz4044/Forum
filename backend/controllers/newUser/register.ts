@@ -47,13 +47,9 @@ export function validateRegisterData(data: RegisterData): ResponseValidateData {
 }
 
 export async function register(req: Request, res: Response) {
-  const { login, name, password, captcha }: RegisterData = req.body;
+  const { login, name, password }: RegisterData = req.body;
   const sessionId = req.session.id;
   const userIp = req.session.userIP ?? null;
-
-  if(req.session.captchaAnswer && captcha !== req.session.captchaAnswer) {
-      throw new AppError("Wrong captcha answer", );
-  }
 
   const hashedPassword = await bcrypt.hash(password, 12);
   const userExist = await checkUserExist(login, name);

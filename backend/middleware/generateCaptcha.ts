@@ -13,6 +13,7 @@ export async function generateCaptcha(): Promise<Captcha> {
     height: 80,
     background: `transparent`,
     noise: 5,
+    ignoreChars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   });
 
   const pngImage = await sharp(Buffer.from(captcha.data)).png().toBuffer();

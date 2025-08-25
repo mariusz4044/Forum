@@ -55,6 +55,7 @@ export default function RegisterWindow() {
           <FormInput
             name="Password"
             placeholder="Enter your password"
+            type="password"
             required
           ></FormInput>
         </div>
