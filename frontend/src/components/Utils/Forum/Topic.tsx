@@ -1,4 +1,4 @@
-import { MessageCircle, MessageSquarePlus, Rss } from "lucide-react";
+import {  MessageSquarePlus} from "lucide-react";
 import Link from "next/link";
 
 import { LastPost } from "@/app/(main)/page";
@@ -7,6 +7,7 @@ import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { useUserContext } from "@/context/UserContext";
 import { UserNick } from "../UserNick";
 import Image from "next/image";
+import { formatShortNumber } from "../formatNumbers";
 
 function MessageCountElement({
   messagesCount,
@@ -16,8 +17,8 @@ function MessageCountElement({
   return (
     <div className="mr-3 flex items-center justify-between max-sm:hidden">
       <div className="bg-[#9f9fc90d] rounded-xl py-1 font-bold text-[14px] text-[gray] flex flex-row items-center justify-center gap-1 w-16">
-        <span>{messagesCount}</span>
-        <MessageSquarePlus size={13} strokeWidth={3} />
+        <span>{formatShortNumber(messagesCount)}</span>
+        <MessageSquarePlus size={13} strokeWidth={2} />
       </div>
     </div>
   );
@@ -82,7 +83,6 @@ export default function Topic({
             alt="Image Topic"
             width={40}
             height={40}
-            placeholder="blur"
             className="opacity-40"
           />
         </div>

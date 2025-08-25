@@ -13,6 +13,7 @@ import { TopicProps } from "../category/[categoryId]/page";
 import { timeAgo } from "@/functions/timeAgo";
 import Link from "next/link";
 import { UserAvatar } from "@/components/Utils/UserAvatar";
+import { formatNumber } from "@/components/Utils/formatNumbers";
 
 export interface LastPost {
   topic: {
@@ -169,7 +170,7 @@ function PositionRanking({
         </div>
       </div>
       <div className="text-[11px] flex items-center gap-0.5">
-        <span className="text-[#8b5cf6] font-medium">{user._count.posts}</span>
+        <span className="text-[#8b5cf6] font-medium">{formatNumber(user._count.posts)}</span>
         <span className="text-[#94a3b8]">posts</span>
       </div>
     </div>
