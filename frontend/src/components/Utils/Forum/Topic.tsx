@@ -4,9 +4,9 @@ import Link from "next/link";
 import { LastPost } from "@/app/(main)/page";
 import { JSX } from "react";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
-import { motion } from "motion/react";
 import { useUserContext } from "@/context/UserContext";
 import { UserNick } from "../UserNick";
+import Image from "next/image";
 
 function MessageCountElement({
   messagesCount,
@@ -26,10 +26,12 @@ function MessageCountElement({
 function LastPostElement({ lastPost }: { lastPost: LastPost }): JSX.Element {
   return (
     <div className="flex flex-row w-full h-full items-center gap-3 tracking-wide">
-      <img
+      <Image
         src={`/avatars/${lastPost.author.avatar}`}
         alt="Avatar"
-        className="rounded-xl w-10 h-10 opacity-60"
+        width={40}
+        height={40}
+        className="rounded-xl opacity-60"
       />
       <div className="flex flex-col text-sm text-[11px] w-32">
         <div className="font-medium whitespace-nowrap cursor-pointer hover:text-[#9686ff] truncate">
@@ -75,10 +77,13 @@ export default function Topic({
       <div className="flex flex-row w-full">
         {/*topic icon*/}
         <div className="h-full min-w-12 flex items-center justify-between max-sm:py-4">
-          <img
-            src={iconPath}
+          <Image
+            src={`/${iconPath}`}
             alt="Image Topic"
-            className="size-10 opacity-40"
+            width={40}
+            height={40}
+            placeholder="blur"
+            className="opacity-40"
           />
         </div>
         {/*Topic title and desc*/}

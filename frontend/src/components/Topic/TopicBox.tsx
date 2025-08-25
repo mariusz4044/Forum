@@ -3,7 +3,7 @@ import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import Link from "next/link";
 import { UserNick } from "../Utils/UserNick";
 import { User } from "@/context/UserContext";
-import { MessageSquareOff, SquareX } from "lucide-react";
+import Image from "next/image"
 
 function TopicClosed() {
   return (
@@ -22,10 +22,12 @@ export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
       }}
     >
       <div className="left-topic flex flex-row gap-4">
-        <img
+        <Image
           src={`/avatars/${user.avatar}`}
           alt="user avatar"
-          className="rounded-xl size-13 opacity-50"
+          width={48}
+          height={48}
+          className="rounded-xl opacity-50"
         />
         <div className="flex flex-col gap-1 text-lg">
           <Link

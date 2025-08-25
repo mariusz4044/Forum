@@ -25,7 +25,7 @@ export function Captcha() {
         </div>
     }
 
-    return <div className="w-full form-input h-24">
-        <img src={captchaBase64} alt="Captcha"  className="size-full" />
+    return <div className="w-full form-input h-24 relative">
+        <Image src={captchaBase64} alt="Captcha" fill  />
     </div>
 }
