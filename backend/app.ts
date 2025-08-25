@@ -12,6 +12,9 @@ import getUserIp from "./middleware/getUserIp";
 import forumRoutes from "./routes/forumRoutes";
 import adminRoutes from "./routes/adminRoutes";
 import captchaRoutes from "./routes/captchaRoutes";
+import { CacheManager } from "./utils/cacheManager";
+import { getInitQuery } from "./controllers/dbqueries/forum/getInitQuery";
+
 
 dotenv.config();
 
@@ -25,6 +28,11 @@ app.use(
   }),
 );
 app.use(expressSession());
+
+//Cache manager
+export const cm = new CacheManager(5000)
+cm.add('forumInit', getInitQuery)
+cm.start()
 
 //Middleware
 app.use("/", validateRequest);

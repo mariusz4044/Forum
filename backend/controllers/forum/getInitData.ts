@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import { getInitQuery } from "../dbqueries/forum/getInitQuery";
+import { cm } from "../../app";
 
 export async function getInitData(req: Request, res: Response) {
-  const initData = await getInitQuery();
-
+  const initData = cm.get('forumInit')
   res.status(200).json(initData);
 }
