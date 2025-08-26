@@ -2,7 +2,7 @@
 
 Modern full-stack internet forum built with React/Next.js frontend and Express.js backend.
 
-©️ Demo: [forum website](http://vps-05b9b595.vps.ovh.net:3001/)
+©️ Demo: [forum.avadi.ovh](https://forum.avadi.ovh)
 
 ## 🔮 Roadmap
 
@@ -143,5 +143,6 @@ NEXT_PUBLIC_API_URL="http://localhost:3001"
 ## 📄 License
 
 This project is licensed under the MIT License.
+
 
 
