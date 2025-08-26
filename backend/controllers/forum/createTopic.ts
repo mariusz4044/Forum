@@ -18,14 +18,6 @@ const topicDelay = parseInt(`${process.env.TOPIC_DELAY_PER_USER}`);
 export async function createTopic(req: Request, res: Response) {
   const { title, categoryId, message }: TopicBody = req.body;
 
-  if (!title) {
-    throw new AppError(`Section title is required!`);
-  }
-
-  if (typeof categoryId !== "number") {
-    throw new AppError(`categoryId id is invalid!`);
-  }
-
   const nextUserTopicTime = new Date(req.user!.lastTopicTs);
   nextUserTopicTime.setSeconds(nextUserTopicTime.getSeconds() + topicDelay);
 

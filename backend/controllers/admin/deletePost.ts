@@ -5,10 +5,6 @@ import { AppError } from "../../utils/AppError";
 export async function deletePost(req: Request, res: Response) {
   const { postId } = req.body;
 
-  if (typeof postId !== "number") {
-    throw new AppError(`Provide correct type postId!=${typeof postId}`);
-  }
-
   await deletePostQuery({
     postId: postId,
   });

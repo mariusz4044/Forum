@@ -9,16 +9,50 @@ import { createPost } from "../controllers/forum/createPost";
 import { getCategoryTopics } from "../controllers/forum/getCategoryTopics";
 import { getPosts } from "../controllers/forum/getPosts";
 import { createRate } from "../controllers/forum/createRate";
+import { validateBody } from "../middleware/validateBody";
+import {
+  createCategorySchema,
+  createPostSchema,
+  createRateSchema,
+  createSectionSchema,
+  createTopicSchema,
+  deleteAllPostsSchema,
+} from "../middleware/zodSchemas/schemas";
 
 const router = Router();
 
 router.get("/", getInitData);
 router.get("/topic/:id", getPosts);
 router.get("/category/:id", getCategoryTopics);
-router.post("/rate", authUser, createRate);
-router.post("/post/create", authUser, createPost);
-router.post("/section/create", authAdmin, createSection);
-router.post("/category/create", authAdmin, createCategory);
-router.post("/topic/create", authUser, createTopic);
+
+router.post("/rate", validateBody(createRateSchema), authUser, createRate);
+
+router.post(
+  "/post/create",
+  validateBody(createPostSchema),
+  authUser,
+  createPost,
+);
+
+router.post(
+  "/section/create",
+  validateBody(createSectionSchema),
+  authAdmin,
+  createSection,
+);
+
+router.post(
+  "/category/create",
+  validateBody(createCategorySchema),
+  authAdmin,
+  createCategory,
+);
+
+router.post(
+  "/topic/create",
+  validateBody(createTopicSchema),
+  authUser,
+  createTopic,
+);
 
 export default router;

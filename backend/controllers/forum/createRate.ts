@@ -13,18 +13,6 @@ export interface RateBody {
 export async function createRate(req: Request, res: Response) {
   const { rate, postId }: RateBody = req.body;
 
-  if (typeof rate !== "number") {
-    throw new AppError(`Rate is invalid type ${typeof rate}!`);
-  }
-
-  if (typeof postId !== "number") {
-    throw new AppError(`postId is invalid type ${typeof rate}!`);
-  }
-
-  if (rate !== 1 && rate !== -1) {
-    throw new AppError(`Rate is invalid!`);
-  }
-
   const isRated = await prisma.rate.findFirst({
     where: { postId, authorId: req.user!.id },
   });

@@ -13,18 +13,6 @@ interface SectionBody {
 export async function createCategory(req: Request, res: Response) {
   const { title, description, roleRequire, sectionId }: SectionBody = req.body;
 
-  if (!title) {
-    throw new AppError(`Section title is required!`);
-  }
-
-  if (!description) {
-    throw new AppError(`Section description is required!`);
-  }
-
-  if (isNaN(Number(sectionId))) {
-    throw new AppError(`Section id is invalid!`);
-  }
-
   const createdSection = await createCategoryQuery({
     title: title,
     createdById: req.user!.id,

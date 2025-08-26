@@ -19,6 +19,7 @@ import Badge, { BadgeColors } from "@/components/Utils/Universal/Badge";
 import { UserNick } from "@/components/Utils/UserNick";
 import { SWRConfig, useSWRConfig } from "swr";
 import { UserAvatar } from "../Utils/UserAvatar";
+import { formatShortNumber } from "../Utils/formatNumbers";
 
 export function PostBoxUserPanel({
   user
@@ -61,7 +62,7 @@ export function PostBoxUserPanel({
               color="orange"
               tooltip="User Messages"
               Icon={Send}
-              text={`${user._count.posts} messages`}
+              text={`${formatShortNumber(user._count.posts)} messages`}
             />
           )}
           {user.reputation !== undefined && (

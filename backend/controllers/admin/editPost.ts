@@ -6,10 +6,6 @@ import { getFormattedDate } from "../../utils/getFormattedDate";
 export async function editPost(req: Request, res: Response) {
   const { postId, message, reason } = req.body;
 
-  if (typeof postId !== "number") {
-    throw new AppError(`Provide correct type postId!=${typeof postId}`);
-  }
-
   await editUniquePostQuery({
     where: { id: +postId },
     data: {

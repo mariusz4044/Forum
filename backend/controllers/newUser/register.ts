@@ -12,42 +12,13 @@ import { checkUserExist } from "../dbqueries/user/checkUserExist";
 import forumConfig from "../../forum.config";
 const { USER_ACCOUNTS_LIMIT } = forumConfig;
 
-import { ResponseValidateData, RegisterData } from "../../types/types";
+import { RegisterData } from "../../types/types";
 import { connectSession } from "../dbqueries/user/connectSession";
 import { saveExpressSession } from "../../utils/saveExpressSession";
 
-const registerSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: "Minimum name length is 3!" })
-    .max(35, { message: "Maximum name length is 35!" }),
-  login: z
-    .string()
-    .min(3, { message: "Minimum login length is 3!" })
-    .max(18, { message: "Maximum login length is 18!" }),
-  password: z
-    .string()
-    .min(5, { message: "Minimum password length is 5!" })
-    .max(64, { message: "Maximum password length is 64!" }),
-    captcha: z
-    .string()
-    .length(4, { message: "Captcha length is 4!" })
-});
-
-export function validateRegisterData(data: RegisterData): ResponseValidateData {
-  const result = registerSchema.safeParse(data);
-
-  if (!result.success) {
-    const error = JSON.parse(result.error.message);
-    const firstError = error[0];
-    return { error: firstError.message };
-  }
-
-  return { success: "OK" };
-}
-
 export async function register(req: Request, res: Response) {
   const { login, name, password }: RegisterData = req.body;
+
   const sessionId = req.session.id;
   const userIp = req.session.userIP ?? null;
 

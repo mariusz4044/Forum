@@ -4,6 +4,7 @@ import { User, useUserContext } from "@/context/UserContext";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { UserNick } from "../Utils/UserNick";
 import { UserAvatar } from "../Utils/UserAvatar";
+import { formatNumber, formatShortNumber } from "../Utils/formatNumbers";
 
 function BadgeProfile({ text }: { text: string }) {
   return (
@@ -36,7 +37,7 @@ export default function UserProfileWindow() {
         <main className="flex items-center flex-row gap-2 mt-6 max-sm:flex-col">
           <div className="flex flex-col p-4 bg-[#5669db1a] border-1 border-[#5669db33] rounded-xl w-full items-center">
             <span>💬</span>
-            <span>{user.posts}</span>
+            <span>{formatNumber(user.posts)}</span>
             <span className="uppercase text-sm text-white/[0.5]">Messages</span>
           </div>
           <div className="flex flex-col scroll-p-1 p-4 bg-[#5669db1a] border-1 border-[#5669db33] rounded-xl w-full items-center">

@@ -23,15 +23,15 @@ export default function BanUserWindow() {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const dataForm = {
-      reson: formData.get("Reason"),
-      userId: formData.get("User ID"),
-      banLength: formData.get("Length (mins)"),
+      reason: formData.get("Reason") as string,
+      userId: formData.get("User ID") as string,
+      banLength: formData.get("Length (mins)") as string,
     };
 
     await fetchData("/api/user/ban", {
-      userId: dataForm?.userId,
-      reason: dataForm.reson,
-      banLength: dataForm.banLength,
+      userId: +dataForm.userId,
+      reason: dataForm.reason,
+      banLength: +dataForm.banLength,
     });
 
     reloadSwrFetch();
@@ -44,9 +44,9 @@ export default function BanUserWindow() {
         <div className="form-element">
           <FormInput
             name="User ID"
-            type="number"
             defaultValue={post.author.id!}
             height={32}
+            type="number"
           ></FormInput>
           <FormInput
             name="Reason"

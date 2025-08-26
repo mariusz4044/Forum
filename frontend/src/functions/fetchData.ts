@@ -17,6 +17,7 @@ interface ResponseProps {
 
 const tostOptions = {
   theme: "dark",
+  style: { whiteSpace: "pre-line" },
 };
 
 export const fetchData = async (

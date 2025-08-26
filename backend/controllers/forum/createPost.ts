@@ -22,14 +22,6 @@ export async function createPost(req: Request, res: Response) {
 
   const user = req.user!;
 
-  if (isNaN(Number(topicId))) {
-    throw new AppError(`Not found topic id: ${topicId}!`);
-  }
-
-  if (!message) {
-    throw new AppError(`Message is required!`);
-  }
-
   // const nextUserPostTime = new Date(user.lastPostTs);
   // nextUserPostTime.setSeconds(nextUserPostTime.getSeconds() + postDelay);
 

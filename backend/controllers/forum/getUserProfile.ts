@@ -13,8 +13,8 @@ export async function getUserProfile(req: Request, res: Response) {
   const { userId } = req.params;
   const parsedId = parseInt(userId);
 
-  if (typeof parsedId !== "number") {
-    throw new AppError("userId is number!");
+  if (!userId) {
+    throw new AppError("User does not exist");
   }
 
   const user: UserWithPostCount | false = await getUniqueUser({

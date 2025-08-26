@@ -16,7 +16,7 @@ function MessageCountElement({
 }): JSX.Element {
   return (
     <div className="mr-3 flex items-center justify-between max-sm:hidden">
-      <div className="bg-[#9f9fc90d] rounded-xl py-1 font-bold text-[14px] text-[gray] flex flex-row items-center justify-center gap-1 w-16">
+      <div className="bg-[#9f9fc90d] rounded-xl py-1 font-bold text-[14px] text-[gray] flex flex-row items-center justify-center gap-1 w-18">
         <span>{formatShortNumber(messagesCount)}</span>
         <MessageSquarePlus size={13} strokeWidth={2} />
       </div>
