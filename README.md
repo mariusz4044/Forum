@@ -1,16 +1,17 @@
-﻿# Project Setup Guide
+﻿# Internet Forum
 
-Welcome to the project! This guide provides comprehensive instructions for setting up, running, and understanding the core technologies used in this application.
+Modern full-stack internet forum built with React/Next.js frontend and Express.js backend.
 
-### TODO:
+## 🚀 Features
+
+### ✅ Implemented
 
 #### General
 - [x] ~~Login / Register~~
 - [x] ~~User session~~
 - [x] ~~Ban system~~
 - [x] ~~User profiles~~
-- [ ] User Settings
-- [x] Admin moderation system
+- [x] ~~Admin moderation system~~
 
 #### Home page
 - [x] ~~Topics and sections~~
@@ -22,80 +23,145 @@ Welcome to the project! This guide provides comprehensive instructions for setti
 - [x] ~~Pagination system~~
 - [x] ~~Post system~~
 - [x] ~~Ratings system~~
+
+### 🔄 In Progress
+- [ ] Mobile version (50% complete)
+
+### 📋 Planned Features
+- [ ] User Settings
 - [ ] Reporting post system
+- [ ] Post search engine
 
-
----
-
-## 🚀 Technologies Used
-
-This project leverages a modern and robust web development stack, ensuring a scalable, maintainable, and efficient application for both the frontend and backend.
-
-### Frontend
-
-| Technology        | Description                                                                 |
-| :---------------- | :-------------------------------------------------------------------------- |
-| **React** | The latest version of the powerful JavaScript library for building dynamic and interactive user interfaces. |
-| **Nuxt.js** | A progressive Vue.js framework for building universal (SSR) applications. It provides a structured approach to frontend development. *(Note: While React is the primary UI library, Nuxt.js is included as per project requirements, potentially for specific features or a multi-framework setup.)* |
-| **TypeScript** | A strongly typed superset of JavaScript that compiles to plain JavaScript. It enhances code quality, readability, and helps catch errors during development. |
+## 🛠️ Tech Stack
 
 ### Backend
+- **Express.js** - Web framework
+- **Prisma** - Database ORM
+- **TypeScript** - Type-safe JavaScript
+- **CORS** - Cross-Origin Resource Sharing
+- **Express Session** - Session management
 
-| Technology        | Description                                                                 |
-| :---------------- | :-------------------------------------------------------------------------- |
-| **Node.js** | A JavaScript runtime built on Chrome's V8 engine, enabling server-side execution of JavaScript for high-performance and scalable applications. |
-| **Prisma** | A next-generation ORM (Object-Relational Mapper) that provides a type-safe database client, making database interactions intuitive and efficient. |
-| **express-session** | A widely used middleware for Express.js to manage user sessions, crucial for handling authentication states and user data across requests. |
-| **Zod** | A TypeScript-first schema declaration and validation library. It ensures robust data integrity by validating incoming data against predefined schemas. |
-| **TypeScript** | Employed across the entire backend codebase to enforce type safety, improve code maintainability, and provide a better developer experience. |
+### Frontend
+- **Next.js 15** - React framework with App Router
+- **React 19** - UI library
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Utility-first CSS framework
+- **SWR** - Data fetching library
+- **Framer Motion** - Animation library
+- **Lucide React** - Icon library
 
----
-
-## 🛠️ Getting Started
-
-Follow these steps to get the project up and running on your local machine.
+## 📦 Installation
 
 ### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+- Database (PostgreSQL, MySQL, or SQLite)
 
-Before you begin, ensure you have the following installed:
+### Setup
 
-* [Node.js](https://nodejs.org/en/download/) (LTS version recommended)
-* [npm](https://www.npmjs.com/get-npm) (comes with Node.js) or [Yarn](https://yarnpkg.com/getting-started/install)
-* A code editor like [VS Code](https://code.visualstudio.com/)
-
-### Installation
-
-1.  **Clone the repository:**
-
-    ```bash
-    git clone ...
-    cd ...
-    ```
-
-2.  **Install dependencies:**
-    Navigate into both the `frontend` and `backend` directories (or wherever your `package.json` files are located) and install their respective dependencies:
-
-    ```bash
-    # For the frontend directory
-    cd frontend
-    npm install # or yarn install
-    cd ..
-
-    # For the backend directory
-    cd backend
-    npm install # or yarn install
-    cd ..
-    ```
-
-    *(Adjust directory names if your project structure is different.)*
-
-### Running the Project
-
-#### Frontend
-
-To start the development server for the frontend application:
-
+1. **Clone the repository**
 ```bash
-cd frontend # Navigate to your frontend directory
+git clone <repository-url>
+cd forum-project
+```
 
-npm run dev
+2. **Install dependencies**
+```bash
+npm install
+```
+
+3. **Setup Backend**
+```bash
+cd backend
+# Configure your database connection in .env
+# Run Prisma migrations
+npx prisma migrate dev
+npx prisma generate
+```
+
+4. **Setup Frontend**
+```bash
+cd frontend
+# Configure environment variables in .env.local
+```
+
+5. **Start the development servers**
+```bash
+# From root directory
+npm start
+```
+
+This will start both backend and frontend servers concurrently.
+
+## 🚦 Available Scripts
+
+- `npm start` - Start both backend and frontend servers
+- `npm run start:backend` - Start only backend server
+- `npm run start:frontend` - Start only frontend server
+
+### Backend Scripts
+- `npm run ts` - Start TypeScript development server
+
+### Frontend Scripts
+- `npm run dev` - Start Next.js development server with Turbopack
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+
+## 📁 Project Structure
+
+```
+├── backend/          # Express.js backend
+│   ├── prisma/      # Database schema and migrations
+│   └── src/         # Backend source code
+├── frontend/        # Next.js frontend
+│   ├── src/         # Frontend source code
+│   └── public/      # Static assets
+└── package.json     # Root package configuration
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+
+#### Backend (.env)
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/forum"
+SESSION_SECRET="super secret cookies"
+NODE_ENV="development"
+
+# Forum settings
+POST_DELAY_PER_USER=3
+TOPIC_DELAY_PER_USER=60
+
+# Forum page settings
+TOPIC_PER_PAGE=10
+POSTS_PER_PAGE=10
+```
+
+#### Frontend (.env.local)
+```env
+NEXT_PUBLIC_API_URL="http://localhost:3001"
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🔮 Roadmap
+
+- [ ] Complete mobile responsiveness
+- [ ] Advanced search functionality
+- [ ] Real-time notifications
+- [ ] File upload system
+- [ ] Private messaging
+- [ ] Dark mode theme
+- [ ] API documentation
+- [ ] Unit tests coverage
