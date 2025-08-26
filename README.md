@@ -40,6 +40,7 @@ Modern full-stack internet forum built with React/Next.js frontend and Express.j
 - **TypeScript** - Type-safe JavaScript
 - **CORS** - Cross-Origin Resource Sharing
 - **Express Session** - Session management
+- **Zod** - Runtime schema validation
 
 ### Frontend
 - **Next.js 15** - React framework with App Router
@@ -164,4 +165,5 @@ This project is licensed under the MIT License.
 - [ ] Private messaging
 - [ ] Dark mode theme
 - [ ] API documentation
+
 - [ ] Unit tests coverage
