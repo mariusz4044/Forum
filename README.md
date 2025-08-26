@@ -2,35 +2,33 @@
 
 Modern full-stack internet forum built with React/Next.js frontend and Express.js backend.
 
-## 🚀 Features
+©️ Demo: [forum website](http://vps-05b9b595.vps.ovh.net:3001/)
 
-### ✅ Implemented
+## 🔮 Roadmap
 
-#### General
-- [x] ~~Login / Register~~
-- [x] ~~User session~~
-- [x] ~~Ban system~~
-- [x] ~~User profiles~~
-- [x] ~~Admin moderation system~~
+**Done:**
+- [x] Registration/Login
+- [x] Forum homepage (topics/sections/statistics)
+- [x] Creating topics
+- [x] Adding posts to topics
+- [x] User profiles
+- [x] Pagination system for topics and posts
+- [x] Post rating system
+- [x] Admin menu
+  - [x] Deleting posts
+  - [x] Deleting all posts from a user
+  - [x] Banning users
+  - [x] Closing topics
+  - [x] Deleting topics
+  - [x] Editing user posts
+- [x] Topic caching system
 
-#### Home page
-- [x] ~~Topics and sections~~
-- [x] ~~Show Last post in section~~
-- [x] ~~Right panel (statistics)~~
-
-#### Forum page
-- [x] ~~Topic system~~
-- [x] ~~Pagination system~~
-- [x] ~~Post system~~
-- [x] ~~Ratings system~~
-
-### 🔄 In Progress
+**In Progress:**
 - [ ] Mobile version (50% complete)
-
-### 📋 Planned Features
-- [ ] User Settings
-- [ ] Reporting post system
+- [ ] User settings
+- [ ] Reporting system
 - [ ] Post search engine
+
 
 ## 🛠️ Tech Stack
 
@@ -102,23 +100,13 @@ This will start both backend and frontend servers concurrently.
 
 ### Backend Scripts
 - `npm run ts` - Start TypeScript development server
-
+- `npm run db-build` - Run prisma migration & push
+- `npm run db-client` - Start prisma client
+  
 ### Frontend Scripts
 - `npm run dev` - Start Next.js development server with Turbopack
 - `npm run build` - Build for production
 - `npm run lint` - Run ESLint
-
-## 📁 Project Structure
-
-```
-├── backend/          # Express.js backend
-│   ├── prisma/      # Database schema and migrations
-│   └── src/         # Backend source code
-├── frontend/        # Next.js frontend
-│   ├── src/         # Frontend source code
-│   └── public/      # Static assets
-└── package.json     # Root package configuration
-```
 
 ## 🔧 Configuration
 
@@ -156,15 +144,4 @@ NEXT_PUBLIC_API_URL="http://localhost:3001"
 
 This project is licensed under the MIT License.
 
-## 🔮 Roadmap
-
-- [ ] Complete mobile responsiveness
-- [ ] Advanced search functionality
-- [ ] Real-time notifications
-- [ ] File upload system
-- [ ] Private messaging
-- [ ] Dark mode theme
-- [ ] API documentation
-
-- [ ] Unit tests coverage
 
