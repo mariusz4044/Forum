@@ -62,7 +62,7 @@ Modern full-stack internet forum built with React/Next.js frontend and Express.j
 
 1. **Clone the repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/mariusz4044/Forum
 cd forum-project
 ```
 
@@ -167,3 +167,4 @@ This project is licensed under the MIT License.
 - [ ] API documentation
 
 - [ ] Unit tests coverage
+
