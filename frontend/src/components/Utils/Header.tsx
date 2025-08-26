@@ -6,7 +6,7 @@ export default function Header() {
       id={"header"}
       className="h-64 w-full bg-cover bg-center relative"
       style={{
-        backgroundImage: `url("/images/header_graphics_bg.jpg")`,
+        backgroundImage: `url("/images/header_graphics_bg.webp")`,
       }}
     >
       <NavigationBar />

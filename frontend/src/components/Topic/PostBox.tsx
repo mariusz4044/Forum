@@ -21,11 +21,7 @@ import { SWRConfig, useSWRConfig } from "swr";
 import { UserAvatar } from "../Utils/UserAvatar";
 import { formatShortNumber } from "../Utils/formatNumbers";
 
-export function PostBoxUserPanel({
-  user
-}: {
-  user: PostAuthor
-}) {
+export function PostBoxUserPanel({ user }: { user: PostAuthor }) {
   let reputationIcon = Meh;
   let reputationColor: BadgeColors = "gray";
   let roleColor: BadgeColors = "gray";
@@ -51,10 +47,7 @@ export function PostBoxUserPanel({
         borderRight: "1px solid #6161614d",
       }}
     >
-      <UserAvatar
-        user={user}
-        className="w-24 rounded-xl"
-      />
+      <UserAvatar user={user} className="w-24 rounded-xl" />
       <div className="p-1 mt-3 w-26 flex flex-col gap-2 items-center justify-center">
         <div className="flex flex-col-reverse w-full gap-1">
           {user._count?.posts && (
@@ -62,7 +55,7 @@ export function PostBoxUserPanel({
               color="orange"
               tooltip="User Messages"
               Icon={Send}
-              text={`${formatShortNumber(user._count.posts)} messages`}
+              text={`${formatShortNumber(user._count.posts)} posts`}
             />
           )}
           {user.reputation !== undefined && (
@@ -70,7 +63,7 @@ export function PostBoxUserPanel({
               color={reputationColor}
               Icon={reputationIcon}
               tooltip="User Reputatnion"
-              text={`${user.reputation} reputation`}
+              text={`${user.reputation} prestige`}
             />
           )}
         </div>
@@ -175,7 +168,6 @@ function PostContentBox({ post }: { post: PostProps }) {
 export function PostBox({ postData }: { postData: PostProps }) {
   const { author, id } = postData;
 
-
   return (
     <div
       className="h-auto w-full bg-[#1a1a2ecc]/[0.7] rounded-xl p-6 flex flex-row mt-4 relative"
@@ -184,7 +176,7 @@ export function PostBox({ postData }: { postData: PostProps }) {
         border: "1px solid rgba(86, 105, 219, 0.2)",
       }}
     >
-      <PostBoxUserPanel user={author}/>
+      <PostBoxUserPanel user={author} />
       <PostContentBox post={postData} />
       <ReportPostElement postId={id} />
     </div>

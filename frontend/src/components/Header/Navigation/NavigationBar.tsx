@@ -9,6 +9,7 @@ import Link from "next/link";
 import { UserNick } from "@/components/Utils/UserNick";
 import { UserAvatar } from "@/components/Utils/UserAvatar";
 import { Settings } from "lucide-react";
+import Image from "next/image";
 
 function UserPanel({ user, logout }: { user: User; logout: () => void }) {
   const userIsLoggedIn = !!user.id;
@@ -38,8 +39,9 @@ function UserPanel({ user, logout }: { user: User; logout: () => void }) {
             Hello, <UserNick user={user} />
           </span>
           <span className="text-gray-400 text-[12px]">{user.role}</span>
-          <div className="text-gray-400 text-[12px] flex flex-row gap-1 items-center"><Settings size={12}/> 
-          <span>Account settings</span>
+          <div className="text-gray-400 text-[12px] flex flex-row gap-1 items-center">
+            <Settings size={12} />
+            <span>Account settings</span>
           </div>
         </div>
       </div>
@@ -57,9 +59,11 @@ export default function NavigationBar() {
   const { user, logout } = useUserContext();
 
   return (
-    <nav className="w-full h-full flex flex-row justify-around text-white absolute items-center max-sm:flex-col">
-      <span>
-        <Link href="/">LOGO</Link>
+    <nav className="w-[75%] ml-[7%] h-full flex flex-row text-white justify-between absolute items-center max-sm:flex-col">
+      <span className="size-56 relative hover:opacity-50">
+        <Link href="/">
+          <Image src="/images/logo.webp" alt="Logo forum" fill />
+        </Link>
       </span>
       <UserPanel user={user} logout={logout} />
     </nav>
