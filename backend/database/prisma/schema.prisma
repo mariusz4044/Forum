@@ -70,6 +70,7 @@ model Section {
 
 model Category {
   id          Int      @id @default(autoincrement())
+  image       String   @default("topic1.png")
   title       String
   description String
   createdAt   DateTime @default(now())
@@ -87,7 +88,7 @@ model Category {
 model Topic {
   id          Int       @id @default(autoincrement())
   title       String
-  isOpen        Boolean   @default(true)
+  isOpen      Boolean   @default(true)
   createdAt   DateTime  @default(now())
   createdById Int
   createdBy   User      @relation(fields: [createdById], references: [id])

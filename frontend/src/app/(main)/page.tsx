@@ -27,6 +27,7 @@ export interface LastPost {
 
 interface Category extends LastPost {
   id: number;
+  image: string;
   title: string;
   description: string;
   _count: {
@@ -203,7 +204,7 @@ export default function Home() {
           title={category.title}
           categoryId={category.id}
           description={category.description}
-          iconPath="TopicIcons/topic1.png"
+          iconPath={`TopicIcons/${category.image}`}
           messagesCount={category._count.topics}
           lastPost={category.lastPost}
           key={`${category.id}-${category.title}`}
