@@ -63,6 +63,9 @@ export default function topicView() {
   }
 
   function onChangePage(newPage: number) {
+    if (data.navigation.maxPage < newPage) return;
+    if (newPage < 1) return;
+
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", newPage.toString());
     router.push(`?${params.toString()}`);

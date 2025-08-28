@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { ChevronsLeft, ChevronsRight } from "lucide-react";
 
 function PageNumberElement({
   pageNumber,
@@ -16,7 +17,7 @@ function PageNumberElement({
 
   return (
     <div
-      className={`py-1 px-3 bg-[#313149]/[0.2] text-sm cursor-pointer rounded-lg ${activeClass} select-none hover:bg-[#313149]/[0.3]`}
+      className={`py-1 px-3 bg-[#313149]/[0.2] text-sm cursor-pointer rounded-lg ${activeClass} select-none hover:bg-blue-500/[0.3]`}
       onClick={() => {
         onChangePage(pageNumber);
       }}
@@ -72,7 +73,14 @@ export function PageNavigation({
       className="bg-[#1e1e2f]/[.8] p-4 h-14 rounded-lg relative flex flex-row justify-between items-center"
       style={styles}
     >
-      <div className="flex flex-row gap-1">
+      <div className="flex flex-row gap-1 items-center justify-center">
+        <ChevronsLeft
+          className="no-select cursor-pointer hover:scale-75"
+          size={18}
+          onClick={() => {
+            onChangePage(currentPage - 1);
+          }}
+        />
         {pagesTruncated.map((pageNumber) => (
           <PageNumberElement
             pageNumber={pageNumber}
@@ -81,15 +89,22 @@ export function PageNavigation({
             onChangePage={onChangePage}
           />
         ))}
-        <div className="ml-2">
-          {currentPage < maxPage - 5 && (
+        {currentPage < maxPage - 5 && (
+          <div className="ml-5">
             <PageNumberElement
               pageNumber={maxPage}
               isActive={false}
               onChangePage={onChangePage}
             />
-          )}
-        </div>
+          </div>
+        )}
+        <ChevronsRight
+          className="no-select cursor-pointer hover:scale-75"
+          size={18}
+          onClick={() => {
+            onChangePage(currentPage + 1);
+          }}
+        />
       </div>
       {children}
     </div>
