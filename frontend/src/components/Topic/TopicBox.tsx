@@ -3,7 +3,9 @@ import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import Link from "next/link";
 import { UserNick } from "../Utils/UserNick";
 import { User } from "@/context/UserContext";
-import Image from "next/image"
+import Image from "next/image";
+import { formatShortNumber } from "@/components/Utils/formatNumbers";
+import { MessageCircle } from "lucide-react";
 
 function TopicClosed() {
   return (
@@ -37,10 +39,14 @@ export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
             {topic.title} {!topic.isOpen && <TopicClosed />}
           </Link>
           <span className="text-[12px] text-[#9F9FC9]">
-            Przez <UserNick user={user} />,{" "}
+            From <UserNick user={user} />,{" "}
             {formatDateToRelative(topic.createdAt)}
           </span>
         </div>
+      </div>
+      <div className="bg-[#9f9fc90d] rounded-xl py-1 font-medium text-[14px] text-[gray] flex flex-row items-center justify-center gap-2 min-w-24 mr-12 select-none">
+        <span>{formatShortNumber(topic._count.posts)} posts</span>
+        <MessageCircle size={12} />
       </div>
     </div>
   );

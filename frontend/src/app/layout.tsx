@@ -52,7 +52,7 @@ function Content({ children }: { children: React.ReactNode }) {
       {/*Router view*/}
       {children}
       {/*Dialogs*/}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {mode === "login" && <LoginWindow />}
         {mode === "register" && <RegisterWindow />}
         {mode === "topic" && <NewTopicWindow />}

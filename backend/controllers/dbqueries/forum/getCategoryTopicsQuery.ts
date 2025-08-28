@@ -26,6 +26,11 @@ export async function getCategoryTopicsQuery({
           skip,
           take,
           include: {
+            _count: {
+              select: {
+                posts: true,
+              },
+            },
             createdBy: {
               select: {
                 name: true,

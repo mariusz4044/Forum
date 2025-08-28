@@ -18,6 +18,7 @@ export interface TopicProps {
   title: string;
   createdBy: User;
   isOpen: boolean;
+  _count: { posts: number };
 }
 
 export default function topicView() {
