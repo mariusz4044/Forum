@@ -16,6 +16,7 @@ function TopicClosed() {
 }
 
 export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
+  console.log(topic.postsCount)
   return (
     <div
       className="bg-[#1e1e2f]/[.2] rounded-xs px-6 h-25 relative flex flex-row justify-between items-center"
@@ -45,7 +46,7 @@ export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
         </div>
       </div>
       <div className="bg-[#9f9fc90d] rounded-xl py-1 font-medium text-[14px] text-[gray] flex flex-row items-center justify-center gap-2 min-w-24 mr-12 select-none">
-        <span>{formatShortNumber(topic._count.posts)} posts</span>
+        <span>{formatShortNumber(topic.postsCount)} posts</span>
         <MessageCircle size={12} />
       </div>
     </div>

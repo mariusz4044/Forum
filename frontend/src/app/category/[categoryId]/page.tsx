@@ -8,7 +8,7 @@ import Loading from "@/components/Utils/Universal/Loading";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { Plus } from "lucide-react";
 import { TopicBox } from "@/components/Topic/TopicBox";
-import { JSX, useState } from "react";
+import { JSX, useRef, useState } from "react";
 import { useDialogContext } from "@/context/DialogContext";
 import { User, useUserContext } from "@/context/UserContext";
 
@@ -18,31 +18,30 @@ export interface TopicProps {
   title: string;
   createdBy: User;
   isOpen: boolean;
-  _count: { posts: number };
+  postsCount: number;
 }
 
 export default function topicView() {
   const { user } = useUserContext();
+  const { open } = useDialogContext();
   const { categoryId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { open } = useDialogContext();
-
-  const [page, setPage] = useState(() => {
-    const pageFromUrl = parseInt(searchParams.get("page") || "1", 10);
-    return isNaN(pageFromUrl) ? 1 : pageFromUrl;
-  });
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const cursor = useRef(null);
+  const direction = useRef("next");
 
   const { data, error, isLoading } = useSWR(
-    `${process.env.SERVER_URL}/api/forum/category/${categoryId}?page=${page}`,
+    `${process.env.SERVER_URL}/api/forum/category/${categoryId}?page=${page}${cursor.current ? `&cursor=${cursor.current}` : ""}${direction ? `&direction=${direction.current}` : ""}`,
     fetcherGet,
   );
+
 
   if (error) {
     return <h1>Please reflesh the page!</h1>;
   }
 
-  if (isLoading || !data) {
+  if (!data) {
     return <Loading />;
   }
 
@@ -64,13 +63,23 @@ export default function topicView() {
   }
 
   function onChangePage(newPage: number) {
+    const params = new URLSearchParams(searchParams.toString());
+    cursor.current = null;
+
     if (data.navigation.maxPage < newPage) return;
     if (newPage < 1) return;
+    const pageDiffNumber = Math.abs(newPage - page);
 
-    const params = new URLSearchParams(searchParams.toString());
+    if (newPage > page && pageDiffNumber === 1) {
+      direction.current = "next"
+      cursor.current = data.navigation.cursors.next;
+    } else if (newPage < page && pageDiffNumber === 1) {
+      direction.current = "prev";
+      cursor.current = data.navigation.cursors.prev;
+    }
+
     params.set("page", newPage.toString());
     router.push(`?${params.toString()}`);
-    setPage(newPage);
   }
 
   return (
