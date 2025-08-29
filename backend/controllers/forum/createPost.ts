@@ -57,23 +57,28 @@ export async function createPost(req: Request, res: Response) {
     topicId,
   });
 
-  try {
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        lastPostTs: new Date(),
-      },
-    });
+  //global error handling - i don't need handle single error
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      lastPostTs: new Date(),
+    },
+  });
 
-    await prisma.category.update({
-      where: { id: createdPost!.topic!.category!.id },
-      data: {
-        lastPostId: createdPost.id,
-      },
-    });
-  } catch (e: any) {
-    throw new Error(e);
-  }
+  await prisma.category.update({
+    where: { id: createdPost!.topic!.category!.id },
+    data: {
+      lastPostId: createdPost.id,
+    },
+  });
+
+  await prisma.topic.update({
+    where: { id: topicId },
+    data: {
+      postsCount: { increment: 1 }
+    }
+  })
+
 
   if (blockResponse) return true;
 

@@ -11,7 +11,7 @@ interface SectionBody {
 }
 
 export async function createCategory(req: Request, res: Response) {
-  const { title, description, roleRequire, sectionId }: SectionBody = req.body;
+  const { title, description, sectionId }: SectionBody = req.body;
 
   const createdSection = await createCategoryQuery({
     title: title,

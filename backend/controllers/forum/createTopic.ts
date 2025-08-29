@@ -51,6 +51,13 @@ export async function createTopic(req: Request, res: Response) {
 
   await createPost(req, res);
 
+  await prisma.category.update({
+    where: { id: categoryId },
+    data: {
+      topicsCount: { increment: 1 }
+    }
+  })
+
   res
     .status(200)
     .json({ message: "New topic is created!", data: createdTopic });
