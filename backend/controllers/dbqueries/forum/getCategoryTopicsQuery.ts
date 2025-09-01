@@ -10,13 +10,18 @@ const includesData = {
       role: true,
     },
   },
-}
+};
 
-async function getTopicByCursor({ direction, cursorId, categoryId, take }: {
-  direction: "next" | "prev",
-  cursorId: number,
-  categoryId: number,
-  take: number,
+async function getTopicByCursor({
+  direction,
+  cursorId,
+  categoryId,
+  take,
+}: {
+  direction: "next" | "prev";
+  cursorId: number;
+  categoryId: number;
+  take: number;
 }) {
   const order = direction === "next" ? "desc" : "asc";
 
@@ -37,25 +42,68 @@ async function getTopicByCursor({ direction, cursorId, categoryId, take }: {
   return topicsOnPage;
 }
 
-async function getTopicBySkip({ categoryId, skip, take }: {
-  skip: number,
-  take: number,
-  categoryId: number,
+async function getTopicBySkip({
+  categoryId,
+  skip,
+  take,
+}: {
+  skip: number;
+  take: number;
+  categoryId: number;
 }) {
   return await prisma.topic.findMany({
     where: { categoryId: categoryId },
     orderBy: { id: "desc" },
     skip,
     take,
-    include: includesData
-  })
+    include: includesData,
+  });
 }
-
 
 async function getCategory(categoryId: number) {
   return await prisma.category.findUnique({
-    where: { id: categoryId }
+    where: { id: categoryId },
   });
+}
+
+async function getTopicsByPageJump({
+  categoryId,
+  skip,
+  take,
+}: {
+  skip: number;
+  take: number;
+  categoryId: number;
+}) {
+  const topicsOnPageIds = await prisma.topic.findMany({
+    where: { categoryId: categoryId },
+    orderBy: { id: "desc" },
+    skip,
+    take,
+    select: {
+      id: true,
+    },
+  });
+
+  if (topicsOnPageIds.length === 0) {
+    return [];
+  }
+
+  const ids = topicsOnPageIds.map((topic) => topic.id);
+
+  const topics = await prisma.topic.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+    orderBy: {
+      id: "desc",
+    },
+    include: includesData,
+  });
+
+  return topics;
 }
 
 export async function getCategoryTopicsQuery({
@@ -67,21 +115,24 @@ export async function getCategoryTopicsQuery({
 }: {
   categoryId: number;
   cursor?: number;
-  page: number,
-  direction?: 'next' | 'prev';
+  page: number;
+  direction?: "next" | "prev";
   take: number;
 }) {
   try {
-    const category = await getCategory(categoryId)
+    const category = await getCategory(categoryId);
     let topics: Topic[] = [];
 
-    if (!cursor) {
-      const skipVal = (page - 1) * take;
-      topics = await getTopicBySkip({ categoryId, take, skip: skipVal })
-    }
-
     if (cursor && direction) {
-      topics = await getTopicByCursor({ direction, cursorId: cursor, take, categoryId })
+      topics = await getTopicByCursor({
+        direction,
+        cursorId: cursor,
+        take,
+        categoryId,
+      });
+    } else {
+      const skipVal = (page - 1) * take;
+      topics = await getTopicsByPageJump({ categoryId, take, skip: skipVal });
     }
 
     return { category, topics };

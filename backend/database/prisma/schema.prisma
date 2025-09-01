@@ -29,7 +29,7 @@ model User {
   posts             Post[]
   rateGiven         Rate[]
 
-  @@index([id, login])
+  @@index([login])
 }
 
 model Ban {
@@ -81,8 +81,9 @@ model Category {
   sectionId   Int?
   lastPostId  Int?
   lastPost    Post?    @relation(fields: [lastPostId], references: [id])
+  topicsCount Int      @default(0)
 
-  @@index([id, sectionId])
+  @@index([sectionId])
 }
 
 model Topic {
@@ -95,8 +96,9 @@ model Topic {
   category    Category? @relation(fields: [categoryId], references: [id])
   categoryId  Int
   posts       Post[]
+  postsCount  Int       @default(0)
 
-  @@index([id, categoryId])
+  @@index([categoryId, id])
 }
 
 model Post {
@@ -112,7 +114,7 @@ model Post {
   ratings       Rate[]
   ratingSummary Int        @default(0)
 
-  @@index([id, authorId])
+  @@index([authorId])
 }
 
 model Rate {
@@ -125,5 +127,5 @@ model Rate {
   post   Post? @relation(fields: [postId], references: [id])
   postId Int?
 
-  @@index([id, authorId])
+  @@index([authorId])
 }
