@@ -40,9 +40,9 @@ function NewPostElement({
   }
 
   return (
-    <div className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 border-1 border-[#2d2d53] flex flex-row">
+    <div className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6 border-1 border-[#2d2d53] flex flex-row max-sm:flex-col">
       <PostBoxUserPanel user={user as PostAuthor} />
-      <div className="w-full ml-4 flex flex-col gap-4">
+      <div className="w-full ml-4 flex flex-col gap-4 max-sm:ml-0 max-sm:mt-4">
         <b className="text-sm">Add new post:</b>
         <textarea
           className="right bg-[#1e1e2f80] w-full h-auto rounded-sm min-h-32 p-4  resize-none"
@@ -117,7 +117,7 @@ export default function postsView() {
           </div>
         </header>
         <main className="mt-10">{posts}</main>
-        <footer className=" mt-10 mb-20 ">
+        <footer className="mt-10 mb-20 ">
           {user.id && resData.isOpen && (
             <NewPostElement mutateString={mutateString} />
           )}

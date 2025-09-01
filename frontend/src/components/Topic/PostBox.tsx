@@ -42,14 +42,14 @@ export function PostBoxUserPanel({ user }: { user: PostAuthor }) {
 
   return (
     <div
-      className="left-panel-post flex flex-col items-center w-32 min-w-32 pr-3"
-      style={{
-        borderRight: "1px solid #6161614d",
-      }}
+      className="left-panel-post border-r-[1px] border-r-[#6161614d] flex flex-col 
+      items-center w-32 min-w-32 pr-3 
+      max-sm:min-w-10 max-sm:flex-row max-sm:w-full max-sm:pb-3 max-sm:gap-1
+      max-sm:border-r-0 max-sm:border-b-1 max-sm:border-b-[#6161614d]"
     >
-      <UserAvatar user={user} className="w-24 rounded-xl" />
-      <div className="p-1 mt-3 w-26 flex flex-col gap-2 items-center justify-center">
-        <div className="flex flex-col-reverse w-full gap-1">
+      <UserAvatar user={user} className="w-24 rounded-xl max-sm:size-12" />
+      <div className="p-1 mt-3 w-[90%] flex flex-col gap-2 justify-center max-sm:mt-0">
+        <div className="flex flex-col-reverse w-full gap-1 max-sm:flex-col ">
           {user._count?.posts && (
             <Badge
               color="orange"
@@ -147,17 +147,17 @@ function PostContentBox({ post }: { post: PostProps }) {
   const { user } = useUserContext();
 
   return (
-    <div className="right-panel-post w-full ml-6 relative">
+    <div className="right-panel-post w-full ml-6 relative max-sm:ml-0 max-sm:mt-4">
       <UserNick user={author} />
       <br />
-      <span className="text-[#9F9FC9] text-sm">
+      <span className="text-[#9F9FC9] text-sm max-sm:text-[12px]">
         Created {formatDateToRelative(createdAt)}
       </span>
       <div className="mt-3 wrap-anywhere mb-10 whitespace-pre-line">
         {message}
         {editedMessage && <EditedBox message={editedMessage} />}
       </div>
-      <div className="absolute bottom-0 flex flex-row items-center">
+      <div className="absolute bottom-0 flex flex-row items-center max-sm:border-t-1 max-sm:border-t-[#6161614d] max-sm:w-full max-sm:pt-2">
         <RatingBox ratingSummary={ratingSummary} postId={id} />
         {user.role === "ADMIN" && <PostTools post={post} />}
       </div>
@@ -170,15 +170,16 @@ export function PostBox({ postData }: { postData: PostProps }) {
 
   return (
     <div
-      className="h-auto w-full bg-[#1a1a2ecc]/[0.7] rounded-xl p-6 flex flex-row mt-4 relative"
+      className="h-auto w-full bg-[#1a1a2ecc]/[0.7] rounded-xl p-6 flex flex-row mt-4 relative max-sm:flex-col"
       id={`post-${id}`}
       style={{
         border: "1px solid rgba(86, 105, 219, 0.2)",
       }}
     >
       <PostBoxUserPanel user={author} />
+
       <PostContentBox post={postData} />
       <ReportPostElement postId={id} />
-    </div>
+    </div >
   );
 }

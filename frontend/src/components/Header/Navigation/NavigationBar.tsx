@@ -59,8 +59,8 @@ export default function NavigationBar() {
   const { user, logout } = useUserContext();
 
   return (
-    <nav className="w-[75%] ml-[7%] h-full flex flex-row text-white justify-between absolute items-center max-sm:flex-col">
-      <span className="size-56 relative hover:opacity-50">
+    <nav className="w-[75%] ml-[7%] h-full flex flex-row text-white justify-between absolute items-center max-sm:w-full max-sm:flex-col max-sm:ml-0 max-sm:justify-center">
+      <span className="size-56 relative hover:opacity-50 max-sm:size-32">
         <Link href="/">
           <Image src="/images/logo.webp" alt="Logo forum" fill />
         </Link>

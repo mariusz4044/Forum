@@ -16,22 +16,23 @@ function TopicClosed() {
 }
 
 export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
-  console.log(topic.postsCount)
+
   return (
     <div
-      className="bg-[#1e1e2f]/[.2] rounded-xs px-6 h-25 relative flex flex-row justify-between items-center"
+      className="bg-[#1e1e2f]/[.2] rounded-xs px-6 h-25 relative flex flex-row justify-between items-center max-sm:px-2"
       style={{
         borderBottom: "1px solid #a3a3a325",
       }}
     >
       <div className="left-topic flex flex-row gap-4">
-        <Image
-          src={`/avatars/${user.avatar}`}
-          alt="user avatar"
-          width={48}
-          height={48}
-          className="rounded-xl opacity-50"
-        />
+        <div className="size-12 relative">
+          <Image
+            src={`/avatars/${user.avatar}`}
+            alt="user avatar"
+            fill
+            className="rounded-xl opacity-50"
+          />
+        </div>
         <div className="flex flex-col gap-1 text-lg">
           <Link
             href={`/topic/${topic.id}`}
@@ -40,8 +41,8 @@ export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
             {topic.title} {!topic.isOpen && <TopicClosed />}
           </Link>
           <span className="text-[12px] text-[#9F9FC9]">
-            From <UserNick user={user} />,{" "}
-            {formatDateToRelative(topic.createdAt)}
+            From <UserNick user={user} />
+            <span className="max-sm:hidden">,{formatDateToRelative(topic.createdAt)}</span>
           </span>
         </div>
       </div>
