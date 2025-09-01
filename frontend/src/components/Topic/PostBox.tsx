@@ -177,7 +177,6 @@ export function PostBox({ postData }: { postData: PostProps }) {
       }}
     >
       <PostBoxUserPanel user={author} />
-
       <PostContentBox post={postData} />
       <ReportPostElement postId={id} />
     </div >

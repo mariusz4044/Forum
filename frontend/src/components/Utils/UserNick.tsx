@@ -5,7 +5,7 @@ import { fetchData } from "@/functions/fetchData";
 export function UserNick({ user }: { user: User }) {
   const { open, setDialogData } = useDialogContext();
 
-  let className = `capitalize cursor-pointer hover:text-blue-500`;
+  let className = `capitalize cursor-pointer hover:text-blue-500 select-none`;
   if (user.role) className += ` ${user.role}`;
 
   async function getUserData() {

@@ -208,3 +208,23 @@ a {
 div [role="dialog"] {
   border: 1px solid rgba(86, 105, 219, 0.2);
 }
+
+.rank-first {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #1a1a1a;
+}
+
+.rank-second {
+    background: linear-gradient(135deg, #c0c0c0, #e5e5e5);
+    color: #1a1a1a;
+}
+
+.rank-third {
+    background: linear-gradient(135deg, #cd7f32, #daa520);
+    color: white;
+}
+
+.rank-default {
+    background: #4f46e54d;
+    color: #a78bfa;
+}

@@ -1,4 +1,5 @@
 import { User } from "@/context/UserContext";
+import { number } from "motion";
 
 export type PostAuthor = User & {
   _count: {
@@ -24,4 +25,52 @@ export interface TopicResponseData {
   isOpen: boolean;
   id: number;
   _count: { count: number };
+}
+
+export interface LastPost {
+  topic: {
+    id: number;
+    title: string;
+  };
+  author: User;
+  message: string;
+  createdAt: string;
+}
+
+export interface Category extends LastPost {
+  id: number;
+  image: string;
+  title: string;
+  description: string;
+  _count: {
+    topics: number;
+  };
+  categoryId: number;
+  lastPost: LastPost;
+}
+
+export type UserBestPosts = User & {
+  _count: { posts: number };
+};
+
+export interface StatisticPost extends PostProps {
+  topic: { id: number; title: string };
+}
+
+type Section = {
+  id: number;
+  title: string;
+};
+
+interface UserWithPostCount extends User {
+  _count: {
+    posts: number;
+  };
+}
+
+export interface StatisticsData {
+  lastPosts: StatisticPost[];
+  bestPosters: UserWithPostCount[];
+  lastTopics: TopicResponseData[];
+  sections: Section[];
 }

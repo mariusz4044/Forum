@@ -24,7 +24,7 @@ export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
         borderBottom: "1px solid #a3a3a325",
       }}
     >
-      <div className="left-topic flex flex-row gap-4">
+      <div className="left-topic flex flex-row gap-4 items-center">
         <div className="size-12 relative">
           <Image
             src={`/avatars/${user.avatar}`}
@@ -42,7 +42,7 @@ export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
           </Link>
           <span className="text-[12px] text-[#9F9FC9]">
             From <UserNick user={user} />
-            <span className="max-sm:hidden">,{formatDateToRelative(topic.createdAt)}</span>
+            <span className="max-sm:hidden">, {formatDateToRelative(topic.createdAt)}</span>
           </span>
         </div>
       </div>
