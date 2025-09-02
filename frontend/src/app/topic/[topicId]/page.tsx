@@ -1,13 +1,12 @@
 "use client";
 
-import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import Loading from "@/components/Utils/Universal/Loading";
 import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
-import { createContext, JSX, useRef, useState } from "react";
-import { User, useUserContext } from "@/context/UserContext";
+import { JSX, useRef, useState } from "react";
+import { useUserContext } from "@/context/UserContext";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { fetchData } from "@/functions/fetchData";
 import { PageNavigation } from "@/components/PageNavigation";
@@ -111,8 +110,7 @@ export default function postsView() {
           <div className="mt-2">
             <PageNavigation
               onChangePage={onChangePage}
-              currentPage={data.navigation.currentPage}
-              maxPage={data.navigation.maxPage}
+              navigation={data.navigation}
             ></PageNavigation>
           </div>
         </header>

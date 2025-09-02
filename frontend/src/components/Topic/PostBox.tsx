@@ -47,7 +47,10 @@ export function PostBoxUserPanel({ user }: { user: PostAuthor }) {
       max-sm:min-w-10 max-sm:flex-row max-sm:w-full max-sm:pb-3 max-sm:gap-1
       max-sm:border-r-0 max-sm:border-b-1 max-sm:border-b-[#6161614d]"
     >
-      <UserAvatar user={user} className="w-24 rounded-xl max-sm:size-12" />
+      <div className="text-sm mb-2 font-bold flex flex-col items-center gap-2">
+        <UserNick user={user} />
+        <UserAvatar user={user} className="w-24 rounded-full max-sm:size-12" />
+      </div>
       <div className="p-1 mt-3 w-[90%] flex flex-col gap-2 justify-center max-sm:mt-0">
         <div className="flex flex-col-reverse w-full gap-1 max-sm:flex-col ">
           {user._count?.posts && (
@@ -148,8 +151,6 @@ function PostContentBox({ post }: { post: PostProps }) {
 
   return (
     <div className="right-panel-post w-full ml-6 relative max-sm:ml-0 max-sm:mt-4">
-      <UserNick user={author} />
-      <br />
       <span className="text-[#9F9FC9] text-sm max-sm:text-[12px]">
         Created {formatDateToRelative(createdAt)}
       </span>
@@ -179,6 +180,6 @@ export function PostBox({ postData }: { postData: PostProps }) {
       <PostBoxUserPanel user={author} />
       <PostContentBox post={postData} />
       <ReportPostElement postId={id} />
-    </div >
+    </div>
   );
 }

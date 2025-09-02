@@ -1,5 +1,6 @@
 import { User } from "@/context/UserContext";
 import { number } from "motion";
+import { ReactNode } from "react";
 
 export type PostAuthor = User & {
   _count: {
@@ -73,4 +74,23 @@ export interface StatisticsData {
   bestPosters: UserWithPostCount[];
   lastTopics: TopicResponseData[];
   sections: Section[];
+}
+
+export type Cursor = {
+  next: number;
+  prev: number;
+};
+
+export interface NavigationData {
+  currentPage: number;
+  maxPage: number;
+  itemsPerPage: number;
+  cursor: Cursor;
+}
+
+export interface PageNavigationProps {
+  children?: ReactNode;
+  reversed?: boolean;
+  navigation: NavigationData;
+  onChangePage: (pageNumber: number) => void;
 }

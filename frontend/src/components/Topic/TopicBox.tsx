@@ -15,7 +15,8 @@ function TopicClosed() {
   );
 }
 
-export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
+export function TopicBox({ topic }: { topic: TopicProps }) {
+  const { createdBy, postsCount, id, createdAt, title, isOpen } = topic;
 
   return (
     <div
@@ -27,7 +28,7 @@ export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
       <div className="left-topic flex flex-row gap-4 items-center">
         <div className="size-12 relative">
           <Image
-            src={`/avatars/${user.avatar}`}
+            src={`/avatars/${createdBy.avatar}`}
             alt="user avatar"
             fill
             className="rounded-xl opacity-50"
@@ -35,19 +36,21 @@ export function TopicBox({ user, topic }: { user: User; topic: TopicProps }) {
         </div>
         <div className="flex flex-col gap-1 text-lg">
           <Link
-            href={`/topic/${topic.id}`}
+            href={`/topic/${id}`}
             className="capitalize flex flex-row gap-2 items-center"
           >
-            {topic.title} {!topic.isOpen && <TopicClosed />}
+            {title} {!isOpen && <TopicClosed />}
           </Link>
           <span className="text-[12px] text-[#9F9FC9]">
-            From <UserNick user={user} />
-            <span className="max-sm:hidden">, {formatDateToRelative(topic.createdAt)}</span>
+            From <UserNick user={createdBy} />
+            <span className="max-sm:hidden">
+              , {formatDateToRelative(createdAt)}
+            </span>
           </span>
         </div>
       </div>
       <div className="bg-[#9f9fc90d] rounded-xl py-1 font-medium text-[14px] text-[gray] flex flex-row items-center justify-center gap-2 min-w-24 mr-12 select-none">
-        <span>{formatShortNumber(topic.postsCount)} posts</span>
+        <span>{formatShortNumber(postsCount)} posts</span>
         <MessageCircle size={12} />
       </div>
     </div>

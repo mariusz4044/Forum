@@ -1,53 +1,49 @@
 import { useMemo } from "react";
-import { ChevronsLeft, ChevronsRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
+import { ReactNode } from "react";
+import { PageNavigationProps } from "@/types/types";
+import { formatNumberSpacing } from "@/components/Utils/formatNumbers";
+
+interface PageNumberElementProps {
+  pageNumber: number;
+  isActive: boolean;
+  onChangePage: (pageNumber: number) => void;
+}
 
 function PageNumberElement({
   pageNumber,
   isActive,
   onChangePage,
-}: {
-  pageNumber: number;
-  isActive: boolean;
-  onChangePage: (pageNumber: number) => void;
-}): React.ReactElement {
-  let activeClass = "";
-  if (isActive) {
-    activeClass += "bg-[#313149]/[1]";
-  }
-
+}: PageNumberElementProps) {
   return (
-    <div
-      className={`py-1 px-3 bg-[#313149]/[0.2] text-sm cursor-pointer rounded-lg ${activeClass} select-none hover:bg-blue-500/[0.3]`}
-      onClick={() => {
-        onChangePage(pageNumber);
-      }}
+    <button
+      className={`py-1 px-3 text-sm rounded-lg select-none transition-colors
+        ${isActive ? "bg-[#313149]" : "bg-[#313149]/20 hover:bg-blue-500/30"}
+      `}
+      onClick={() => onChangePage(pageNumber)}
     >
       {pageNumber}
-    </div>
+    </button>
   );
 }
-
-interface PageNavigationProps {
-  children?: React.ReactNode;
-  maxPage: number;
-  currentPage: number;
-  reversed?: boolean;
-  onChangePage: (pageNumber: number) => void;
-}
-
 export function PageNavigation({
   children,
-  maxPage,
+  navigation,
   onChangePage,
-  currentPage,
   reversed,
 }: PageNavigationProps) {
-  const pagesTruncated = useMemo(() => {
-    const totalPages = maxPage;
+  const { maxPage, currentPage } = navigation;
+
+  const pages = useMemo(() => {
     const visiblePages = 5;
 
-    if (totalPages <= visiblePages) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    if (maxPage <= visiblePages) {
+      return Array.from({ length: maxPage }, (_, i) => i + 1);
     }
 
     const half = Math.floor(visiblePages / 2);
@@ -57,38 +53,48 @@ export function PageNavigation({
     if (start < 1) {
       start = 1;
       end = visiblePages;
-    } else if (end > totalPages) {
-      end = totalPages;
-      start = totalPages - visiblePages + 1;
+    } else if (end > maxPage) {
+      end = maxPage;
+      start = maxPage - visiblePages + 1;
     }
 
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }, [currentPage, maxPage]);
 
-  let styles: any = { borderTop: "1px solid rgb(50, 50, 79)" };
-  if (reversed) styles = { borderBottom: "1px solid rgb(50, 50, 79)" };
+  const borderStyle = reversed
+    ? { borderBottom: "1px solid rgb(50, 50, 79)" }
+    : { borderTop: "1px solid rgb(50, 50, 79)" };
 
+  const iconClassName =
+    "cursor-pointer hover:scale-90 transition-transform p-1 select-none";
   return (
     <div
-      className="bg-[#1e1e2f]/[.8] p-4 h-14 rounded-lg relative flex flex-row justify-between items-center"
-      style={styles}
+      className="bg-[#1e1e2f]/80 p-4 h-14 rounded-lg flex flex-row justify-between items-center"
+      style={borderStyle}
     >
-      <div className="flex flex-row gap-1 items-center justify-center">
+      <div className="flex flex-row gap-1 items-center">
+        {/* First Page */}
         <ChevronsLeft
-          className="no-select cursor-pointer hover:scale-75"
-          size={18}
-          onClick={() => {
-            onChangePage(currentPage - 1);
-          }}
+          className={iconClassName}
+          size={26}
+          onClick={() => onChangePage(1)}
         />
-        {pagesTruncated.map((pageNumber) => (
+        {/* Prev page */}
+        <ChevronLeft
+          className={iconClassName}
+          size={26}
+          onClick={() => onChangePage(currentPage - 1)}
+        />
+        {/* Page Number */}
+        {pages.map((pageNumber) => (
           <PageNumberElement
-            pageNumber={pageNumber}
             key={`page-${pageNumber}`}
+            pageNumber={pageNumber}
             isActive={currentPage === pageNumber}
             onChangePage={onChangePage}
           />
         ))}
+        {/*Max page*/}
         {currentPage < maxPage - 5 && (
           <div className="ml-5">
             <PageNumberElement
@@ -98,14 +104,25 @@ export function PageNavigation({
             />
           </div>
         )}
-        <ChevronsRight
-          className="no-select cursor-pointer hover:scale-75"
-          size={18}
-          onClick={() => {
-            onChangePage(currentPage + 1);
-          }}
+
+        {/* Next Page */}
+        <ChevronRight
+          className={iconClassName}
+          size={26}
+          onClick={() => onChangePage(currentPage + 1)}
         />
+        {/* Last Page */}
+        <ChevronsRight
+          className={iconClassName}
+          size={26}
+          onClick={() => onChangePage(maxPage)}
+        />
+
+        {/*<span className="ml-2 text-sm text-gray-500 tracking-wider">*/}
+        {/*  ({currentPage}/{maxPage})*/}
+        {/*</span>*/}
       </div>
+
       {children}
     </div>
   );

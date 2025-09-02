@@ -8,7 +8,7 @@ import Loading from "@/components/Utils/Universal/Loading";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { Plus } from "lucide-react";
 import { TopicBox } from "@/components/Topic/TopicBox";
-import { JSX, useRef, useState } from "react";
+import { ReactNode, useRef } from "react";
 import { useDialogContext } from "@/context/DialogContext";
 import { User, useUserContext } from "@/context/UserContext";
 
@@ -22,65 +22,64 @@ export interface TopicProps {
 }
 
 export default function topicView() {
+  // context
   const { user } = useUserContext();
   const { open } = useDialogContext();
-  const { categoryId } = useParams();
+
+  // routing
   const router = useRouter();
+  const { categoryId } = useParams();
   const searchParams = useSearchParams();
-  const page = parseInt(searchParams.get("page") || "1", 10);
-  const cursor = useRef(null);
-  const direction = useRef("next");
 
-  const { data, error, isLoading } = useSWR(
-    `${process.env.SERVER_URL}/api/forum/category/${categoryId}?page=${page}${cursor.current ? `&cursor=${cursor.current}` : ""}${direction ? `&direction=${direction.current}` : ""}`,
-    fetcherGet,
-  );
+  // pagination
+  const page = Number(searchParams.get("page") ?? 1);
+  const cursor = useRef<string | null>(null);
+  const direction = useRef<"next" | "prev">("next");
 
+  const createNewTopic = () => open("topic");
 
-  if (error) {
-    return <h1>Please reflesh the page!</h1>;
-  }
+  const buildUrl = () => {
+    const baseUrl = `${process.env.SERVER_URL}/api/forum/category/${categoryId}`;
+    const queryParams = new URLSearchParams({ page: String(page) });
 
-  if (!data) {
+    if (cursor.current) queryParams.set("cursor", cursor.current);
+    if (direction.current) queryParams.set("direction", direction.current);
+
+    return `${baseUrl}?${queryParams.toString()}`;
+  };
+
+  const { data, error } = useSWR(buildUrl, fetcherGet);
+  const topics: TopicProps[] | undefined = data?.data?.topics;
+
+  if (!data || !topics || error) {
     return <Loading />;
   }
 
-  const topics: TopicProps[] = data?.data?.topics;
-  const topicList: JSX.Element[] = [];
-
+  const topicList: ReactNode[] = [];
   topics.forEach((topic) => {
-    topicList.push(
-      <TopicBox
-        user={topic.createdBy}
-        topic={topic}
-        key={`${topic.title}-${topic.id}`}
-      />,
-    );
+    topicList.push(<TopicBox topic={topic} key={`topic-${topic.id}`} />);
   });
 
-  function createNewTopic() {
-    open("topic");
-  }
+  const onChangePage = (newPage: number) => {
+    if (newPage < 1 || newPage > data.navigation.maxPage) return;
 
-  function onChangePage(newPage: number) {
     const params = new URLSearchParams(searchParams.toString());
     cursor.current = null;
 
-    if (data.navigation.maxPage < newPage) return;
-    if (newPage < 1) return;
-    const pageDiffNumber = Math.abs(newPage - page);
-
-    if (newPage > page && pageDiffNumber === 1) {
-      direction.current = "next"
-      cursor.current = data.navigation.cursors.next;
-    } else if (newPage < page && pageDiffNumber === 1) {
-      direction.current = "prev";
-      cursor.current = data.navigation.cursors.prev;
+    const pageDiff = Math.abs(newPage - page);
+    if (pageDiff === 1) {
+      if (newPage > page) {
+        direction.current = "next";
+        cursor.current = data.navigation.cursors.next;
+      } else {
+        direction.current = "prev";
+        cursor.current = data.navigation.cursors.prev;
+      }
     }
 
     params.set("page", newPage.toString());
     router.push(`?${params.toString()}`);
-  }
+  };
 
   return (
     <main className="w-full flex justify-center items-center flex-row mt-10">
@@ -88,8 +87,7 @@ export default function topicView() {
         <header>
           <PageNavigation
             onChangePage={onChangePage}
-            currentPage={data.navigation.currentPage}
-            maxPage={data.navigation.maxPage}
+            navigation={data.navigation}
           >
             {user.id && (
               <ForumButton className="w-38" onClick={createNewTopic}>
@@ -103,8 +101,7 @@ export default function topicView() {
         <footer className="mb-6">
           <PageNavigation
             onChangePage={onChangePage}
-            currentPage={data.navigation.currentPage}
-            maxPage={data.navigation.maxPage}
+            navigation={data.navigation}
             reversed={true}
           ></PageNavigation>
         </footer>
