@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { getCategoryTopicsQuery } from "../dbqueries/forum/getCategoryTopicsQuery";
 import { AppError } from "../../utils/AppError";
-import { Topic } from "@prisma/client";
 
 const topicPerPage = parseInt(`${process.env.TOPIC_PER_PAGE}`);
 

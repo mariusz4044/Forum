@@ -94,3 +94,10 @@ export interface PageNavigationProps {
   navigation: NavigationData;
   onChangePage: (pageNumber: number) => void;
 }
+
+export interface StatsData {
+  totalUsers: number;
+  lastUser: User & { createdAt: string };
+  totalTopics: number;
+  totalPosts: number;
+}

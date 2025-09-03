@@ -51,7 +51,7 @@ async function getTopicBySkip({
   take: number;
   categoryId: number;
 }) {
-  return await prisma.topic.findMany({
+  return prisma.topic.findMany({
     where: { categoryId: categoryId },
     orderBy: { id: "desc" },
     skip,
@@ -61,7 +61,7 @@ async function getTopicBySkip({
 }
 
 async function getCategory(categoryId: number) {
-  return await prisma.category.findUnique({
+  return prisma.category.findUnique({
     where: { id: categoryId },
   });
 }
@@ -91,7 +91,7 @@ async function getTopicsByPageJump({
 
   const ids = topicsOnPageIds.map((topic) => topic.id);
 
-  const topics = await prisma.topic.findMany({
+  return prisma.topic.findMany({
     where: {
       id: {
         in: ids,
@@ -102,8 +102,6 @@ async function getTopicsByPageJump({
     },
     include: includesData,
   });
-
-  return topics;
 }
 
 export async function getCategoryTopicsQuery({
