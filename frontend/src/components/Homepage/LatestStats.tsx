@@ -17,8 +17,8 @@ function StatBox({
 }) {
   return (
     <div
-      className="w-1/2 h-20 flex flex-row border-1 p-4
-      rounded-xl bg-opacity-40 items-center gap-2 "
+      className="h-20 flex flex-row border-1 p-4
+      rounded-xl bg-opacity-40 items-center gap-2 w-full"
       style={{
         backgroundColor: color,
         border: `1px solid ${borderColor}`,
@@ -41,7 +41,10 @@ export default function ({ stats }: { stats: StatsData }) {
   const { totalUsers, totalTopics, totalPosts, lastUser } = stats;
 
   return (
-    <div className="flex flex-row gap-4 w-full justify-between">
+    <div className="flex flex-col mt-8 gap-4 w-full justify-between">
+      <h1 className="w-full rounded-lg h-12 bg-[#1a1a2ecc] flex items-center text-md pl-4 font-medium">
+        Forum stats
+      </h1>
       <StatBox color="#38545b33" borderColor="#26697945">
         <Users size={40} className="p-2 bg-[#26697945] rounded-full" />
         <div className="flex flex-col">

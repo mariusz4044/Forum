@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
-import { z, ZodType } from "zod";
+import { ZodType } from "zod";
 import { AppError } from "../utils/AppError";
 
 export const validateBody = <T>(schema: ZodType<T>): RequestHandler => {
-  return (req, res, next) => {
+  return (req, _, next) => {
     const result = schema.safeParse(req.body);
 
     if (!result.success) {

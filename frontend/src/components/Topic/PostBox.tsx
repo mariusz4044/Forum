@@ -17,7 +17,6 @@ import { PostAuthor, PostProps } from "@/types/types";
 import { useState } from "react";
 import Badge, { BadgeColors } from "@/components/Utils/Universal/Badge";
 import { UserNick } from "@/components/Utils/UserNick";
-import { SWRConfig, useSWRConfig } from "swr";
 import { UserAvatar } from "../Utils/UserAvatar";
 import { formatShortNumber } from "../Utils/formatNumbers";
 
@@ -53,12 +52,12 @@ export function PostBoxUserPanel({ user }: { user: PostAuthor }) {
       </div>
       <div className="p-1 mt-3 w-[90%] flex flex-col gap-2 justify-center max-sm:mt-0">
         <div className="flex flex-col-reverse w-full gap-1 max-sm:flex-col ">
-          {user._count?.posts && (
+          {user.totalPosts !== undefined && (
             <Badge
               color="orange"
               tooltip="User Messages"
               Icon={Send}
-              text={`${formatShortNumber(user._count.posts)} posts`}
+              text={`${formatShortNumber(user.totalPosts)} posts`}
             />
           )}
           {user.reputation !== undefined && (

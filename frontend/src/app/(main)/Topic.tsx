@@ -50,7 +50,7 @@ function LastPostElement({ lastPost }: { lastPost: LastPost }) {
   );
 }
 export default function Topic({ category }: { category: Category }) {
-  const { id, title, description, image, _count, lastPost } = category;
+  const { id, title, description, image, topicsCount, lastPost } = category;
   const { user } = useUserContext();
 
   return (
@@ -85,7 +85,7 @@ export default function Topic({ category }: { category: Category }) {
         </div>
         {/*Topic last post*/}
         <div className="flex flex-row mr-8 min-w-64 max-w-64 h-full items-center gap-3 tracking-wide max-sm:py-4">
-          <MessageCountElement messagesCount={_count.topics} />
+          <MessageCountElement messagesCount={topicsCount} />
           {lastPost?.message && <LastPostElement lastPost={lastPost} />}
         </div>
       </div>

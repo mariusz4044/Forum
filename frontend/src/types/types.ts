@@ -3,9 +3,7 @@ import { number } from "motion";
 import { ReactNode } from "react";
 
 export type PostAuthor = User & {
-  _count: {
-    posts: number;
-  };
+  totalPosts: number;
 };
 
 export interface PostProps {
@@ -43,15 +41,13 @@ export interface Category extends LastPost {
   image: string;
   title: string;
   description: string;
-  _count: {
-    topics: number;
-  };
+  topicsCount: number;
   categoryId: number;
   lastPost: LastPost;
 }
 
 export type UserBestPosts = User & {
-  _count: { posts: number };
+  totalPosts: number;
 };
 
 export interface StatisticPost extends PostProps {
@@ -64,9 +60,7 @@ type Section = {
 };
 
 interface UserWithPostCount extends User {
-  _count: {
-    posts: number;
-  };
+  totalPosts: number;
 }
 
 export interface StatisticsData {

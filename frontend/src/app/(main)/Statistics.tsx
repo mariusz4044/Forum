@@ -128,7 +128,7 @@ function PositionRanking({
       </div>
       <div className="text-[11px] flex items-center gap-0.5">
         <span className="text-[#8b5cf6] font-medium">
-          {formatNumber(user._count.posts)}
+          {formatNumber(user.totalPosts)}
         </span>
         <span className="text-[#94a3b8]">posts</span>
       </div>

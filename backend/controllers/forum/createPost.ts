@@ -62,6 +62,7 @@ export async function createPost(req: Request, res: Response) {
     where: { id: user.id },
     data: {
       lastPostTs: new Date(),
+      totalPosts: { increment: 1 },
     },
   });
 
@@ -75,10 +76,9 @@ export async function createPost(req: Request, res: Response) {
   await prisma.topic.update({
     where: { id: topicId },
     data: {
-      postsCount: { increment: 1 }
-    }
-  })
-
+      postsCount: { increment: 1 },
+    },
+  });
 
   if (blockResponse) return true;
 

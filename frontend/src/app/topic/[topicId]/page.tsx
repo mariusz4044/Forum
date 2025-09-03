@@ -5,7 +5,7 @@ import useSWR, { useSWRConfig } from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import Loading from "@/components/Utils/Universal/Loading";
 import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
-import { JSX, useRef, useState } from "react";
+import { JSX, useRef, useState, ReactNode } from "react";
 import { useUserContext } from "@/context/UserContext";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { fetchData } from "@/functions/fetchData";
@@ -67,61 +67,91 @@ function PostClose() {
 }
 
 export default function postsView() {
+  // context
   const { user } = useUserContext();
+
+  // routing
   const { topicId } = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [page, setPage] = useState(() => {
-    const pageFromUrl = parseInt(searchParams.get("page") || "1", 10);
-    return isNaN(pageFromUrl) ? 1 : pageFromUrl;
-  });
+  // pagination
+  const page = Number(searchParams.get("page") ?? 1);
+  const cursor = useRef<string | null>(null);
+  const direction = useRef<"next" | "prev">("next");
 
-  const mutateString = `${process.env.SERVER_URL}/api/forum/topic/${topicId}?page=${page}`;
-  const { data, isLoading } = useSWR(mutateString, fetcherGet);
+  const buildUrl = () => {
+    const baseUrl = `${process.env.SERVER_URL}/api/forum/topic/${topicId}`;
+    const queryParams = new URLSearchParams({ page: String(page) });
 
-  const resData: TopicResponseData | undefined = data?.data;
-  if (!resData || isLoading) return <Loading />;
+    if (cursor.current) queryParams.set("cursor", cursor.current);
+    if (direction.current) queryParams.set("direction", direction.current);
+
+    return `${baseUrl}?${queryParams.toString()}`;
+  };
+
+  const { data, error } = useSWR(buildUrl, fetcherGet);
+  const resData: TopicResponseData | undefined = data?.data?.topic;
+  const posts: PostProps[] | undefined = data?.data?.posts;
+
+  if (!data || !posts || !resData || error) {
+    return <Loading />;
+  }
 
   if (!resData.id) {
     return <h1>Topic not exist!</h1>;
   }
 
-  let posts: JSX.Element[] = [];
-  resData.posts.forEach((post: PostProps) => {
-    posts.push(<PostBox postData={post} key={`post-${post.id}`} />);
+  const postList: ReactNode[] = [];
+  posts.forEach((post: PostProps) => {
+    postList.push(<PostBox postData={post} key={`post-${post.id}`} />);
   });
 
-  function onChangePage(newPage: number) {
-    if (data.navigation.maxPage < newPage) return;
-    if (newPage < 1) return;
+  const onChangePage = (newPage: number) => {
+    if (newPage < 1 || newPage > data.navigation.maxPage) return;
 
     const params = new URLSearchParams(searchParams.toString());
+    cursor.current = null;
+
+    const pageDiff = Math.abs(newPage - page);
+    if (pageDiff === 1) {
+      if (newPage > page) {
+        direction.current = "next";
+        cursor.current = data.navigation.cursors.next;
+      } else {
+        direction.current = "prev";
+        cursor.current = data.navigation.cursors.prev;
+      }
+    }
+
     params.set("page", newPage.toString());
     router.push(`?${params.toString()}`);
-    setPage(newPage);
-  }
+  };
+
+  const mutateString = buildUrl();
 
   return (
     <TopicContext value={resData}>
-      <div className="flex w-[80%] ml-[10%] flex-col mt-10 max-sm:w-[90%] max-sm:ml-[5%]">
-        <header>
-          <TopicHeader />
-          <div className="mt-2">
-            <PageNavigation
-              onChangePage={onChangePage}
-              navigation={data.navigation}
-            ></PageNavigation>
-          </div>
-        </header>
-        <main className="mt-10">{posts}</main>
-        <footer className="mt-10 mb-20 ">
-          {user.id && resData.isOpen && (
-            <NewPostElement mutateString={mutateString} />
-          )}
-          {!resData.isOpen && <PostClose />}
-        </footer>
-      </div>
+      <main className="w-full flex justify-center items-center flex-row mt-10">
+        <div className="w-[80%] h-full max-sm:w-[90%] max-sm:ml-[5%]">
+          <header>
+            <TopicHeader />
+            <div className="mt-2">
+              <PageNavigation
+                onChangePage={onChangePage}
+                navigation={data.navigation}
+              ></PageNavigation>
+            </div>
+          </header>
+          <main className="mt-10">{postList}</main>
+          <footer className="mt-10 mb-20">
+            {user.id && resData.isOpen && (
+              <NewPostElement mutateString={mutateString} />
+            )}
+            {!resData.isOpen && <PostClose />}
+          </footer>
+        </div>
+      </main>
     </TopicContext>
   );
 }

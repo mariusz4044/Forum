@@ -20,131 +20,136 @@ function getTotalTopics(sections: Section[]): number {
 
 export async function getInitQuery() {
   try {
-    const sections = await prisma.section.findMany({
-      include: {
-        categories: {
-          include: {
-            _count: {
-              select: {
-                topics: true,
-              },
-            },
-            lastPost: {
-              select: {
-                topic: {
-                  select: {
-                    id: true,
-                    title: true,
+    const [
+      sections,
+      bestPosters,
+      lastTopics,
+      lastPosts,
+      lastUser,
+      totalPostsResult,
+    ] = await Promise.all([
+      // Sections
+      prisma.section.findMany({
+        include: {
+          categories: {
+            include: {
+              lastPost: {
+                select: {
+                  topic: {
+                    select: {
+                      id: true,
+                      title: true,
+                    },
+                  },
+                  message: true,
+                  createdAt: true,
+                  author: {
+                    select: {
+                      avatar: true,
+                      id: true,
+                      role: true,
+                      name: true,
+                    },
                   },
                 },
-                message: true,
-                createdAt: true,
-                author: {
-                  select: {
-                    avatar: true,
-                    id: true,
-                    role: true,
-                    name: true,
-                  },
-                },
               },
             },
           },
         },
-      },
-    });
+      }),
 
-    const bestPosters = await prisma.user.findMany({
-      take: 5,
-      orderBy: {
-        posts: {
-          _count: "desc",
+      // Best posters
+      prisma.user.findMany({
+        take: 5,
+        orderBy: {
+          totalPosts: "desc",
         },
-      },
-      select: {
-        id: true,
-        name: true,
-        avatar: true,
-        points: true,
-        reputation: true,
-        role: true,
-        _count: {
-          select: { posts: true },
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+          points: true,
+          reputation: true,
+          role: true,
+          totalPosts: true,
         },
-      },
-    });
+      }),
 
-    const lastTopics = await prisma.topic.findMany({
-      take: 5,
-      orderBy: {
-        createdAt: "desc",
-      },
-      select: {
-        id: true,
-        title: true,
-        createdAt: true,
-        isOpen: true,
-        createdBy: {
-          select: {
-            id: true,
-            name: true,
-            avatar: true,
-            role: true,
+      // Last topics
+      prisma.topic.findMany({
+        take: 5,
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          id: true,
+          title: true,
+          createdAt: true,
+          isOpen: true,
+          createdBy: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+              role: true,
+            },
+          },
+          category: {
+            select: {
+              id: true,
+              title: true,
+            },
           },
         },
-        category: {
-          select: {
-            id: true,
-            title: true,
+      }),
+
+      // Last posts
+      prisma.post.findMany({
+        take: 5,
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          id: true,
+          message: true,
+          editedMessage: true,
+          createdAt: true,
+          ratingSummary: true,
+          author: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+              role: true,
+            },
+          },
+          topic: {
+            select: {
+              id: true,
+              title: true,
+            },
           },
         },
-      },
-    });
+      }),
 
-    const lastPosts = await prisma.post.findMany({
-      take: 5,
-      orderBy: {
-        createdAt: "desc",
-      },
-      select: {
-        id: true,
-        message: true,
-        editedMessage: true,
-        createdAt: true,
-        ratingSummary: true,
-        author: {
-          select: {
-            id: true,
-            name: true,
-            avatar: true,
-            role: true,
-          },
+      // Last user
+      prisma.user.findFirst({
+        where: { id: { gt: 0 } },
+        orderBy: { id: "desc" },
+        select: {
+          id: true,
+          avatar: true,
+          name: true,
+          role: true,
+          createdAt: true,
         },
-        topic: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
-      },
-    });
+      }),
 
-    const lastUser = await prisma.user.findFirst({
-      where: { id: { gt: 0 } },
-      orderBy: { id: "desc" },
-      select: {
-        id: true,
-        avatar: true,
-        name: true,
-        role: true,
-        createdAt: true,
-      },
-    });
-
-    const posts = await prisma.post.findMany({
-      where: { id: { gt: 0 } },
-      select: { id: true },
-    });
+      // Total posts count
+      prisma.post.count({
+        where: { id: { gt: 0 } },
+      }),
+    ]);
 
     return {
       sections,
@@ -155,7 +160,7 @@ export async function getInitQuery() {
         totalUsers: lastUser?.id || 0,
         lastUser,
         totalTopics: getTotalTopics(sections),
-        totalPosts: posts?.length || 0,
+        totalPosts: totalPostsResult || 0,
       },
     };
   } catch (e: any) {

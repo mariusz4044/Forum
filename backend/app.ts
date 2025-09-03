@@ -29,7 +29,7 @@ app.use(
 app.use(expressSession());
 
 //Cache manager
-export const cm = new CacheManager(5000);
+export const cm = new CacheManager(10_000);
 cm.add("forumInit", getInitQuery);
 cm.start();
 

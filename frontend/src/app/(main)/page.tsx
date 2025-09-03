@@ -36,10 +36,10 @@ export default function Home() {
       <main className="w-full flex justify-center flex-row mt-10 gap-12 mb-10 max-sm:flex-col">
         <div className="w-[65%] h-full max-sm:w-full max-sm:p-4">
           {structure.length > 0 && structure}
-          <LatestStats stats={data.stats} />
         </div>
         <div className="w-[20%] max-w-80 h-full max-sm:w-full max-sm:max-w-full max-sm:p-4">
           <Statistics data={data} />
+          <LatestStats stats={data.stats} />
         </div>
       </main>
     </>

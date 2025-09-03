@@ -22,6 +22,7 @@ model User {
   lastPostTs        DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
   lastTopicTs       DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
   reputation        Int        @default(0)
+  totalPosts        Int        @default(0)
   sessions          Session[]
   sections          Section[]
   topicsCreated     Topic[]
@@ -114,7 +115,7 @@ model Post {
   ratings       Rate[]
   ratingSummary Int        @default(0)
 
-  @@index([authorId])
+  @@index([topicId, id])
 }
 
 model Rate {
