@@ -10,7 +10,7 @@ import { validateBody } from "../middleware/validateBody";
 import {
   banSchema,
   deleteAllPostsSchema,
-  deletePostSchema,
+  bodyPostIdSchema,
   deleteTopicSchema,
   editPostSchema,
   topicEditSchema,
@@ -27,7 +27,7 @@ router.delete(
 
 router.delete(
   "/post/delete",
-  validateBody(deletePostSchema),
+  validateBody(bodyPostIdSchema),
   authAdmin,
   deletePost,
 );

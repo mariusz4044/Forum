@@ -11,13 +11,15 @@ import { getPosts } from "../controllers/forum/getPosts";
 import { createRate } from "../controllers/forum/createRate";
 import { validateBody } from "../middleware/validateBody";
 import {
+  bodyPostIdSchema,
   createCategorySchema,
   createPostSchema,
   createRateSchema,
   createSectionSchema,
   createTopicSchema,
-  deleteAllPostsSchema,
+  postIdSchema,
 } from "../middleware/zodSchemas/schemas";
+import { reportPost } from "../controllers/forum/reportPost";
 
 const router = Router();
 
@@ -26,6 +28,12 @@ router.get("/topic/:id", getPosts);
 router.get("/category/:id", getCategoryTopics);
 
 router.post("/rate", validateBody(createRateSchema), authUser, createRate);
+router.post(
+  "/post/report",
+  validateBody(bodyPostIdSchema),
+  authUser,
+  reportPost,
+);
 
 router.post(
   "/post/create",

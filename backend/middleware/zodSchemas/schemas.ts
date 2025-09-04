@@ -33,6 +33,10 @@ export const deleteAllPostsSchema = z.object({
   userId: userIdSchema,
 });
 
+export const bodyPostIdSchema = z.object({
+  postId: postIdSchema,
+});
+
 export const registerSchema = z.object({
   name: z
     .string()
@@ -113,8 +117,4 @@ export const editPostSchema = z.object({
   postId: postIdSchema,
   message: z.string().min(1, { message: "Message cannot be empty!" }),
   reason: z.string().optional(),
-});
-
-export const deletePostSchema = z.object({
-  postId: postIdSchema,
 });

@@ -29,6 +29,7 @@ model User {
   categoriesCreated Category[]
   posts             Post[]
   rateGiven         Rate[]
+  reports           Report[]
 
   @@index([login])
 }
@@ -112,6 +113,7 @@ model Post {
   topic         Topic      @relation(fields: [topicId], references: [id], onDelete: Cascade)
   category      Category[]
   editedMessage String?
+  reports       Report[]
   ratings       Rate[]
   ratingSummary Int        @default(0)
 
@@ -129,4 +131,16 @@ model Rate {
   postId Int?
 
   @@index([authorId])
+}
+
+model Report {
+  id Int @id @default(autoincrement())
+
+  createdById Int
+  createdBy   User @relation(fields: [createdById], references: [id])
+
+  post   Post? @relation(fields: [postId], references: [id])
+  postId Int?
+
+  @@index([id])
 }
