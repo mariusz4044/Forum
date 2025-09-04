@@ -1,6 +1,6 @@
 ﻿# Internet Forum
 
-Modern full-stack internet forum built with React/Next.js frontend and Express.js backend.
+Modern full-stack internet forum designed with a strong focus on performance.
 
 ©️ Demo: [forum.avadi.ovh](https://forum.avadi.ovh)
 
@@ -12,6 +12,7 @@ Modern full-stack internet forum built with React/Next.js frontend and Express.j
 - [x] Creating topics
 - [x] Adding posts to topics
 - [x] User profiles
+- [x] Global statistics
 - [x] Pagination system for topics and posts
 - [x] Post rating system
 - [x] Admin menu
@@ -24,7 +25,6 @@ Modern full-stack internet forum built with React/Next.js frontend and Express.j
 - [x] Topic caching system
 
 **In Progress:**
-- [ ] Mobile version (50% complete)
 - [ ] User settings
 - [ ] Reporting system
 - [ ] Post search engine
@@ -143,6 +143,7 @@ NEXT_PUBLIC_API_URL="http://localhost:3001"
 ## 📄 License
 
 This project is licensed under the MIT License.
+
 
 
 
