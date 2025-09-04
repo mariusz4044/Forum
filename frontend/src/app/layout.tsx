@@ -44,6 +44,8 @@ function Content({ children }: { children: React.ReactNode }) {
 
   return (
     <>
+      {/*backgournd patten*/}
+      <div className="bg-pattern"></div>
       {/*Header (login/register/show user)*/}
       <Header />
       {/*Router view*/}

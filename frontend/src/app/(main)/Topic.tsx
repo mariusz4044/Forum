@@ -55,7 +55,7 @@ export default function Topic({ category }: { category: Category }) {
 
   return (
     <div
-      className="bg-[#1a1a2ecc]/[1] p-2 my-4 rounded-lg relative flex flex-row pl-4 h-24  max-sm:h-auto"
+      className="bg-[#1a1a2ecc]/[0.5] p-2 my-4 rounded-lg relative flex flex-row pl-4 h-24  max-sm:h-auto"
       style={{
         border: "1px solid rgba(86, 105, 219, 0.2)",
       }}

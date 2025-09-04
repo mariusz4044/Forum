@@ -60,7 +60,7 @@ export function LastTopicStatistic({ topic }: { topic: TopicResponseData }) {
 export function ForumBox({ children }: { children: ReactNode }) {
   return (
     <div
-      className="min-w-1/3 bg-[#1a1a2ecc] min-h-32 mt-4 rounded-xl max-sm:w-full"
+      className="min-w-1/3 bg-[#1a1a2ecc]/[0.5] min-h-32 mt-4 rounded-xl max-sm:w-full"
       style={{
         border: "1px solid rgba(86, 105, 219, 0.2)",
       }}

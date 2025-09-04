@@ -102,6 +102,20 @@
   }
 }
 
+
+.bg-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+            radial-gradient(circle at 20% 80%, rgba(43, 20, 62, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgb(32, 18, 51) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(53, 50, 117, 0.2) 0%, transparent 50%);
+    z-index: -1;
+}
+
 body {
   margin: 0;
   background: var(--background);

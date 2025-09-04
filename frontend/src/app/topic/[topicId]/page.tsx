@@ -5,7 +5,7 @@ import useSWR, { useSWRConfig } from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import Loading from "@/components/Utils/Universal/Loading";
 import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
-import { JSX, useRef, useState, ReactNode } from "react";
+import { JSX, useRef, useState, ReactNode, useEffect } from "react";
 import { useUserContext } from "@/context/UserContext";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { fetchData } from "@/functions/fetchData";
@@ -18,8 +18,16 @@ import { Info } from "lucide-react";
 
 function NewPostElement({
   mutateString,
+  currentPage,
+  onChangePage,
 }: {
   mutateString: string;
+  currentPage: number;
+  onChangePage: (
+    maxPage: number,
+    force?: boolean,
+    scrollAfterPostId?: string,
+  ) => void;
 }): JSX.Element {
   const [message, setMessage] = useState("");
   const { user } = useUserContext();
@@ -28,14 +36,22 @@ function NewPostElement({
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   async function handleSubmit() {
-    await fetchData("/api/forum/post/create", {
+    const res = await fetchData("/api/forum/post/create", {
       topicId: +topicId,
       message: message,
     });
 
+    const resData = res.data;
+
+    if (!resData) return;
+    const newMaxPage = resData.navigation.maxPage;
     await mutate(mutateString);
+
+    if (currentPage !== newMaxPage)
+      onChangePage(newMaxPage, true, `post-${resData.id}`);
     setMessage("");
     buttonRef.current?.scrollIntoView({ behavior: "smooth" });
+    return;
   }
 
   return (
@@ -79,6 +95,7 @@ export default function postsView() {
   const page = Number(searchParams.get("page") ?? 1);
   const cursor = useRef<string | null>(null);
   const direction = useRef<"next" | "prev">("next");
+  const scrollId = searchParams.get("scroll");
 
   const buildUrl = () => {
     const baseUrl = `${process.env.SERVER_URL}/api/forum/topic/${topicId}`;
@@ -105,10 +122,22 @@ export default function postsView() {
   const postList: ReactNode[] = [];
   posts.forEach((post: PostProps) => {
     postList.push(<PostBox postData={post} key={`post-${post.id}`} />);
+
+    //Scroll to post (if scroll param exist)
+    if (scrollId && scrollId === `post-${post.id}`) {
+      requestAnimationFrame(() => {
+        const el = document.getElementById(`${scrollId}`);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      });
+    }
   });
 
-  const onChangePage = (newPage: number) => {
-    if (newPage < 1 || newPage > data.navigation.maxPage) return;
+  const onChangePage = (
+    newPage: number,
+    force?: boolean,
+    scrollAfterPostId?: string,
+  ) => {
+    if (newPage < 1 || (newPage > data.navigation.maxPage && !force)) return;
 
     const params = new URLSearchParams(searchParams.toString());
     cursor.current = null;
@@ -125,6 +154,13 @@ export default function postsView() {
     }
 
     params.set("page", newPage.toString());
+
+    if (scrollAfterPostId) {
+      params.set("scroll", scrollAfterPostId);
+    } else {
+      params.delete("scroll");
+    }
+
     router.push(`?${params.toString()}`);
   };
 
@@ -146,7 +182,11 @@ export default function postsView() {
           <main className="mt-10">{postList}</main>
           <footer className="mt-10 mb-20">
             {user.id && resData.isOpen && (
-              <NewPostElement mutateString={mutateString} />
+              <NewPostElement
+                mutateString={mutateString}
+                onChangePage={onChangePage}
+                currentPage={page}
+              />
             )}
             {!resData.isOpen && <PostClose />}
           </footer>
