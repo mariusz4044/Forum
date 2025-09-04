@@ -16,6 +16,7 @@ interface PostBody {
 const isDev = process.env.NODE_ENV === "development";
 
 const postDelay = parseInt(`${process.env.POST_DELAY_PER_USER}`);
+const postsPerPage = parseInt(`${process.env.POSTS_PER_PAGE}`);
 
 export async function createPost(req: Request, res: Response) {
   const { message, topicId, blockResponse }: PostBody = req.body;
@@ -73,7 +74,7 @@ export async function createPost(req: Request, res: Response) {
     },
   });
 
-  await prisma.topic.update({
+  const topicUpdated = await prisma.topic.update({
     where: { id: topicId },
     data: {
       postsCount: { increment: 1 },
@@ -82,8 +83,13 @@ export async function createPost(req: Request, res: Response) {
 
   if (blockResponse) return true;
 
+  let maxPage = 1;
+  if (topicUpdated?.postsCount) {
+    maxPage = Math.ceil(topicUpdated.postsCount / postsPerPage);
+  }
+
   res.status(201).json({
     message: "Successfully created post!",
-    data: createdPost,
+    data: { ...createdPost, navigation: { maxPage } },
   });
 }
