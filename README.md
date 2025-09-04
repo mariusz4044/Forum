@@ -15,6 +15,7 @@ Modern full-stack internet forum designed with a strong focus on performance.
 - [x] Global statistics
 - [x] Pagination system for topics and posts
 - [x] Post rating system
+- [x] Reporting system
 - [x] Admin menu
   - [x] Deleting posts
   - [x] Deleting all posts from a user
@@ -26,8 +27,9 @@ Modern full-stack internet forum designed with a strong focus on performance.
 
 **In Progress:**
 - [ ] User settings
-- [ ] Reporting system
 - [ ] Post search engine
+- [ ] Text editor (e.g. [Quill](https://quilljs.com/))
+- [ ] Preview reported posts (admin)
 
 
 ## 🛠️ Tech Stack
@@ -74,14 +76,14 @@ npm install
 cd backend
 # Configure your database connection in .env
 # Run Prisma migrations
-npx prisma migrate dev
-npx prisma generate
+npm run db-build
 ```
 
 4. **Setup Frontend**
 ```bash
 cd frontend
 # Configure environment variables in .env.local
+npm run dev
 ```
 
 5. **Start the development servers**
@@ -121,6 +123,7 @@ NODE_ENV="development"
 # Forum settings
 POST_DELAY_PER_USER=3
 TOPIC_DELAY_PER_USER=60
+REPORT_DELAY_PER_USER=60
 
 # Forum page settings
 TOPIC_PER_PAGE=10
