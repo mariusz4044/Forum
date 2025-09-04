@@ -16,9 +16,6 @@ import LoginWindow from "@/components/Dialog/LoginWindow";
 //Context's
 import { useDialogContext } from "@/context/DialogContext";
 import { Providers } from "@/app/providers";
-import Loading from "@/components/Utils/Universal/Loading";
-import fetcherGet from "@/functions/fetcherGet";
-import { useUserContext } from "@/context/UserContext";
 import NewTopicWindow from "@/components/Dialog/NewTopicWindow";
 import EditPostEditPostWindow from "@/components/Dialog/EditPostWindow";
 import BanUserWindow from "@/components/Dialog/BanUserWindow";
