@@ -20,6 +20,7 @@ model User {
   bansReceived      Ban[]      @relation("BannedUser")
   bansGiven         Ban[]      @relation("BannedByUser")
   lastPostTs        DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
+  lastReportTs      DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
   lastTopicTs       DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
   reputation        Int        @default(0)
   totalPosts        Int        @default(0)
@@ -134,13 +135,12 @@ model Rate {
 }
 
 model Report {
-  id Int @id @default(autoincrement())
-
+  id          Int     @id @default(autoincrement())
+  checked     Boolean @default(false) //eg. admin check and remove post
   createdById Int
-  createdBy   User @relation(fields: [createdById], references: [id])
-
-  post   Post? @relation(fields: [postId], references: [id])
-  postId Int?
+  createdBy   User    @relation(fields: [createdById], references: [id])
+  post        Post?   @relation(fields: [postId], references: [id])
+  postId      Int?
 
   @@index([id])
 }
