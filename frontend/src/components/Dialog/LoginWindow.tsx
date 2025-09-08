@@ -4,7 +4,7 @@ import { FormInput } from "@/components/Utils/Universal/FormInput";
 
 import { fetchData } from "@/functions/fetchData";
 import { useDialogContext } from "@/context/DialogContext";
-import { User, useUserContext } from "@/context/UserContext";
+import { useUserContext } from "@/context/UserContext";
 
 export default function LoginWindow() {
   const { close } = useDialogContext();

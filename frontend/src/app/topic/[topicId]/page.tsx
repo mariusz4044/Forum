@@ -5,7 +5,7 @@ import useSWR, { useSWRConfig } from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import Loading from "@/components/Utils/Universal/Loading";
 import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
-import { JSX, useRef, useState, ReactNode, useEffect } from "react";
+import { JSX, useRef, useState, ReactNode } from "react";
 import { useUserContext } from "@/context/UserContext";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { fetchData } from "@/functions/fetchData";

@@ -5,9 +5,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { ReactNode } from "react";
 import { PageNavigationProps } from "@/types/types";
-import { formatNumberSpacing } from "@/components/Utils/formatNumbers";
 
 interface PageNumberElementProps {
   pageNumber: number;

@@ -1,8 +1,10 @@
+import { ReactNode } from "react";
+
 export default function LoginButton({
   children,
   onClick,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   onClick?: () => void;
 }) {
   return (

@@ -9,9 +9,11 @@ export function UserNick({ user }: { user: User }) {
   if (user.role) className += ` ${user.role}`;
 
   async function getUserData() {
-    const res = await fetchData(`/api/user/profile/${user.id}`, null, "GET");
-    const userData = res;
-
+    const userData = await fetchData(
+      `/api/user/profile/${user.id}`,
+      null,
+      "GET",
+    );
     setDialogData(userData);
     open("userProfile");
   }

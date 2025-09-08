@@ -23,9 +23,6 @@ import { formatShortNumber } from "../Utils/formatNumbers";
 export function PostBoxUserPanel({ user }: { user: PostAuthor }) {
   let reputationIcon = Meh;
   let reputationColor: BadgeColors = "gray";
-  let roleColor: BadgeColors = "gray";
-
-  if (user.role === "ADMIN") roleColor = "red";
 
   if (user.reputation) {
     if (user.reputation >= 5) {
@@ -69,7 +66,6 @@ export function PostBoxUserPanel({ user }: { user: PostAuthor }) {
             />
           )}
         </div>
-        {/*<Badge color={roleColor} Icon={User} text={role} />*/}
       </div>
     </div>
   );

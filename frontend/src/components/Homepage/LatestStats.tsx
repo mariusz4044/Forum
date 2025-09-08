@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
-import { Mails, MessageCircle, Notebook, UserIcon, Users } from "lucide-react";
-import { Stats } from "node:fs";
+import { MessageCircle, Notebook, UserIcon, Users } from "lucide-react";
 import { StatsData } from "@/types/types";
 import { formatNumber } from "@/components/Utils/formatNumbers";
 import { UserNick } from "@/components/Utils/UserNick";

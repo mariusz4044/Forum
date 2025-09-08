@@ -3,7 +3,6 @@ import ClassicButton from "@/components/Utils/Buttons/ClassicButton";
 import { fetchData } from "@/functions/fetchData";
 import { useRouter } from "next/navigation";
 import { useDialogContext } from "@/context/DialogContext";
-import { useUserContext } from "@/context/UserContext";
 import { useParams } from "next/navigation";
 import {
   FormInput,
@@ -13,8 +12,7 @@ import {
 export default function NewTopicWindow() {
   const router = useRouter();
   const { categoryId = 0 } = useParams();
-  const { open, close } = useDialogContext();
-  const { setNewUser } = useUserContext();
+  const { close } = useDialogContext();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

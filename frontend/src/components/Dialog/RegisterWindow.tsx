@@ -5,10 +5,10 @@ import { fetchData } from "@/functions/fetchData";
 import { useDialogContext } from "@/context/DialogContext";
 import { useUserContext } from "@/context/UserContext";
 import { Captcha } from "@/components/Utils/Captcha";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export default function RegisterWindow() {
-  const { open, close } = useDialogContext();
+  const { close } = useDialogContext();
   const { setNewUser } = useUserContext();
   const [captchaId, setCaptchaId] = useState<number>(1);
 

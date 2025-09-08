@@ -1,11 +1,10 @@
 "use client";
-import useSWR from "swr";
 
 import "./globals.css";
-import React, { useEffect } from "react";
+import React from "react";
 
 //animations
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { AnimatePresence } from "framer-motion";
 
 //Components
@@ -20,8 +19,6 @@ import NewTopicWindow from "@/components/Dialog/NewTopicWindow";
 import EditPostEditPostWindow from "@/components/Dialog/EditPostWindow";
 import BanUserWindow from "@/components/Dialog/BanUserWindow";
 import UserProfileWindow from "@/components/Dialog/UserProfileWindow";
-
-type DialogTypes = "Register" | "Login";
 
 export default function RootLayout({
   children,

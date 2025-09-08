@@ -1,4 +1,3 @@
-import { ChevronDown } from "lucide-react";
 import { useUserContext } from "@/context/UserContext";
 import { ReactNode } from "react";
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { clsx } from "clsx";
+import { ReactNode } from "react";
 
 export default function ForumButton({
   children,
@@ -8,7 +9,7 @@ export default function ForumButton({
   className = "",
   onClick,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   type?: "submit" | "reset" | "button";
   className?: string;
   onClick?: () => void;

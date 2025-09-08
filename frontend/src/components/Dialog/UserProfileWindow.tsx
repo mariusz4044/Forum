@@ -1,10 +1,10 @@
 import Window from "@/components/Utils/Universal/Window";
 import { useDialogContext } from "@/context/DialogContext";
-import { User, useUserContext } from "@/context/UserContext";
+import { User } from "@/context/UserContext";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { UserNick } from "../Utils/UserNick";
 import { UserAvatar } from "../Utils/UserAvatar";
-import { formatNumber, formatShortNumber } from "../Utils/formatNumbers";
+import { formatNumber } from "../Utils/formatNumbers";
 
 function BadgeProfile({ text }: { text: string }) {
   return (
@@ -21,7 +21,7 @@ function BadgeProfile({ text }: { text: string }) {
 }
 
 export default function UserProfileWindow() {
-  const { close, data } = useDialogContext();
+  const { data } = useDialogContext();
   const user: User & { posts: number; createdAt: string } = data!;
 
   return (

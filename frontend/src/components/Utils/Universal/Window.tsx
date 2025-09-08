@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 
 import { ReactNode } from "react";
-import { X } from "lucide-react";
 
 import { useDialogContext } from "@/context/DialogContext";
 
