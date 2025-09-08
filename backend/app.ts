@@ -2,6 +2,7 @@ const isDev = process.env.NODE_ENV !== "production";
 
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
+import { rateLimit } from "express-rate-limit";
 import cors from "cors";
 
 import { AppErrorProps } from "./utils/AppError";
@@ -14,7 +15,6 @@ import adminRoutes from "./routes/adminRoutes";
 import captchaRoutes from "./routes/captchaRoutes";
 import { CacheManager } from "./utils/cacheManager";
 import { getInitQuery } from "./controllers/dbqueries/forum/getInitQuery";
-
 dotenv.config();
 
 const app = express();
@@ -32,6 +32,15 @@ app.use(expressSession());
 export const cm = new CacheManager(10_000);
 cm.add("forumInit", getInitQuery);
 cm.start();
+
+//Rate limit middleware
+const limiter = rateLimit({
+  windowMs: 1000,
+  limit: 10,
+  message: { error: "Too many requests, please try again later." },
+});
+
+app.use(limiter);
 
 //Middleware
 app.use("/", validateRequest);
@@ -53,9 +62,8 @@ app.use((err: AppErrorProps, req: Request, res: Response, next: any) => {
     return res.status(err.status).json({ error: err.message, data: err.data });
   }
 
-  console.log(err);
-
   if (isDev) {
+    console.log(err);
     return res.status(500).json({ error: "Internal Server Error", err });
   }
 
