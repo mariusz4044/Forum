@@ -3,6 +3,9 @@
 import { useState } from "react";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { toast } from "react-toastify";
+import { fetchData } from "@/functions/fetchData";
+import { UserAvatar } from "@/components/Utils/UserAvatar";
+import { User } from "lucide-react";
 
 export default function () {
   //Preview is base64 image
@@ -10,20 +13,30 @@ export default function () {
 
   const handleFileChange = (e: any) => {
     const file = e.target.files[0];
-    if (file && file.size <= 2 * 1024 * 1024) {
+    if (file && file.size <= 512 * 1024) {
       const reader = new FileReader();
       reader.onloadend = () => setPreview(reader.result as string);
       reader.readAsDataURL(file);
     } else {
-      toast.error("File size is less than 512KB!");
+      toast.error("File size is more than 512KB!");
     }
   };
 
-  const handleSave = () => {};
+  async function onSave() {
+    await fetchData(
+      "/api/user/avatar",
+      {
+        base64: preview,
+      },
+      "PATCH",
+    );
+
+    window.location.reload();
+  }
 
   return (
     <div className="bg-[#ffffff08] p-8 rounded-xl flex flex-row gap-5 items-center">
-      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-400 to-purple-400 flex items-center justify-center text-3xl font-bold text-white overflow-hidden">
+      <div className="min-w-20 min-h-20 rounded-full border-dashed border-2 border-[#ffffff1a] bg-[#ffffff08] bor from-pink-400 to-purple-400 flex items-center justify-center text-3xl font-bold text-white overflow-hidden">
         {preview ? (
           <img
             src={preview}
@@ -31,7 +44,9 @@ export default function () {
             className="w-20 h-20 rounded-full object-cover"
           />
         ) : (
-          <span>T</span>
+          <span>
+            <User />
+          </span>
         )}
       </div>
       <div className="flex flex-col gap-4">
@@ -56,7 +71,7 @@ export default function () {
           </label>
           <ForumButton
             className="p-5 rounded-md w-auto lowercase"
-            onClick={handleSave}
+            onClick={onSave}
           >
             <p className="capitalize font-normal">Save changes</p>
           </ForumButton>

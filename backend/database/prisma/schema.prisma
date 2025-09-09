@@ -8,29 +8,30 @@ datasource db {
 }
 
 model User {
-  id                Int        @id @default(autoincrement())
-  login             String     @unique
-  password          String
-  name              String     @unique
-  role              String     @default("USER")
-  avatar            String     @default("default.webp")
-  createdAt         DateTime   @default(now())
-  points            Int        @default(0)
-  addressIp         String?
-  bansReceived      Ban[]      @relation("BannedUser")
-  bansGiven         Ban[]      @relation("BannedByUser")
-  lastPostTs        DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
-  lastReportTs      DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
-  lastTopicTs       DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
-  reputation        Int        @default(0)
-  totalPosts        Int        @default(0)
-  sessions          Session[]
-  sections          Section[]
-  topicsCreated     Topic[]
-  categoriesCreated Category[]
-  posts             Post[]
-  rateGiven         Rate[]
-  reports           Report[]
+  id                 Int        @id @default(autoincrement())
+  login              String     @unique
+  password           String
+  name               String     @unique
+  role               String     @default("USER")
+  avatar             String     @default("default.webp")
+  createdAt          DateTime   @default(now())
+  points             Int        @default(0)
+  addressIp          String?
+  bansReceived       Ban[]      @relation("BannedUser")
+  bansGiven          Ban[]      @relation("BannedByUser")
+  lastPostTs         DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
+  lastReportTs       DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
+  lastTopicTs        DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
+  lastAvatarChangeTs DateTime   @default(dbgenerated("'1970-01-01 00:00:00'"))
+  reputation         Int        @default(0)
+  totalPosts         Int        @default(0)
+  sessions           Session[]
+  sections           Section[]
+  topicsCreated      Topic[]
+  categoriesCreated  Category[]
+  posts              Post[]
+  rateGiven          Rate[]
+  reports            Report[]
 
   @@index([login])
 }

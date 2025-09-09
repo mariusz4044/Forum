@@ -6,7 +6,7 @@ import { UserNick } from "../Utils/UserNick";
 import { UserAvatar } from "../Utils/UserAvatar";
 import { formatNumber } from "../Utils/formatNumbers";
 
-function BadgeProfile({ text }: { text: string }) {
+export function BadgeProfile({ text }: { text: string }) {
   return (
     <div
       className="px-4 py-1 rounded-full text-sm tracking-wider  mt-2"

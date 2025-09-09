@@ -10,6 +10,7 @@ import { getUserProfile } from "../controllers/forum/getUserProfile";
 import authCaptcha from "../middleware/auths/authCaptcha";
 import { validateBody } from "../middleware/validateBody";
 import { loginSchema, registerSchema } from "../middleware/zodSchemas/schemas";
+import { setAvatar } from "../controllers/user/setAvatar";
 
 router.get("/", authorization, async (req, res) => {
   const userData = await getUserData(req, res);
@@ -17,10 +18,10 @@ router.get("/", authorization, async (req, res) => {
 });
 
 router.post("/register", validateBody(registerSchema), authCaptcha, register);
-
 router.post("/login", validateBody(loginSchema), loginFn);
 router.post("/logout", authorization, logoutUser);
-
 router.get("/profile/:userId", getUserProfile);
+
+router.patch("/avatar", authorization, setAvatar);
 
 export default router;
