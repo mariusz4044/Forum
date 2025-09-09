@@ -11,6 +11,7 @@ import authCaptcha from "../middleware/auths/authCaptcha";
 import { validateBody } from "../middleware/validateBody";
 import { loginSchema, registerSchema } from "../middleware/zodSchemas/schemas";
 import { setAvatar } from "../controllers/user/setAvatar";
+import getUsersSettings from "../controllers/user/getUserSettings";
 
 router.get("/", authorization, async (req, res) => {
   const userData = await getUserData(req, res);
@@ -21,6 +22,7 @@ router.post("/register", validateBody(registerSchema), authCaptcha, register);
 router.post("/login", validateBody(loginSchema), loginFn);
 router.post("/logout", authorization, logoutUser);
 router.get("/profile/:userId", getUserProfile);
+router.get("/settings", authorization, getUsersSettings);
 
 router.patch("/avatar", authorization, setAvatar);
 

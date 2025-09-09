@@ -23,7 +23,7 @@ export function SettingsHeader({ children }: { children: ReactNode }) {
 }
 
 export function SettingsContent({ children }: { children: ReactNode }) {
-  return <div className="p-8">{children}</div>;
+  return <div className="p-5">{children}</div>;
 }
 
 export function SettingsBox({ children }: { children: ReactNode }) {

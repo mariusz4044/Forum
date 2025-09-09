@@ -39,10 +39,12 @@ function UserPanel({ user, logout }: { user: User; logout: () => void }) {
             Hello, <UserNick user={user} />
           </span>
           <span className="text-gray-400 text-[12px]">{user.role}</span>
-          <div className="text-gray-400 text-[12px] flex flex-row gap-1 items-center">
-            <Settings size={12} />
-            <span>Account settings</span>
-          </div>
+          <Link href="/settings">
+            <div className="text-gray-400 text-[12px] flex flex-row gap-1 items-center">
+              <Settings size={12} />
+              <span>Account settings</span>
+            </div>
+          </Link>
         </div>
       </div>
       <button

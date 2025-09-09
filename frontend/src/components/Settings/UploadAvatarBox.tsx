@@ -23,7 +23,7 @@ export default function () {
   };
 
   async function onSave() {
-    await fetchData(
+    let res = await fetchData(
       "/api/user/avatar",
       {
         base64: preview,
@@ -31,7 +31,7 @@ export default function () {
       "PATCH",
     );
 
-    window.location.reload();
+    if (!res.error) window.location.reload();
   }
 
   return (

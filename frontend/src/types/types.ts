@@ -15,6 +15,19 @@ export interface PostProps {
   id: number;
 }
 
+export type UserSettingsData = {
+  id: number;
+  login: string;
+  name: string;
+  role: Pick<User, "role">;
+  reputation: number;
+  rateGiven: number;
+  bansReceived: number;
+  reports: number;
+  topicsCreated: number;
+  totalPosts: number;
+};
+
 export interface TopicResponseData {
   createdAt: string;
   title: string;
