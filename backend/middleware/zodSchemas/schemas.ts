@@ -37,6 +37,17 @@ export const bodyPostIdSchema = z.object({
   postId: postIdSchema,
 });
 
+export const changePasswordSchema = z.object({
+  password: z
+    .string()
+    .min(5, { message: "Old Password must have at least 5 characters!" })
+    .max(64, { message: "Old Password can have a maximum of 64 characters!" }),
+  newPassword: z
+    .string()
+    .min(5, { message: "New Password must have at least 5 characters!" })
+    .max(64, { message: "New Password can have a maximum of 64 characters!" }),
+});
+
 export const registerSchema = z.object({
   name: z
     .string()

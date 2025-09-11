@@ -9,9 +9,14 @@ import { logoutUser } from "../controllers/user/logout";
 import { getUserProfile } from "../controllers/forum/getUserProfile";
 import authCaptcha from "../middleware/auths/authCaptcha";
 import { validateBody } from "../middleware/validateBody";
-import { loginSchema, registerSchema } from "../middleware/zodSchemas/schemas";
+import {
+  changePasswordSchema,
+  loginSchema,
+  registerSchema,
+} from "../middleware/zodSchemas/schemas";
 import { setAvatar } from "../controllers/user/setAvatar";
 import getUsersSettings from "../controllers/user/getUserSettings";
+import changePassword from "../controllers/user/changePassword";
 
 router.get("/", authorization, async (req, res) => {
   const userData = await getUserData(req, res);
@@ -25,5 +30,11 @@ router.get("/profile/:userId", getUserProfile);
 router.get("/settings", authorization, getUsersSettings);
 
 router.patch("/avatar", authorization, setAvatar);
+router.patch(
+  "/password",
+  validateBody(changePasswordSchema),
+  authorization,
+  changePassword,
+);
 
 export default router;
