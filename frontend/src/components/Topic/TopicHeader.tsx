@@ -4,6 +4,7 @@ import { UserNick } from "@/components/Utils/UserNick";
 import { useUserContext } from "@/context/UserContext";
 import { CloseTopicButton, DelteTopicButton } from "../Admin/TopicTools";
 import Image from "next/image";
+import { UserAvatar } from "@/components/Utils/UserAvatar";
 
 export function TopicHeader() {
   const { title, createdBy, createdAt, id, isOpen } = useTopicContext();
@@ -27,12 +28,10 @@ export function TopicHeader() {
       </div>
       <div className="bg-[#6161614d] mt-4 h-[1px]"></div>
       <div className="flex flex-row items-center mt-4">
-        <Image
-          src={`/avatars/${createdBy.avatar}`}
-          alt="user avatar"
-          width={48}
-          height={48}
+        <UserAvatar
+          user={createdBy}
           className="opacity-70 rounded-full ml-1"
+          size={{ width: 50, height: 50 }}
         />
         <div className="flex flex-col text-sm justify-center ml-2">
           <span>

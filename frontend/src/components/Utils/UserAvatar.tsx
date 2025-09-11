@@ -12,7 +12,7 @@ export function UserAvatar({
 }) {
   return (
     <Image
-      src={`/avatars/${user.avatar}`}
+      src={`${process.env.SERVER_URL}/image/avatar/${user.avatar}`}
       width={size?.width || 96}
       height={size?.height || 96}
       alt="User avatar"

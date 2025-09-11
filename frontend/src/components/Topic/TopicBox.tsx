@@ -5,6 +5,7 @@ import { UserNick } from "../Utils/UserNick";
 import Image from "next/image";
 import { formatShortNumber } from "@/components/Utils/formatNumbers";
 import { MessageCircle } from "lucide-react";
+import { UserAvatar } from "@/components/Utils/UserAvatar";
 
 function TopicClosed() {
   return (
@@ -26,12 +27,7 @@ export function TopicBox({ topic }: { topic: TopicProps }) {
     >
       <div className="left-topic flex flex-row gap-4 items-center">
         <div className="size-12 relative">
-          <Image
-            src={`/avatars/${createdBy.avatar}`}
-            alt="user avatar"
-            fill
-            className="rounded-xl opacity-50"
-          />
+          <UserAvatar user={createdBy} className="rounded-xl opacity-50" />
         </div>
         <div className="flex flex-col gap-1 text-lg">
           <Link

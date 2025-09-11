@@ -11,7 +11,7 @@ export function SettingsHeaderText({ children }: { children: ReactNode }) {
 export function SettingsHeader({ children }: { children: ReactNode }) {
   return (
     <div
-      className="p-5 border-b-1 border-b-[#ffffff1a]"
+      className="p-5 border-b-1 border-b-[#ffffff1a] rounded-t-xl"
       style={{
         background:
           "linear-gradient(135deg, rgba(124, 127, 198, 0.1) 0%, rgba(255, 119, 198, 0.1) 100%)",

@@ -7,6 +7,7 @@ import { UserNick } from "@/components/Utils/UserNick";
 import Image from "next/image";
 import { formatShortNumber } from "@/components/Utils/formatNumbers";
 import { Category, LastPost } from "@/types/types";
+import { UserAvatar } from "@/components/Utils/UserAvatar";
 
 function MessageCountElement({
   messagesCount,
@@ -26,12 +27,10 @@ function MessageCountElement({
 function LastPostElement({ lastPost }: { lastPost: LastPost }) {
   return (
     <div className="flex flex-row w-full h-full items-center gap-3 tracking-wide">
-      <Image
-        src={`/avatars/${lastPost.author.avatar}`}
-        alt="Avatar"
-        width={40}
-        height={40}
+      <UserAvatar
+        user={lastPost.author}
         className="rounded-xl opacity-60"
+        size={{ width: 42, height: 42 }}
       />
       <div className="flex flex-col text-sm text-[11px] w-32">
         <div className="font-medium whitespace-nowrap cursor-pointer hover:text-[#9686ff] truncate">
