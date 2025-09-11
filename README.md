@@ -24,9 +24,9 @@ Modern full-stack internet forum designed with a strong focus on performance.
   - [x] Deleting topics
   - [x] Editing user posts
 - [x] Topic caching system
+- [x] User settings (change password / Avatar, Stats)
 
 **In Progress:**
-- [ ] User settings
 - [ ] Post search engine
 - [ ] Text editor (e.g. [Quill](https://quilljs.com/))
 - [ ] Preview reported posts (admin)
