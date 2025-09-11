@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import { rateLimit } from "express-rate-limit";
 import cors from "cors";
+import path from "path";
 
 import { AppErrorProps } from "./utils/AppError";
 import expressSession from "./middleware/express-session";
@@ -41,6 +42,19 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
+
+//Simple public folder routing
+app.get("/image/avatar/:filename", (req, res) => {
+  const { filename } = req.params;
+
+  const filePath = path.join(__dirname, "..", "public", "avatars", filename);
+
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      res.status(404).send("Avatar not found");
+    }
+  });
+});
 
 //Middleware
 app.use("/", validateRequest);
