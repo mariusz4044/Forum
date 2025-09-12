@@ -46,6 +46,12 @@ async function getTopic(topicId: number) {
   return prisma.topic.findUnique({
     where: { id: topicId },
     include: {
+      category: {
+        select: {
+          id: true,
+          title: true,
+        },
+      },
       createdBy: {
         select: {
           name: true,

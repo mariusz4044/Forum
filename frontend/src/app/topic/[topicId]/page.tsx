@@ -11,10 +11,16 @@ import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { fetchData } from "@/functions/fetchData";
 import { PageNavigation } from "@/components/PageNavigation";
 
-import { PostAuthor, PostProps, TopicResponseData } from "@/types/types";
+import {
+  Location,
+  PostAuthor,
+  PostProps,
+  TopicResponseData,
+} from "@/types/types";
 import { TopicHeader } from "@/components/Topic/TopicHeader";
 import { TopicContext } from "@/context/TopicContext";
 import { Info } from "lucide-react";
+import LocationNav from "@/components/Utils/LocationNav";
 
 function NewPostElement({
   mutateString,
@@ -119,6 +125,22 @@ export default function postsView() {
     return <h1>Topic not exist!</h1>;
   }
 
+  //location
+  let location: Location[] = [
+    { href: "/", name: "Home", id: 1 },
+    {
+      href: `/category/${resData.category.id}`,
+      name: resData.category.title,
+      id: resData.category.id,
+    },
+  ];
+
+  location.push({
+    href: `/topic/${resData.id}`,
+    id: resData.id,
+    name: resData.title,
+  });
+
   const postList: ReactNode[] = [];
   posts.forEach((post: PostProps) => {
     postList.push(<PostBox postData={post} key={`post-${post.id}`} />);
@@ -170,7 +192,8 @@ export default function postsView() {
     <TopicContext value={resData}>
       <main className="w-full flex justify-center items-center flex-row mt-10">
         <div className="w-[80%] h-full max-sm:w-[90%] max-sm:ml-[5%]">
-          <header>
+          <header className="flex flex-col gap-3">
+            <LocationNav data={location} />
             <TopicHeader />
             <div className="mt-2">
               <PageNavigation

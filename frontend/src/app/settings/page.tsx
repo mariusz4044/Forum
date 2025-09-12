@@ -8,6 +8,7 @@ import { UserSettingsData } from "@/types/types";
 import { useState } from "react";
 import SettingsInformations from "@/components/Settings/SettingsInformations";
 import SettingsNavigation from "@/components/Settings/SettingsNavigation";
+import SettingsPassword from "@/components/Settings/SettingsPassword";
 
 export type navigationType = "profile" | "info" | "secure";
 
@@ -41,6 +42,7 @@ export default function page() {
         </div>
         {currentView === "profile" && <SettingsProfile data={data} />}
         {currentView === "info" && <SettingsInformations data={data} />}
+        {currentView === "secure" && <SettingsPassword />}
       </div>
     </div>
   );

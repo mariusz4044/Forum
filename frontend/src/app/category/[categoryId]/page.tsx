@@ -11,6 +11,8 @@ import { TopicBox } from "@/components/Topic/TopicBox";
 import { ReactNode, useRef } from "react";
 import { useDialogContext } from "@/context/DialogContext";
 import { User, useUserContext } from "@/context/UserContext";
+import LocationNav from "@/components/Utils/LocationNav";
+import { Category, Location } from "@/types/types";
 
 export interface TopicProps {
   createdAt: string;
@@ -19,6 +21,7 @@ export interface TopicProps {
   createdBy: User;
   isOpen: boolean;
   postsCount: number;
+  category: { id: number; title: string };
 }
 
 export default function topicView() {
@@ -50,10 +53,19 @@ export default function topicView() {
 
   const { data, error } = useSWR(buildUrl, fetcherGet);
   const topics: TopicProps[] | undefined = data?.data?.topics;
+  const category: Category | undefined = data?.data?.category;
 
-  if (!data || !topics || error) {
+  if (!data || !topics || error || !category) {
     return <Loading />;
   }
+
+  //location
+  let location: Location[] = [{ href: "/", name: "Home", id: 1 }];
+  location.push({
+    href: `/category/${category.id}`,
+    id: category.id,
+    name: category.title,
+  });
 
   const topicList: ReactNode[] = [];
   topics.forEach((topic) => {
@@ -82,9 +94,10 @@ export default function topicView() {
   };
 
   return (
-    <main className="w-full flex justify-center items-center flex-row mt-10">
+    <main className="w-full flex justify-center items-center flex-col mt-10">
       <div className="container-70">
-        <header>
+        <header className="flex flex-col gap-3">
+          <LocationNav data={location} />
           <PageNavigation
             onChangePage={onChangePage}
             navigation={data.navigation}

@@ -6,6 +6,12 @@ export type PostAuthor = User & {
   totalPosts: number;
 };
 
+export interface Location {
+  href: string;
+  id: number;
+  name: string;
+}
+
 export interface PostProps {
   author: PostAuthor;
   ratingSummary: number;
@@ -36,7 +42,7 @@ export interface TopicResponseData {
   createdBy: User;
   isOpen: boolean;
   id: number;
-  _count: { count: number };
+  category: Category;
 }
 
 export interface LastPost {
