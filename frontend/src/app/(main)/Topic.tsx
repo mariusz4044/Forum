@@ -1,13 +1,14 @@
-import { MessageSquarePlus } from "lucide-react";
-import Link from "next/link";
-import { JSX } from "react";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { useUserContext } from "@/context/UserContext";
 import { UserNick } from "@/components/Utils/UserNick";
-import Image from "next/image";
 import { formatShortNumber } from "@/components/Utils/formatNumbers";
 import { Category, LastPost } from "@/types/types";
 import { UserAvatar } from "@/components/Utils/UserAvatar";
+
+import { MessageSquarePlus } from "lucide-react";
+import Link from "next/link";
+import { JSX } from "react";
+import Image from "next/image";
 
 function MessageCountElement({
   messagesCount,
@@ -25,24 +26,23 @@ function MessageCountElement({
 }
 
 function LastPostElement({ lastPost }: { lastPost: LastPost }) {
+  const { topic, author, createdAt } = lastPost;
   return (
     <div className="flex flex-row w-full h-full items-center gap-3 tracking-wide">
       <UserAvatar
-        user={lastPost.author}
+        user={author}
         className="rounded-xl opacity-60"
         size={{ width: 42, height: 42 }}
       />
       <div className="flex flex-col text-sm text-[11px] w-32">
-        <div className="font-medium whitespace-nowrap cursor-pointer hover:text-[#9686ff] truncate">
-          <Link href={`/topic/${lastPost.topic.id}`}>
-            {lastPost.topic.title}
-          </Link>
+        <div className="font-medium whitespace-nowrap cursor-pointer truncate">
+          <Link href={`/topic/${topic.id}`}>{topic.title}</Link>
         </div>
         <div className="text-[#9F9FC9] whitespace-nowrap flex flex-col">
           <span>
-            Od <UserNick user={lastPost.author} />
+            from <UserNick user={author} />
           </span>
-          {formatDateToRelative(lastPost.createdAt)}
+          {formatDateToRelative(createdAt)}
         </div>
       </div>
     </div>

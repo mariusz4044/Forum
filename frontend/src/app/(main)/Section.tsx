@@ -23,12 +23,9 @@ export function SectionText({
 export function Section({ children }: { children: ReactNode }) {
   return (
     <div
-      className="bg-[#1e1e2f]/[.8] p-4 my-4 rounded-lg relative flex flex-row justify-between items-center"
-      style={{
-        borderTop: "1px solid #32324f",
-        background:
-          "linear-gradient(90deg, rgb(55 47 179 / 80%), rgb(52 32 99 / 80%))",
-      }}
+      className="bg-gradient-to-r from-[rgb(55_47_179/0.8)] to-[rgb(52_32_99/0.8)]
+      p-4 my-4 rounded-lg relative flex flex-row justify-between items-center
+      border-t-1 border-t-[#32324f]"
     >
       {children}
     </div>

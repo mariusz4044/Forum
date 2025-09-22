@@ -4,7 +4,7 @@ import { getSWRKey } from "../Utils/getSWRKey";
 import { useSWRConfig } from "swr";
 import { X, Edit } from "lucide-react";
 
-export function DelteTopicButton({ topicId }: { topicId: number }) {
+export function DeleteTopicButton({ topicId }: { topicId: number }) {
   async function deleteTopic() {
     await fetchData(
       `/api/topic`,
@@ -16,7 +16,7 @@ export function DelteTopicButton({ topicId }: { topicId: number }) {
   }
 
   return (
-    <ForumButton onClick={deleteTopic}className="w-36">
+    <ForumButton onClick={deleteTopic} className="w-36">
       <div className="flex flex-row gap-2 items-center">
         <X size={12} />
         <span>Delete topic</span>

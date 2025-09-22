@@ -2,9 +2,10 @@ import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import { useTopicContext } from "@/context/TopicContext";
 import { UserNick } from "@/components/Utils/UserNick";
 import { useUserContext } from "@/context/UserContext";
-import { CloseTopicButton, DelteTopicButton } from "../Admin/TopicTools";
-import Image from "next/image";
+import { CloseTopicButton, DeleteTopicButton } from "../Admin/TopicTools";
 import { UserAvatar } from "@/components/Utils/UserAvatar";
+
+import Image from "next/image";
 
 export function TopicHeader() {
   const { title, createdBy, createdAt, id, isOpen } = useTopicContext();
@@ -21,7 +22,7 @@ export function TopicHeader() {
           {user.role === "ADMIN" && (
             <div className="flex flex-row gap-2">
               <CloseTopicButton topicId={id} isOpen={isOpen} />
-              <DelteTopicButton topicId={id} />
+              <DeleteTopicButton topicId={id} />
             </div>
           )}
         </div>

@@ -5,12 +5,13 @@ import { FormInput } from "@/components/Utils/Universal/FormInput";
 import { fetchData } from "@/functions/fetchData";
 import { useDialogContext } from "@/context/DialogContext";
 import { useUserContext } from "@/context/UserContext";
+import { FormEvent } from "react";
 
 export default function LoginWindow() {
   const { close } = useDialogContext();
   const { setNewUser } = useUserContext();
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);

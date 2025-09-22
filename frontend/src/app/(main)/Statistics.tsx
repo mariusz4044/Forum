@@ -7,9 +7,10 @@ import {
 import { UserAvatar } from "@/components/Utils/UserAvatar";
 import { UserNick } from "@/components/Utils/UserNick";
 import { timeAgo } from "@/functions/timeAgo";
+import { formatNumber } from "@/components/Utils/formatNumbers";
+
 import { ReactNode } from "react";
 import Link from "next/link";
-import { formatNumber } from "@/components/Utils/formatNumbers";
 
 export function LastPostStatistic({ post }: { post: StatisticPost }) {
   const { author, topic, createdAt } = post;

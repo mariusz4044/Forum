@@ -1,26 +1,26 @@
 "use client";
 
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import useSWR, { useSWRConfig } from "swr";
-import fetcherGet from "@/functions/fetcherGet";
-import Loading from "@/components/Utils/Universal/Loading";
-import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
-import { JSX, useRef, useState, ReactNode } from "react";
-import { useUserContext } from "@/context/UserContext";
-import ForumButton from "@/components/Utils/Buttons/ForumButton";
-import { fetchData } from "@/functions/fetchData";
-import { PageNavigation } from "@/components/PageNavigation";
-
 import {
   Location,
   PostAuthor,
   PostProps,
   TopicResponseData,
 } from "@/types/types";
+import fetcherGet from "@/functions/fetcherGet";
+import Loading from "@/components/Utils/Universal/Loading";
+import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
+import { useUserContext } from "@/context/UserContext";
+import ForumButton from "@/components/Utils/Buttons/ForumButton";
+import { fetchData } from "@/functions/fetchData";
+import { PageNavigation } from "@/components/PageNavigation";
 import { TopicHeader } from "@/components/Topic/TopicHeader";
 import { TopicContext } from "@/context/TopicContext";
-import { Info } from "lucide-react";
 import LocationNav from "@/components/Utils/LocationNav";
+
+import { JSX, useRef, useState, ReactNode } from "react";
+import { Info } from "lucide-react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import useSWR, { useSWRConfig } from "swr";
 
 function NewPostElement({
   mutateString,
@@ -48,13 +48,15 @@ function NewPostElement({
     });
 
     const resData = res.data;
-
     if (!resData) return;
+
     const newMaxPage = resData.navigation.maxPage;
     await mutate(mutateString);
 
-    if (currentPage !== newMaxPage)
+    if (currentPage !== newMaxPage) {
       onChangePage(newMaxPage, true, `post-${resData.id}`);
+    }
+
     setMessage("");
     buttonRef.current?.scrollIntoView({ behavior: "smooth" });
     return;
@@ -81,7 +83,7 @@ function NewPostElement({
 
 function PostClose() {
   return (
-    <div className=" flex flex-row gap-3 w-full bg-[#ff47571a] text-sm border-1 border-[#ff47574d] rounded-lg  p-4 hover:scale-105 font-light cursor-pointer">
+    <div className=" flex flex-row gap-3 w-full bg-red-800/[0.15] text-sm border-1 border-red-500/[0.2] rounded-lg  p-4 hover:scale-105 font-light cursor-pointer">
       <Info size={18} />
       <span>The topic is closed.</span>
     </div>

@@ -2,12 +2,12 @@
 
 import { Section, SectionText } from "@/app/(main)/Section";
 import Topic from "@/app/(main)/Topic";
-import useSWR from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import { Category } from "@/types/types";
-
 import { Statistics } from "@/app/(main)/Statistics";
 import LatestStats from "@/components/Homepage/LatestStats";
+
+import useSWR from "swr";
 
 export default function Home() {
   const { data } = useSWR(`${process.env.SERVER_URL}/api/forum`, fetcherGet, {

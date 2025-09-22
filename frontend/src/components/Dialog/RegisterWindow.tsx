@@ -5,14 +5,14 @@ import { fetchData } from "@/functions/fetchData";
 import { useDialogContext } from "@/context/DialogContext";
 import { useUserContext } from "@/context/UserContext";
 import { Captcha } from "@/components/Utils/Captcha";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 
 export default function RegisterWindow() {
   const { close } = useDialogContext();
   const { setNewUser } = useUserContext();
   const [captchaId, setCaptchaId] = useState<number>(1);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);

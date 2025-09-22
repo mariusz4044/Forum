@@ -8,13 +8,14 @@ import {
   FormInput,
   FormInputArea,
 } from "@/components/Utils/Universal/FormInput";
+import { FormEvent } from "react";
 
 export default function NewTopicWindow() {
   const router = useRouter();
   const { categoryId = 0 } = useParams();
   const { close } = useDialogContext();
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const data = {

@@ -1,52 +1,30 @@
 import React, { createContext, useContext, useState } from "react";
 
+type Mode =
+  | "login"
+  | "register"
+  | "topic"
+  | "editPost"
+  | "banUser"
+  | "userProfile"
+  | "none";
+
 const DialogContext = createContext({
-  open: (
-    mode:
-      | "login"
-      | "register"
-      | "topic"
-      | "editPost"
-      | "banUser"
-      | "userProfile",
-  ) => {},
+  open: (mode: Mode) => {},
   close: () => {},
   isOpen: false,
   setDialogData: (data: any) => {},
   data: null,
-  mode: null as
-    | "login"
-    | "register"
-    | "topic"
-    | "editPost"
-    | "banUser"
-    | "userProfile"
-    | null,
+  mode: "none",
 });
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState(null);
 
-  const [mode, setMode] = useState<
-    | "login"
-    | "register"
-    | "topic"
-    | "editPost"
-    | "banUser"
-    | null
-    | "userProfile"
-  >(null);
+  const [mode, setMode] = useState<Mode>("none");
 
-  const open = (
-    mode:
-      | "login"
-      | "register"
-      | "topic"
-      | "editPost"
-      | "banUser"
-      | "userProfile",
-  ) => {
+  const open = (mode: Mode) => {
     setMode(mode);
     setIsOpen(true);
   };
@@ -57,7 +35,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
 
   const close = () => {
     setIsOpen(false);
-    setMode(null);
+    setMode("none");
   };
 
   return (

@@ -1,18 +1,19 @@
 "use client";
 
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import useSWR from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import { PageNavigation } from "@/components/PageNavigation";
 import Loading from "@/components/Utils/Universal/Loading";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
-import { Plus } from "lucide-react";
 import { TopicBox } from "@/components/Topic/TopicBox";
-import { ReactNode, useRef } from "react";
 import { useDialogContext } from "@/context/DialogContext";
 import { User, useUserContext } from "@/context/UserContext";
 import LocationNav from "@/components/Utils/LocationNav";
 import { Category, Location } from "@/types/types";
+
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import useSWR from "swr";
+import { ReactNode, useRef } from "react";
+import { Plus } from "lucide-react";
 
 export interface TopicProps {
   createdAt: string;

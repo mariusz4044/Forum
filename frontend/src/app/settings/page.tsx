@@ -3,17 +3,22 @@
 import SettingsProfile from "@/components/Settings/SettingsProfile";
 import fetcherGet from "@/functions/fetcherGet";
 import Loading from "@/components/Utils/Universal/Loading";
-import useSWR from "swr";
 import { UserSettingsData } from "@/types/types";
-import { useState } from "react";
 import SettingsInformations from "@/components/Settings/SettingsInformations";
 import SettingsNavigation from "@/components/Settings/SettingsNavigation";
 import SettingsPassword from "@/components/Settings/SettingsPassword";
 
+import useSWR from "swr";
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
 export type navigationType = "profile" | "info" | "secure";
 
 export default function page() {
-  const [currentView, setCurrentView] = useState<navigationType>("profile");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const page = (searchParams.get("page") as navigationType) || "profile";
+  const [currentView, setCurrentView] = useState<navigationType>(page);
 
   const {
     data,
@@ -31,6 +36,9 @@ export default function page() {
   }
 
   function changeView(name: navigationType) {
+    const params = new URLSearchParams("page");
+    params.set("page", name);
+    router.push(`?${params.toString()}`);
     setCurrentView(name);
   }
 

@@ -10,6 +10,7 @@ import {
 import { PostProps } from "@/types/types";
 import { useSWRConfig } from "swr";
 import { getSWRKey } from "../Utils/getSWRKey";
+import { FormEvent } from "react";
 
 export default function EditPostEditPostWindow() {
   const { close, data } = useDialogContext();
@@ -23,7 +24,7 @@ export default function EditPostEditPostWindow() {
     await mutate(SWRString);
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const dataForm = {
