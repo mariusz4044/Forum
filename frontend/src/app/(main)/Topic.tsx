@@ -9,6 +9,7 @@ import { MessageSquarePlus } from "lucide-react";
 import Link from "next/link";
 import { JSX } from "react";
 import Image from "next/image";
+import { TopicProps } from "../category/[categoryId]/page";
 
 function MessageCountElement({
   messagesCount,
@@ -35,7 +36,7 @@ function LastPostElement({ lastPost }: { lastPost: LastPost }) {
         size={{ width: 42, height: 42 }}
       />
       <div className="flex flex-col text-sm text-[11px] w-32">
-        <div className="font-medium whitespace-nowrap cursor-pointer truncate">
+        <div className="whitespace-nowrap cursor-pointer truncate text-sm">
           <Link href={`/topic/${topic.id}`}>{topic.title}</Link>
         </div>
         <div className="text-[#9F9FC9] whitespace-nowrap flex flex-col">
@@ -48,46 +49,70 @@ function LastPostElement({ lastPost }: { lastPost: LastPost }) {
     </div>
   );
 }
+
+const TopicIcon = ({ image }: { image: string }) => (
+  <div className="flex-shrink-0 flex items-center justify-center">
+    <Image
+      src={`/TopicIcons/${image}`}
+      alt="Topic Icon"
+      width={40}
+      height={40}
+      className="opacity-40"
+    />
+  </div>
+);
+
+const TopicDetails = ({
+  id,
+  title,
+  description,
+  isAdmin,
+}: {
+  id: number;
+  title: string;
+  description: string;
+  isAdmin: boolean;
+}) => (
+  <div className="flex-grow flex flex-col justify-center gap-0.5">
+    <Link href={`/category/${id}`} className="text-base font-medium truncate">
+      <span className="text-sm">{title}</span>
+      {isAdmin && <span className="text-xs ml-1 opacity-30">(#{id})</span>}
+    </Link>
+    <p className="text-xs text-[#9F9FC9] truncate">{description}</p>
+  </div>
+);
+
+const TopicStats = ({
+  topicsCount,
+  lastPost,
+}: {
+  topicsCount: number;
+  lastPost: LastPost | null;
+}) => (
+  <div className="flex items-center gap-4 w-full sm:w-auto min-w-[300px] py-2 sm:py-0">
+    <MessageCountElement messagesCount={topicsCount} />
+    {lastPost && <LastPostElement lastPost={lastPost} />}
+  </div>
+);
+
 export default function Topic({ category }: { category: Category }) {
   const { id, title, description, image, topicsCount, lastPost } = category;
   const { user } = useUserContext();
 
+  const isAdmin = user?.role === "ADMIN";
+
   return (
-    <div
-      className="bg-[#1a1a2ecc]/[0.5] p-2 my-4 rounded-lg relative flex flex-row pl-4 h-24  max-sm:h-auto"
-      style={{
-        border: "1px solid rgba(86, 105, 219, 0.2)",
-      }}
-    >
-      <div className="flex flex-row w-full max-sm:flex-col">
-        <div className="flex flex-row w-full">
-          {/*topic icon*/}
-          <div className="h-full min-w-12 flex items-center justify-between max-sm:py-4">
-            <Image
-              src={`/TopicIcons/${image}`}
-              alt="Image Topic"
-              width={40}
-              height={40}
-              className="opacity-40"
-            />
-          </div>
-          {/*Topic title and desc*/}
-          <div className="flex flex-col w-full justify-center ml-2 tracking-wide ">
-            <Link href={`/category/${id}`}>
-              {title}
-              {user.role === "ADMIN" && (
-                <span className="text-[11px] ml-1 opacity-30">(#{id})</span>
-              )}
-            </Link>
-            <div className="text-[11px] text-[#9F9FC9] z-20">{description}</div>
-          </div>
-        </div>
-        {/*Topic last post*/}
-        <div className="flex flex-row mr-8 min-w-64 max-w-64 h-full items-center gap-3 tracking-wide max-sm:py-4">
-          <MessageCountElement messagesCount={topicsCount} />
-          {lastPost?.message && <LastPostElement lastPost={lastPost} />}
-        </div>
+    <div className="my-4  min-h-24 flex flex-col sm:flex-row items-center gap-4 p-4 rounded-lg bg-[#1a1a2e]/[0.4] border border-[rgba(86,105,219,0.2)]">
+      <div className="flex items-center w-full flex-grow gap-3.5">
+        <TopicIcon image={image} />
+        <TopicDetails
+          id={id}
+          title={title}
+          description={description}
+          isAdmin={isAdmin}
+        />
       </div>
+      <TopicStats topicsCount={topicsCount} lastPost={lastPost} />
     </div>
   );
 }

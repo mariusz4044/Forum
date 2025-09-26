@@ -29,7 +29,7 @@ export function TopicBox({ topic }: { topic: TopicProps }) {
         <div className="size-12 relative">
           <UserAvatar user={createdBy} className="rounded-xl opacity-50" />
         </div>
-        <div className="flex flex-col gap-1 text-lg">
+        <div className="flex flex-col gap-1 text-sm">
           <Link
             href={`/topic/${id}`}
             className="capitalize flex flex-row gap-2 items-center"

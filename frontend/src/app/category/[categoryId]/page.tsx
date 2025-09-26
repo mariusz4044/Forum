@@ -1,6 +1,5 @@
 "use client";
 
-import fetcherGet from "@/functions/fetcherGet";
 import { PageNavigation } from "@/components/PageNavigation";
 import Loading from "@/components/Utils/Universal/Loading";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
@@ -8,12 +7,12 @@ import { TopicBox } from "@/components/Topic/TopicBox";
 import { useDialogContext } from "@/context/DialogContext";
 import { User, useUserContext } from "@/context/UserContext";
 import LocationNav from "@/components/Utils/LocationNav";
-import { Category, Location } from "@/types/types";
+import { Category, Location, NavigationData } from "@/types/types";
 
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import useSWR from "swr";
-import { ReactNode, useRef } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
+import usePagination from "@/hooks/usePagination";
+import usePaginationData from "@/hooks/usePaginationData";
 
 export interface TopicProps {
   createdAt: string;
@@ -25,42 +24,70 @@ export interface TopicProps {
   category: { id: number; title: string };
 }
 
-export default function topicView() {
-  // context
+interface ResponseCategory {
+  topics: TopicProps[];
+  category: Category;
+}
+
+const TopicsContent = ({ topics }: { topics: TopicProps[] }) => {
+  if (!topics) return;
+
+  return (
+    <>
+      {topics.map((topic: TopicProps) => (
+        <TopicBox topic={topic} key={`topic-${topic.id}`} />
+      ))}
+    </>
+  );
+};
+
+const CreateNewTopicButton = () => {
   const { user } = useUserContext();
   const { open } = useDialogContext();
 
-  // routing
-  const router = useRouter();
-  const { categoryId } = useParams();
-  const searchParams = useSearchParams();
-
-  // pagination
-  const page = Number(searchParams.get("page") ?? 1);
-  const cursor = useRef<string | null>(null);
-  const direction = useRef<"next" | "prev">("next");
-
-  const createNewTopic = () => open("topic");
-
-  const buildUrl = () => {
-    const baseUrl = `${process.env.SERVER_URL}/api/forum/category/${categoryId}`;
-    const queryParams = new URLSearchParams({ page: String(page) });
-
-    if (cursor.current) queryParams.set("cursor", cursor.current);
-    if (direction.current) queryParams.set("direction", direction.current);
-
-    return `${baseUrl}?${queryParams.toString()}`;
+  const createNewTopic = () => {
+    open("topic");
   };
 
-  const { data, error } = useSWR(buildUrl, fetcherGet);
-  const topics: TopicProps[] | undefined = data?.data?.topics;
-  const category: Category | undefined = data?.data?.category;
+  if (!user.id) return null;
 
-  if (!data || !topics || error || !category) {
+  return (
+    <ForumButton className="w-38" onClick={createNewTopic}>
+      New Topic
+      <Plus size={12} />
+    </ForumButton>
+  );
+};
+
+export default function topicView() {
+  // routing
+  const router = useRouter();
+  const { categoryId }: { categoryId: string } = useParams();
+
+  // pagination
+  const { page, cursor, direction, onChangePage } = usePagination();
+
+  // load category data
+  const { data, error, isLoading } = usePaginationData({
+    url: `${process.env.SERVER_URL}/api/forum/category/${categoryId}`,
+    page,
+    cursor,
+    direction,
+  });
+
+  if (isLoading) {
     return <Loading />;
   }
 
-  //location
+  if (error) {
+    console.log(error);
+    return <h1>Please refresh page!</h1>;
+  }
+
+  const navigation: NavigationData = data.navigation;
+  const { topics, category }: ResponseCategory = data.data;
+
+  // Location config
   let location: Location[] = [{ href: "/", name: "Home", id: 1 }];
   location.push({
     href: `/category/${category.id}`,
@@ -68,54 +95,22 @@ export default function topicView() {
     name: category.title,
   });
 
-  const topicList: ReactNode[] = [];
-  topics.forEach((topic) => {
-    topicList.push(<TopicBox topic={topic} key={`topic-${topic.id}`} />);
-  });
-
-  const onChangePage = (newPage: number) => {
-    if (newPage < 1 || newPage > data.navigation.maxPage) return;
-
-    const params = new URLSearchParams(searchParams.toString());
-    cursor.current = null;
-
-    const pageDiff = Math.abs(newPage - page);
-    if (pageDiff === 1) {
-      if (newPage > page) {
-        direction.current = "next";
-        cursor.current = data.navigation.cursors.next;
-      } else {
-        direction.current = "prev";
-        cursor.current = data.navigation.cursors.prev;
-      }
-    }
-
-    params.set("page", newPage.toString());
-    router.push(`?${params.toString()}`);
-  };
-
   return (
     <main className="w-full flex justify-center items-center flex-col mt-10">
       <div className="container-70">
         <header className="flex flex-col gap-3">
           <LocationNav data={location} />
-          <PageNavigation
-            onChangePage={onChangePage}
-            navigation={data.navigation}
-          >
-            {user.id && (
-              <ForumButton className="w-38" onClick={createNewTopic}>
-                New Topic
-                <Plus size={12} />
-              </ForumButton>
-            )}
+          <PageNavigation onChangePage={onChangePage} navigation={navigation}>
+            <CreateNewTopicButton />
           </PageNavigation>
         </header>
-        <main>{topicList}</main>
+        <main>
+          <TopicsContent topics={topics} />
+        </main>
         <footer className="mb-6">
           <PageNavigation
             onChangePage={onChangePage}
-            navigation={data.navigation}
+            navigation={navigation}
             reversed={true}
           ></PageNavigation>
         </footer>

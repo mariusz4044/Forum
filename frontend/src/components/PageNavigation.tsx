@@ -5,25 +5,25 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { PageNavigationProps } from "@/types/types";
+import { NavigationData, PageNavigationProps } from "@/types/types";
 
 interface PageNumberElementProps {
   pageNumber: number;
   isActive: boolean;
-  onChangePage: (pageNumber: number) => void;
+  onClick: () => void;
 }
 
 function PageNumberElement({
   pageNumber,
   isActive,
-  onChangePage,
+  onClick,
 }: PageNumberElementProps) {
   return (
     <button
       className={`py-1 px-3 text-sm rounded-lg select-none transition-colors
         ${isActive ? "bg-[#313149]" : "bg-[#313149]/20 hover:bg-blue-500/30"}
       `}
-      onClick={() => onChangePage(pageNumber)}
+      onClick={onClick}
     >
       {pageNumber}
     </button>
@@ -75,13 +75,13 @@ export function PageNavigation({
         <ChevronsLeft
           className={iconClassName}
           size={26}
-          onClick={() => onChangePage(1)}
+          onClick={() => onChangePage(1, navigation)}
         />
         {/* Prev page */}
         <ChevronLeft
           className={iconClassName}
           size={26}
-          onClick={() => onChangePage(currentPage - 1)}
+          onClick={() => onChangePage(currentPage - 1, navigation)}
         />
         {/* Page Number */}
         {pages.map((pageNumber) => (
@@ -89,7 +89,7 @@ export function PageNavigation({
             key={`page-${pageNumber}`}
             pageNumber={pageNumber}
             isActive={currentPage === pageNumber}
-            onChangePage={onChangePage}
+            onClick={() => onChangePage(pageNumber, navigation)}
           />
         ))}
         {/*Max page*/}
@@ -98,7 +98,7 @@ export function PageNavigation({
             <PageNumberElement
               pageNumber={maxPage}
               isActive={false}
-              onChangePage={onChangePage}
+              onClick={() => onChangePage(maxPage, navigation)}
             />
           </div>
         )}
@@ -107,13 +107,13 @@ export function PageNavigation({
         <ChevronRight
           className={iconClassName}
           size={26}
-          onClick={() => onChangePage(currentPage + 1)}
+          onClick={() => onChangePage(currentPage + 1, navigation)}
         />
         {/* Last Page */}
         <ChevronsRight
           className={iconClassName}
           size={26}
-          onClick={() => onChangePage(maxPage)}
+          onClick={() => onChangePage(maxPage, navigation)}
         />
 
         {/*<span className="ml-2 text-sm text-gray-500 tracking-wider">*/}

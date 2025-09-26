@@ -16,7 +16,7 @@ export function LastPostStatistic({ post }: { post: StatisticPost }) {
   const { author, topic, createdAt } = post;
 
   return (
-    <div className="px-4 py-3 border-b-1 border-[#5669db1a]">
+    <div className="px-4 py-3 border-t-1 border-[#5669db1a]">
       <div className="flex flex-row gap-2 text-[#94a3b8] text-sm items-center justify-between ">
         <div className="flex flex-row gap-2 items-center ">
           <UserAvatar user={author} className="size-7 rounded-full" />
@@ -39,7 +39,7 @@ export function LastTopicStatistic({ topic }: { topic: TopicResponseData }) {
   const { createdBy, title, createdAt, id } = topic;
 
   return (
-    <div className="px-4 py-3 border-b-1 border-[#5669db1a]">
+    <div className="px-4 py-3 border-t-1 border-[#5669db1a]">
       <div className="flex flex-row gap-2 text-[#94a3b8] text-sm items-center justify-between ">
         <div className="flex flex-row gap-2 items-center ">
           <UserAvatar user={createdBy} className="size-7 rounded-full" />
@@ -60,12 +60,7 @@ export function LastTopicStatistic({ topic }: { topic: TopicResponseData }) {
 
 export function ForumBox({ children }: { children: ReactNode }) {
   return (
-    <div
-      className="min-w-1/3 bg-[#1a1a2ecc]/[0.5] min-h-32 mt-4 rounded-xl max-sm:w-full"
-      style={{
-        border: "1px solid rgba(86, 105, 219, 0.2)",
-      }}
-    >
+    <div className="min-w-1/3 bg-[#1a1a2ecc]/[0.5] min-h-32 mt-4 rounded-xl max-sm:w-full border border-[#5669db33]">
       {children}
     </div>
   );
@@ -113,7 +108,7 @@ function PositionRanking({
   }
 
   return (
-    <div className="flex justify-between px-4 py-4 border-b-1 border-[#5669db1a]">
+    <div className="flex justify-between px-4 py-4 border-t-1 border-[#5669db1a]">
       <div className="flex flex-row gap-2">
         <div
           className={`px-2 rounded-full text-[13px] font-medium flex justify-center items-center ${rankClass}`}

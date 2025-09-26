@@ -9,13 +9,12 @@ export function SectionText({
   id: number;
 }) {
   const { user } = useUserContext();
+  const isAdmin = user?.role === "ADMIN";
 
   return (
     <h1 className="text-sm z-20 font-medium tracking-wider">
       {children}
-      {user.role === "ADMIN" && (
-        <span className="text-[11px] ml-1 opacity-30">#{id}</span>
-      )}
+      {isAdmin && <span className="text-[11px] ml-1 opacity-30">#{id}</span>}
     </h1>
   );
 }

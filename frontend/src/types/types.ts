@@ -73,13 +73,18 @@ export interface StatisticPost extends PostProps {
   topic: { id: number; title: string };
 }
 
-type Section = {
+export type Section = {
   id: number;
   title: string;
+  createdAt: string;
 };
 
 interface UserWithPostCount extends User {
   totalPosts: number;
+}
+
+export interface SectionProps extends Section {
+  categories: Category[];
 }
 
 export interface StatisticsData {
@@ -98,14 +103,14 @@ export interface NavigationData {
   currentPage: number;
   maxPage: number;
   itemsPerPage: number;
-  cursor: Cursor;
+  cursors: Cursor;
 }
 
 export interface PageNavigationProps {
   children?: ReactNode;
   reversed?: boolean;
   navigation: NavigationData;
-  onChangePage: (pageNumber: number) => void;
+  onChangePage: (pageNumber: number, data: NavigationData) => void;
 }
 
 export interface StatsData {
