@@ -70,6 +70,7 @@ export default function topicView() {
   // load category data
   const { data, error, isLoading } = usePaginationData({
     url: `${process.env.SERVER_URL}/api/forum/category/${categoryId}`,
+    key: `category/${categoryId}`,
     page,
     cursor,
     direction,

@@ -110,7 +110,11 @@ export interface PageNavigationProps {
   children?: ReactNode;
   reversed?: boolean;
   navigation: NavigationData;
-  onChangePage: (pageNumber: number, data: NavigationData) => void;
+  onChangePage: (
+    pageNumber: number,
+    data: NavigationData,
+    scrollAfterPostId?: string,
+  ) => void;
 }
 
 export interface StatsData {
@@ -118,4 +122,18 @@ export interface StatsData {
   lastUser: User & { createdAt: string };
   totalTopics: number;
   totalPosts: number;
+}
+
+type TopicWithCategory = TopicResponseData & {
+  category: Category;
+};
+
+export interface PostsResponseData {
+  posts: PostProps[];
+  topic: TopicWithCategory;
+}
+
+export interface TopicResponse {
+  data: PostsResponseData;
+  navigation: NavigationData;
 }

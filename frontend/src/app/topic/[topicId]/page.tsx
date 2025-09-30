@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Location,
-  PostAuthor,
-  PostProps,
-  TopicResponseData,
-} from "@/types/types";
-import fetcherGet from "@/functions/fetcherGet";
+import { Location, PostAuthor, PostProps, TopicResponse } from "@/types/types";
 import Loading from "@/components/Utils/Universal/Loading";
 import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
 import { useUserContext } from "@/context/UserContext";
@@ -14,52 +8,51 @@ import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { fetchData } from "@/functions/fetchData";
 import { PageNavigation } from "@/components/PageNavigation";
 import { TopicHeader } from "@/components/Topic/TopicHeader";
-import { TopicContext } from "@/context/TopicContext";
+import { TopicContext, useTopicContext } from "@/context/TopicContext";
 import LocationNav from "@/components/Utils/LocationNav";
 
-import { JSX, useRef, useState, ReactNode } from "react";
+import { JSX, useRef, useState, useEffect } from "react";
 import { Info } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import useSWR, { useSWRConfig } from "swr";
+import usePagination from "@/hooks/usePagination";
+import usePaginationData from "@/hooks/usePaginationData";
+import { mutate } from "swr";
 
-function NewPostElement({
-  mutateString,
-  currentPage,
-  onChangePage,
-}: {
-  mutateString: string;
-  currentPage: number;
-  onChangePage: (
-    maxPage: number,
-    force?: boolean,
-    scrollAfterPostId?: string,
-  ) => void;
-}): JSX.Element {
+function NewPostElement(): JSX.Element {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const { data, navigation } = useTopicContext();
+  const { topic } = data;
+
   const [message, setMessage] = useState("");
   const { user } = useUserContext();
-  const { topicId = 0 } = useParams();
-  const { mutate } = useSWRConfig();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   async function handleSubmit() {
     const res = await fetchData("/api/forum/post/create", {
-      topicId: +topicId,
+      topicId: topic.id,
       message: message,
     });
 
-    const resData = res.data;
-    if (!resData) return;
+    const createPostResponse = res;
+    if (!createPostResponse || createPostResponse.error) return;
 
-    const newMaxPage = resData.navigation.maxPage;
-    await mutate(mutateString);
+    const newPost: PostProps = createPostResponse.data;
+    const newMaxPage = createPostResponse.data.navigation.maxPage;
 
-    if (currentPage !== newMaxPage) {
-      onChangePage(newMaxPage, true, `post-${resData.id}`);
+    // set params to change page and scroll to new post
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newMaxPage);
+    params.set("postId", `post-${newPost.id}`);
+
+    if (newMaxPage === navigation.currentPage) {
+      // revalidate posts data
+      mutate([`topic/${topic.id}`, navigation.currentPage]);
     }
 
+    router.push(`?${params.toString()}`, { scroll: false });
     setMessage("");
-    buttonRef.current?.scrollIntoView({ behavior: "smooth" });
-    return;
   }
 
   return (
@@ -81,6 +74,17 @@ function NewPostElement({
   );
 }
 
+function PostsContent({ posts }: { posts: PostProps[] }) {
+  if (!posts) return null;
+  return (
+    <>
+      {posts.map((post: PostProps) => {
+        return <PostBox postData={post} key={`post-${post.id}`} />;
+      })}
+    </>
+  );
+}
+
 function PostClose() {
   return (
     <div className=" flex flex-row gap-3 w-full bg-red-800/[0.15] text-sm border-1 border-red-500/[0.2] rounded-lg  p-4 hover:scale-105 font-light cursor-pointer">
@@ -95,103 +99,65 @@ export default function postsView() {
   const { user } = useUserContext();
 
   // routing
-  const { topicId } = useParams();
-  const router = useRouter();
   const searchParams = useSearchParams();
+  const { topicId }: { topicId: string } = useParams();
 
   // pagination
-  const page = Number(searchParams.get("page") ?? 1);
-  const cursor = useRef<string | null>(null);
-  const direction = useRef<"next" | "prev">("next");
-  const scrollId = searchParams.get("scroll");
+  const { page, cursor, direction, onChangePage } = usePagination();
 
-  const buildUrl = () => {
-    const baseUrl = `${process.env.SERVER_URL}/api/forum/topic/${topicId}`;
-    const queryParams = new URLSearchParams({ page: String(page) });
+  // load category data
+  const { data, error, isLoading } = usePaginationData({
+    url: `${process.env.SERVER_URL}/api/forum/topic/${topicId}`,
+    key: `topic/${topicId}`,
+    page,
+    cursor,
+    direction,
+  });
 
-    if (cursor.current) queryParams.set("cursor", cursor.current);
-    if (direction.current) queryParams.set("direction", direction.current);
+  // auto scrolling
+  useEffect(() => {
+    const postId = searchParams.get("postId");
+    if (!data || !postId) return;
 
-    return `${baseUrl}?${queryParams.toString()}`;
-  };
+    const postElement = document.querySelector(`#${postId}`);
+    if (!postElement) return;
 
-  const { data, error } = useSWR(buildUrl, fetcherGet);
-  const resData: TopicResponseData | undefined = data?.data?.topic;
-  const posts: PostProps[] | undefined = data?.data?.posts;
+    postElement.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [data, searchParams]);
 
-  if (!data || !posts || !resData || error) {
+  if (isLoading) {
     return <Loading />;
   }
 
-  if (!resData.id) {
-    return <h1>Topic not exist!</h1>;
+  if (error) {
+    return <h1>Please refresh page!</h1>;
   }
 
-  //location
+  // fetched data
+  const postResponse: TopicResponse = data;
+  const { posts, topic } = postResponse.data;
+  const navigation = postResponse.navigation;
+
+  // location;
   let location: Location[] = [
     { href: "/", name: "Home", id: 1 },
     {
-      href: `/category/${resData.category.id}`,
-      name: resData.category.title,
-      id: resData.category.id,
+      href: `/category/${topic.category.id}`,
+      name: topic.category.title,
+      id: topic.category.id,
     },
   ];
 
   location.push({
-    href: `/topic/${resData.id}`,
-    id: resData.id,
-    name: resData.title,
+    href: `/topic/${topic.id}`,
+    id: topic.id,
+    name: topic.title,
   });
-
-  const postList: ReactNode[] = [];
-  posts.forEach((post: PostProps) => {
-    postList.push(<PostBox postData={post} key={`post-${post.id}`} />);
-
-    //Scroll to post (if scroll param exist)
-    if (scrollId && scrollId === `post-${post.id}`) {
-      requestAnimationFrame(() => {
-        const el = document.getElementById(`${scrollId}`);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      });
-    }
-  });
-
-  const onChangePage = (
-    newPage: number,
-    force?: boolean,
-    scrollAfterPostId?: string,
-  ) => {
-    if (newPage < 1 || (newPage > data.navigation.maxPage && !force)) return;
-
-    const params = new URLSearchParams(searchParams.toString());
-    cursor.current = null;
-
-    const pageDiff = Math.abs(newPage - page);
-    if (pageDiff === 1) {
-      if (newPage > page) {
-        direction.current = "next";
-        cursor.current = data.navigation.cursors.next;
-      } else {
-        direction.current = "prev";
-        cursor.current = data.navigation.cursors.prev;
-      }
-    }
-
-    params.set("page", newPage.toString());
-
-    if (scrollAfterPostId) {
-      params.set("scroll", scrollAfterPostId);
-    } else {
-      params.delete("scroll");
-    }
-
-    router.push(`?${params.toString()}`);
-  };
-
-  const mutateString = buildUrl();
 
   return (
-    <TopicContext value={resData}>
+    <TopicContext value={postResponse}>
       <main className="w-full flex justify-center items-center flex-row mt-10">
         <div className="w-[80%] h-full max-sm:w-[90%] max-sm:ml-[5%]">
           <header className="flex flex-col gap-3">
@@ -200,20 +166,16 @@ export default function postsView() {
             <div className="mt-2">
               <PageNavigation
                 onChangePage={onChangePage}
-                navigation={data.navigation}
+                navigation={navigation}
               ></PageNavigation>
             </div>
           </header>
-          <main className="mt-10">{postList}</main>
+          <main className="mt-10">
+            <PostsContent posts={posts} />
+          </main>
           <footer className="mt-10 mb-20">
-            {user.id && resData.isOpen && (
-              <NewPostElement
-                mutateString={mutateString}
-                onChangePage={onChangePage}
-                currentPage={page}
-              />
-            )}
-            {!resData.isOpen && <PostClose />}
+            {user.id && topic.isOpen && <NewPostElement />}
+            {!topic.isOpen && <PostClose />}
           </footer>
         </div>
       </main>

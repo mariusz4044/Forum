@@ -12,6 +12,7 @@ export default () => {
 
   const onChangePage = (newPage: number, data: NavigationData) => {
     const { currentPage, maxPage, cursors } = data;
+    const skipCursor = searchParams.get("skipCursor");
 
     if (newPage < 1 || newPage > maxPage) return;
 
@@ -29,8 +30,12 @@ export default () => {
       }
     }
 
+    if (skipCursor) {
+      localCursor.current = null;
+    }
+
     params.set("page", newPage.toString());
-    router.push(`?${params.toString()}`);
+    router.push(`?${params.toString()}`, { scroll: false });
   };
 
   return { page, cursor: localCursor, direction, onChangePage };

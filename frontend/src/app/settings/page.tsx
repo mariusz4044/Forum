@@ -31,7 +31,7 @@ export default function page() {
     },
   );
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return <Loading />;
   }
 

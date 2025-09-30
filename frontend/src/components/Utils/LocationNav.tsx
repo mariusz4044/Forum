@@ -10,9 +10,11 @@ export default function LocationNav({ data }: { data: Location[] }) {
   let elements = [];
 
   for (const location of data) {
-    console.log(location.id !== data!.at(-1)!.id);
     elements.push(
-      <div key={location.id} className="flex flex-row items-center gap-1">
+      <div
+        key={location.id}
+        className="flex flex-row items-center gap-1 text-sm"
+      >
         <Link href={location.href}>{location.name}</Link>
         {location.id !== data!.at(-1)!.id && <LocationSeparator />}
       </div>,

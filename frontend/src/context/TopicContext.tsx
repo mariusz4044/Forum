@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
-import { TopicResponseData } from "@/types/types";
+import { TopicResponse } from "@/types/types";
 
-export const TopicContext = createContext<TopicResponseData | null>(null);
+export const TopicContext = createContext<TopicResponse | null>(null);
 
 export function useTopicContext() {
   const context = useContext(TopicContext);

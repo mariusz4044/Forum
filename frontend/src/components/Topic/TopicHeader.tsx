@@ -5,12 +5,11 @@ import { useUserContext } from "@/context/UserContext";
 import { CloseTopicButton, DeleteTopicButton } from "../Admin/TopicTools";
 import { UserAvatar } from "@/components/Utils/UserAvatar";
 
-import Image from "next/image";
-
 export function TopicHeader() {
-  const { title, createdBy, createdAt, id, isOpen } = useTopicContext();
-
+  const topicData = useTopicContext();
+  const { title, createdBy, createdAt, id, isOpen } = topicData.data.topic;
   const { user } = useUserContext();
+
   return (
     <div
       className="h-auto w-full bg-[#1e1e2f]/[.5] rounded-xl p-6"

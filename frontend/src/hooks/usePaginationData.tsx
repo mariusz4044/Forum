@@ -4,11 +4,18 @@ import fetcherGet from "@/functions/fetcherGet";
 interface PaginationGetDataHook {
   url: string;
   page: number;
+  key: string;
   cursor: { current: string | null };
   direction: { current: "next" | "prev" };
 }
 
-export default ({ url, page, cursor, direction }: PaginationGetDataHook) => {
+export default ({
+  key,
+  url,
+  page,
+  cursor,
+  direction,
+}: PaginationGetDataHook) => {
   const buildUrl = () => {
     const baseUrl = url;
     const queryParams = new URLSearchParams({ page: String(page) });
@@ -19,5 +26,7 @@ export default ({ url, page, cursor, direction }: PaginationGetDataHook) => {
     return `${baseUrl}?${queryParams.toString()}`;
   };
 
-  return useSWR(buildUrl, fetcherGet);
+  return useSWR([key, page], () => fetcherGet(buildUrl()), {
+    keepPreviousData: true,
+  });
 };

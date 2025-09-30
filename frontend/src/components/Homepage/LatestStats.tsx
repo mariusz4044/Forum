@@ -41,9 +41,6 @@ export default function ({ stats }: { stats: StatsData }) {
 
   return (
     <div className="flex flex-col mt-8 gap-4 w-full justify-between">
-      <h1 className="w-full rounded-lg h-12 bg-[#1a1a2ecc] flex items-center text-md pl-4 font-medium">
-        Forum stats
-      </h1>
       <StatBox color="#38545b33" borderColor="#26697945">
         <Users size={40} className="p-2 bg-[#26697945] rounded-full" />
         <div className="flex flex-col">
