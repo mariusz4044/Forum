@@ -1,10 +1,10 @@
 import { Ban, Delete, Edit, Trash } from "lucide-react";
 import { ComponentType } from "react";
 import { fetchData } from "@/functions/fetchData";
-import { useSWRConfig } from "swr";
-import { getSWRKey } from "../Utils/getSWRKey";
 import { useDialogContext } from "@/context/DialogContext";
 import { PostProps } from "@/types/types";
+import { useSearchParams } from "next/navigation";
+import { mutate } from "swr";
 
 function AdminTool({
   title,
@@ -46,16 +46,16 @@ function deleteAllPosts({ userId }: { userId: number }) {
   );
 }
 
-export function PostTools({ post }: { post: PostProps }) {
-  const { cache, mutate } = useSWRConfig();
+export function PostTools({ post }: { post: PostProps & { topicId: number } }) {
   const { open, setDialogData } = useDialogContext();
 
-  async function reloadSwrFetch() {
-    const path = window.location.pathname;
-    const segments = path.split("/").filter(Boolean).join("/");
-    const SWRString = getSWRKey(cache, segments);
-    await mutate(SWRString);
-  }
+  // routing data
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") || `1`;
+
+  const reloadPosts = () => {
+    mutate([`topic/${post.topicId}`, parseInt(page as string)]);
+  };
 
   return (
     <div className="flex flex-row gap-1 ">
@@ -64,7 +64,7 @@ export function PostTools({ post }: { post: PostProps }) {
         Icon={Trash}
         key="admin-delete"
         clickEvent={() => {
-          deletePost({ postId: post.id }).then(reloadSwrFetch);
+          deletePost({ postId: post.id }).then(reloadPosts);
         }}
       />
       <AdminTool
@@ -90,7 +90,7 @@ export function PostTools({ post }: { post: PostProps }) {
         Icon={Delete}
         key="admin-remove-all"
         clickEvent={() => {
-          deleteAllPosts({ userId: post.author.id! }).then(reloadSwrFetch);
+          deleteAllPosts({ userId: post.author.id! }).then(reloadPosts);
         }}
       />
     </div>

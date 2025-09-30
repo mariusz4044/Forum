@@ -4,21 +4,12 @@ import { fetchData } from "@/functions/fetchData";
 import { useDialogContext } from "@/context/DialogContext";
 
 import { PostProps } from "@/types/types";
-import { useSWRConfig } from "swr";
-import { getSWRKey } from "../Utils/getSWRKey";
 import { FormInput } from "../Utils/Universal/FormInput";
 import { FormEvent } from "react";
 
 export default function BanUserWindow() {
   const { close, data } = useDialogContext();
   const post: PostProps = data!;
-
-  const { mutate, cache } = useSWRConfig();
-
-  function reloadSwrFetch() {
-    const SWRString = getSWRKey(cache, "/forum/topic");
-    mutate(SWRString);
-  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -35,7 +26,6 @@ export default function BanUserWindow() {
       banLength: +dataForm.banLength,
     });
 
-    reloadSwrFetch();
     close();
   }
 

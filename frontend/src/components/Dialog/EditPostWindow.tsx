@@ -8,21 +8,17 @@ import {
   FormInputArea,
 } from "@/components/Utils/Universal/FormInput";
 import { PostProps } from "@/types/types";
-import { useSWRConfig } from "swr";
-import { getSWRKey } from "../Utils/getSWRKey";
 import { FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
+import { mutate } from "swr";
 
 export default function EditPostEditPostWindow() {
   const { close, data } = useDialogContext();
-  const post: PostProps = data!;
+  const post: PostProps & { topicId: number } = data!;
 
-  const { mutate, cache } = useSWRConfig();
-  async function reloadSwrFetch() {
-    const path = window.location.pathname;
-    const segments = path.split("/").filter(Boolean).join("/");
-    const SWRString = getSWRKey(cache, segments);
-    await mutate(SWRString);
-  }
+  // routing data
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") || `1`;
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -38,8 +34,10 @@ export default function EditPostEditPostWindow() {
       reason: dataForm.reason,
     });
 
-    reloadSwrFetch();
     close();
+
+    // reload updated data
+    mutate([`topic/${post.topicId}`, parseInt(page as string)]);
   }
 
   return (
