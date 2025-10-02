@@ -20,10 +20,7 @@ export default function page() {
   const page = (searchParams.get("page") as navigationType) || "profile";
   const [currentView, setCurrentView] = useState<navigationType>(page);
 
-  const {
-    data,
-    isLoading,
-  }: { data: UserSettingsData | null; isLoading: boolean } = useSWR(
+  const { data, error, isLoading } = useSWR(
     `${process.env.SERVER_URL}/api/user/settings`,
     fetcherGet,
     {
@@ -34,6 +31,12 @@ export default function page() {
   if (isLoading) {
     return <Loading />;
   }
+
+  if (error) {
+    return <h1>Please reflesh page!</h1>;
+  }
+
+  const settingsData: UserSettingsData = data;
 
   function changeView(name: navigationType) {
     const params = new URLSearchParams("page");
@@ -48,8 +51,8 @@ export default function page() {
         <div>
           <SettingsNavigation currentNav={currentView} onChange={changeView} />
         </div>
-        {currentView === "profile" && <SettingsProfile data={data} />}
-        {currentView === "info" && <SettingsInformations data={data} />}
+        {currentView === "profile" && <SettingsProfile data={settingsData} />}
+        {currentView === "info" && <SettingsInformations data={settingsData} />}
         {currentView === "secure" && <SettingsPassword />}
       </div>
     </div>

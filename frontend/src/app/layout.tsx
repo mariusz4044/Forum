@@ -19,6 +19,7 @@ import NewTopicWindow from "@/components/Dialog/NewTopicWindow";
 import EditPostEditPostWindow from "@/components/Dialog/EditPostWindow";
 import BanUserWindow from "@/components/Dialog/BanUserWindow";
 import UserProfileWindow from "@/components/Dialog/UserProfileWindow";
+import FooterGithubInfo from "@/components/Utils/FooterGithubInfo";
 
 export default function RootLayout({
   children,
@@ -47,6 +48,7 @@ function Content({ children }: { children: React.ReactNode }) {
       <Header />
       {/*Router view*/}
       {children}
+      <FooterGithubInfo />
       {/*Dialogs*/}
       <AnimatePresence mode="wait">
         {mode === "login" && <LoginWindow />}

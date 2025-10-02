@@ -19,14 +19,14 @@ function PageNumberElement({
   onClick,
 }: PageNumberElementProps) {
   return (
-    <button
+    <div
       className={`py-1 px-3 text-sm rounded-lg select-none transition-colors
         ${isActive ? "bg-[#313149]" : "bg-[#313149]/20 hover:bg-blue-500/30"}
       `}
       onClick={onClick}
     >
       {pageNumber}
-    </button>
+    </div>
   );
 }
 export function PageNavigation({

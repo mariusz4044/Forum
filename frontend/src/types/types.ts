@@ -19,6 +19,7 @@ export interface PostProps {
   message: string;
   editedMessage?: string;
   id: number;
+  topicId: number;
 }
 
 export type UserSettingsData = {

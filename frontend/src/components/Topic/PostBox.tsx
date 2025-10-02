@@ -19,6 +19,8 @@ import Badge, { BadgeColors } from "@/components/Utils/Universal/Badge";
 import { UserNick } from "@/components/Utils/UserNick";
 import { UserAvatar } from "../Utils/UserAvatar";
 import { formatShortNumber } from "../Utils/formatNumbers";
+import getPageNumber from "../Utils/getPageNumber";
+import { mutate } from "swr";
 
 export function PostBoxUserPanel({ user }: { user: PostAuthor }) {
   let reputationIcon = Meh;
@@ -38,8 +40,8 @@ export function PostBoxUserPanel({ user }: { user: PostAuthor }) {
 
   return (
     <div
-      className="left-panel-post border-r-[1px] border-r-[#6161614d] flex flex-col 
-      items-center w-32 min-w-32 pr-3 
+      className="left-panel-post border-r-[1px] border-r-[#6161614d] flex flex-col
+      items-center w-32 min-w-32 pr-3
       max-sm:min-w-10 max-sm:flex-row max-sm:w-full max-sm:pb-3 max-sm:gap-1
       max-sm:border-r-0 max-sm:border-b-1 max-sm:border-b-[#6161614d]"
     >
@@ -78,23 +80,22 @@ function RatingBox({
   ratingSummary: number;
   postId: number;
 }) {
-  const [rateNumber, setRateNumber] = useState(ratingSummary);
   const { user } = useUserContext();
+  const { page } = getPageNumber();
 
   let className = "";
-  if (rateNumber < 0) className += "text-[red]";
-  else if (rateNumber === 0) className += "text-[white]";
+  if (ratingSummary < 0) className += "text-[red]";
+  else if (ratingSummary === 0) className += "text-[white]";
   else className += "text-[green]";
 
   async function handleClick(rate: number) {
-    let res = await fetchData("/api/forum/rate", {
+    let { topicId } = await fetchData("/api/forum/rate", {
       postId,
       rate,
     });
 
-    if (res.hasOwnProperty("ratingSummary")) {
-      setRateNumber(res.ratingSummary);
-    }
+    if (!topicId) return;
+    mutate([`topic/${topicId}`, page]);
   }
 
   if (!user.id) {
@@ -102,8 +103,8 @@ function RatingBox({
       <div className="flex flex-row justify-center items-center gap-2 pr-8 opacity-50 hover:opacity-100">
         Rep:
         <b className={`select-none mt-0.5 ${className}`}>
-          {rateNumber > 0 && "+"}
-          {rateNumber}
+          {ratingSummary > 0 && "+"}
+          {ratingSummary}
         </b>
       </div>
     );
@@ -121,8 +122,8 @@ function RatingBox({
       </div>
       Rep:
       <b className={`select-none ${className}`}>
-        {rateNumber > 0 && "+"}
-        {rateNumber}
+        {ratingSummary > 0 && "+"}
+        {ratingSummary}
       </b>
       <div
         className="bg-[#31314f] p-1 rounded-xl"
@@ -143,6 +144,7 @@ function EditedBox({ message }: { message: string }) {
 function PostContentBox({ post }: { post: PostProps }) {
   const { author, createdAt, message, ratingSummary, id, editedMessage } = post;
   const { user } = useUserContext();
+  const isAdmin = user.role === "ADMIN";
 
   return (
     <div className="right-panel-post w-full ml-6 relative max-sm:ml-0 max-sm:mt-4">
@@ -153,9 +155,9 @@ function PostContentBox({ post }: { post: PostProps }) {
         {message}
         {editedMessage && <EditedBox message={editedMessage} />}
       </div>
-      <div className="absolute bottom-0 flex flex-row items-center max-sm:border-t-1 max-sm:border-t-[#6161614d] max-sm:w-full max-sm:pt-2">
+      <div className="absolute bottom-0 flex flex-row items-center max-sm:border-t-1 max-sm:border-t-[#6161614d] max-sm:w-full max-sm:pt-2 select-none">
         <RatingBox ratingSummary={ratingSummary} postId={id} />
-        {user.role === "ADMIN" && <PostTools post={post} />}
+        {isAdmin && <PostTools post={post} />}
       </div>
     </div>
   );

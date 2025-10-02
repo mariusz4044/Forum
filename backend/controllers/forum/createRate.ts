@@ -46,5 +46,7 @@ export async function createRate(req: Request, res: Response) {
   return res.status(201).json({
     message: "Successfully added rate!",
     ratingSummary: postUpdated.ratingSummary,
+    topicId: postUpdated.topicId,
+    postId: postId,
   });
 }

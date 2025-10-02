@@ -5,7 +5,7 @@ import { formatShortNumber } from "@/components/Utils/formatNumbers";
 import { Category, LastPost } from "@/types/types";
 import { UserAvatar } from "@/components/Utils/UserAvatar";
 
-import { MessageSquarePlus } from "lucide-react";
+import { MessageCircle, MessageSquarePlus } from "lucide-react";
 import Link from "next/link";
 import { JSX } from "react";
 import Image from "next/image";
@@ -18,9 +18,13 @@ function MessageCountElement({
 }): JSX.Element {
   return (
     <div className="mr-3 flex items-center justify-between max-sm:hidden">
-      <div className="bg-[#9f9fc90d] rounded-xl py-1 font-bold text-[14px] text-[gray] flex flex-row items-center justify-center gap-1 w-20">
+      <div
+        className="py-1 text-[14px] text-[#94a3b8]/60 bg-[#1d1d35] hover:scale-95
+        inset-shadow-xs inset-shadow-gray-700/50 rounded-xl
+        flex flex-row items-center justify-center gap-1 w-20"
+      >
         <span>{formatShortNumber(messagesCount)}</span>
-        <MessageSquarePlus size={13} strokeWidth={2} />
+        <MessageCircle size={13} strokeWidth={2} />
       </div>
     </div>
   );

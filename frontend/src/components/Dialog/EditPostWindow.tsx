@@ -11,14 +11,13 @@ import { PostProps } from "@/types/types";
 import { FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { mutate } from "swr";
+import getPageNumber from "../Utils/getPageNumber";
 
 export default function EditPostEditPostWindow() {
   const { close, data } = useDialogContext();
-  const post: PostProps & { topicId: number } = data!;
+  const post: PostProps = data!;
 
-  // routing data
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page") || `1`;
+  const { page } = getPageNumber();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -37,7 +36,7 @@ export default function EditPostEditPostWindow() {
     close();
 
     // reload updated data
-    mutate([`topic/${post.topicId}`, parseInt(page as string)]);
+    mutate([`topic/${post.topicId}`, page]);
   }
 
   return (
