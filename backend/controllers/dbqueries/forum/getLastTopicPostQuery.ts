@@ -25,10 +25,6 @@ export async function getLastTopicPostQuery({
 
     const posts = res.posts ?? [];
 
-    if (posts.length === 0) {
-      throw new Error("No posts found for this topic");
-    }
-
     //@ts-ignore //ts not working with at
     const post = posts.at(0)!;
     return post;

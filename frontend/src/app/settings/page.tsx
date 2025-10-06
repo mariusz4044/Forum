@@ -51,7 +51,7 @@ export default function page() {
         <div>
           <SettingsNavigation currentNav={currentView} onChange={changeView} />
         </div>
-        {currentView === "profile" && <SettingsProfile data={settingsData} />}
+        {currentView === "profile" && <SettingsProfile />}
         {currentView === "info" && <SettingsInformations data={settingsData} />}
         {currentView === "secure" && <SettingsPassword />}
       </div>

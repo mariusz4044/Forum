@@ -21,6 +21,14 @@ export interface PostProps {
   topicId: number;
 }
 
+export interface PostPropsWithReports extends PostProps {
+  reports: report[];
+}
+
+type report = {
+  createdById: number;
+};
+
 export type UserSettingsData = {
   id: number;
   login: string;

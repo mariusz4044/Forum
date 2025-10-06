@@ -3,11 +3,7 @@
 import ReportsView from "@/components/Admin/ReportsView";
 import React from "react";
 
-function HeaderButton({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function HeaderButton({ children }: { children: React.ReactNode }) {
   return (
     <>
       <button
@@ -24,8 +20,6 @@ function AdminPanelHeader() {
   return (
     <div className="w-full h-13 rounded-xl bg-gray-700/[0.2] border border-gray-700/[0.4]">
       <HeaderButton>Reports</HeaderButton>
-      <HeaderButton>Users</HeaderButton>
-      <HeaderButton>Bans</HeaderButton>
     </div>
   );
 }

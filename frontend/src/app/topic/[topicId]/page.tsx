@@ -1,6 +1,12 @@
 "use client";
 
-import { Location, PostAuthor, PostProps, TopicResponse } from "@/types/types";
+import {
+  Location,
+  PostAuthor,
+  PostProps,
+  PostPropsWithReports,
+  TopicResponse,
+} from "@/types/types";
 import Loading from "@/components/Utils/Universal/Loading";
 import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
 import { useUserContext } from "@/context/UserContext";
@@ -11,7 +17,7 @@ import { TopicHeader } from "@/components/Topic/TopicHeader";
 import { TopicContext, useTopicContext } from "@/context/TopicContext";
 import LocationNav from "@/components/Utils/LocationNav";
 
-import { JSX, useRef, useState, useEffect } from "react";
+import { JSX, useRef, useState, useEffect, Fragment } from "react";
 import { Info } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import usePagination from "@/hooks/usePagination";
@@ -73,11 +79,15 @@ function NewPostElement(): JSX.Element {
   );
 }
 
-function PostsContent({ posts }: { posts: PostProps[] }) {
+export function PostsContent({
+  posts,
+}: {
+  posts: PostProps[] | PostPropsWithReports[];
+}) {
   if (!posts) return null;
   return (
     <>
-      {posts.map((post: PostProps) => {
+      {posts.map((post: PostProps | PostPropsWithReports) => {
         return <PostBox postData={post} key={`post-${post.id}`} />;
       })}
     </>

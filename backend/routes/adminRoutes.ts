@@ -15,6 +15,8 @@ import {
   editPostSchema,
   topicEditSchema,
 } from "../middleware/zodSchemas/schemas";
+import { getReports } from "../controllers/admin/getReports";
+import { clearReports } from "../controllers/admin/clearReports";
 
 const router = Router();
 
@@ -49,5 +51,14 @@ router.delete(
 );
 
 router.post("/user/ban", validateBody(banSchema), authAdmin, banUser);
+
+router.get("/reports", authAdmin, getReports);
+
+router.post(
+  "/reports/clear",
+  validateBody(bodyPostIdSchema),
+  authAdmin,
+  clearReports,
+);
 
 export default router;

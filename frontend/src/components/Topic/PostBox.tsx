@@ -5,7 +5,6 @@ import {
   Plus,
   Send,
   ShieldAlert,
-
 } from "lucide-react";
 
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
@@ -13,13 +12,14 @@ import { fetchData } from "@/functions/fetchData";
 import { useUserContext } from "@/context/UserContext";
 import { ReportPostElement } from "@/components/Topic/ReportPostElement";
 import { PostTools } from "@/components/Admin/PostTools";
-import { PostAuthor, PostProps } from "@/types/types";
+import { PostAuthor, PostProps, PostPropsWithReports } from "@/types/types";
 import Badge, { BadgeColors } from "@/components/Utils/Universal/Badge";
 import { UserNick } from "@/components/Utils/UserNick";
 import { UserAvatar } from "../Utils/UserAvatar";
 import { formatShortNumber } from "../Utils/formatNumbers";
 import getPageNumber from "../Utils/getPageNumber";
 import { mutate } from "swr";
+import React from "react";
 
 export function PostBoxUserPanel({ user }: { user: PostAuthor }) {
   let reputationIcon = Meh;
@@ -140,8 +140,40 @@ function EditedBox({ message }: { message: string }) {
   return <div className="text-[11px] mt-7 text-gray-400">{message}</div>;
 }
 
-function PostContentBox({ post }: { post: PostProps }) {
+function ReportStatsBox({ post }: { post: PostPropsWithReports }) {
+  const { reports } = post;
+  console.log(post);
+
+  async function clearReports() {
+    await fetchData(`/api/reports/clear`, {
+      postId: post.id,
+    });
+  }
+
+  return (
+    <div className="border-t border-gray-600/30 mt-4">
+      <span className="text-[11px] mt-2 text-gray-400 flex flex-col">
+        <span>Post have {reports.length} reports!</span>
+        <button
+          className="text-xs w-24 mt-2 bg-gray-600/20 border-1 border-gray-600/30 p-1 rounded-lg pointer"
+          onClick={clearReports}
+        >
+          Clear reports
+        </button>
+      </span>
+    </div>
+  );
+}
+
+function PostContentBox({
+  post,
+  children,
+}: {
+  post: PostProps | PostPropsWithReports;
+  children?: React.ReactNode;
+}) {
   const { createdAt, message, ratingSummary, id, editedMessage } = post;
+  const reports = "reports" in post ? post.reports : undefined;
   const { user } = useUserContext();
   const isAdmin = user.role === "ADMIN";
 
@@ -153,16 +185,22 @@ function PostContentBox({ post }: { post: PostProps }) {
       <div className="mt-3 wrap-anywhere mb-10 whitespace-pre-line">
         {message}
         {editedMessage && <EditedBox message={editedMessage} />}
+        {reports && <ReportStatsBox post={post as PostPropsWithReports} />}
       </div>
       <div className="absolute bottom-0 flex flex-row items-center max-sm:border-t-1 max-sm:border-t-[#6161614d] max-sm:w-full max-sm:pt-2 select-none">
         <RatingBox ratingSummary={ratingSummary} postId={id} />
         {isAdmin && <PostTools post={post} />}
+        {children}
       </div>
     </div>
   );
 }
 
-export function PostBox({ postData }: { postData: PostProps }) {
+export function PostBox({
+  postData,
+}: {
+  postData: PostProps | PostPropsWithReports;
+}) {
   const { author, id } = postData;
 
   return (
