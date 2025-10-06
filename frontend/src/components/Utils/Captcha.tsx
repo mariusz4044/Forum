@@ -16,7 +16,9 @@ export function Captcha() {
     }
 
     useEffect(()=>{
-        getCaptcha()
+        (async()=>{
+            await getCaptcha()
+        })();
     },[])
 
     if(!captchaBase64){

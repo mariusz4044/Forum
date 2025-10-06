@@ -5,11 +5,10 @@ import { formatShortNumber } from "@/components/Utils/formatNumbers";
 import { Category, LastPost } from "@/types/types";
 import { UserAvatar } from "@/components/Utils/UserAvatar";
 
-import { MessageCircle, MessageSquarePlus } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { JSX } from "react";
 import Image from "next/image";
-import { TopicProps } from "../category/[categoryId]/page";
 
 function MessageCountElement({
   messagesCount,

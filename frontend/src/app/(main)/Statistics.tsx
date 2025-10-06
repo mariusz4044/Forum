@@ -91,7 +91,7 @@ function PositionRanking({
   rank: number;
   user: UserBestPosts;
 }) {
-  let rankClass = "rank-default";
+  let rankClass: string;
 
   switch (rank) {
     case 1:

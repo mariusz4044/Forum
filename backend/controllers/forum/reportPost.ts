@@ -25,7 +25,7 @@ export async function reportPost(req: Request, res: Response) {
     where: { postId, createdById: user.id },
   });
 
-  if (isReported) {
+  if (isReported && user.role !== "ADMIN") {
     throw new AppError("You can't report this post again!");
   }
 

@@ -14,7 +14,7 @@ export async function logout(
   } catch (e: any) {
     if (e.code === "P2025") {
       // User had no active session — treat as successful logout
-      if (requiresActiveSession === false) {
+      if (!requiresActiveSession) {
         return true;
       }
 

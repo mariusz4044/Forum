@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { AppError } from "../../utils/AppError";
-import { editUniquePostQuery } from "../../controllers/dbqueries/forum/editUniquePostQuery";
+import { editUniquePostQuery } from "../dbqueries/forum/editUniquePostQuery";
 import { getFormattedDate } from "../../utils/getFormattedDate";
 
 export async function editPost(req: Request, res: Response) {

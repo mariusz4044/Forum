@@ -2,7 +2,6 @@ import { TopicProps } from "@/app/category/[categoryId]/page";
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
 import Link from "next/link";
 import { UserNick } from "../Utils/UserNick";
-import Image from "next/image";
 import { formatShortNumber } from "@/components/Utils/formatNumbers";
 import { MessageCircle } from "lucide-react";
 import { UserAvatar } from "@/components/Utils/UserAvatar";

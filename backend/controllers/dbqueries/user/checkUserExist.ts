@@ -1,5 +1,4 @@
 import { prisma } from "../../../database/connection";
-import { AppError } from "../../../utils/AppError";
 import { UserData } from "../../../types/types";
 
 export async function checkUserExist(

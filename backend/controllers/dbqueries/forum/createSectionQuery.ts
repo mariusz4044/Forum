@@ -1,5 +1,4 @@
 import { prisma } from "../../../database/connection";
-import { AppError } from "../../../utils/AppError";
 import { Section } from "@prisma/client";
 
 interface SectionQuery {

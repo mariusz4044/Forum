@@ -4,7 +4,6 @@ import { useState } from "react";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { toast } from "react-toastify";
 import { fetchData } from "@/functions/fetchData";
-import { UserAvatar } from "@/components/Utils/UserAvatar";
 import { User } from "lucide-react";
 
 export default function () {

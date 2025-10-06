@@ -30,12 +30,11 @@ function NewPostElement(): JSX.Element {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   async function handleSubmit() {
-    const res = await fetchData("/api/forum/post/create", {
+    const createPostResponse = await fetchData("/api/forum/post/create", {
       topicId: topic.id,
       message: message,
     });
 
-    const createPostResponse = res;
     if (!createPostResponse || createPostResponse.error) return;
 
     const newPost: PostProps = createPostResponse.data;
@@ -48,7 +47,7 @@ function NewPostElement(): JSX.Element {
 
     if (newMaxPage === navigation.currentPage) {
       // revalidate posts data
-      mutate([`topic/${topic.id}`, navigation.currentPage]);
+      await mutate([`topic/${topic.id}`, navigation.currentPage]);
     }
 
     router.push(`?${params.toString()}`, { scroll: false });
@@ -94,7 +93,7 @@ function PostClose() {
   );
 }
 
-export default function postsView() {
+export default function PostsView() {
   // context
   const { user } = useUserContext();
 

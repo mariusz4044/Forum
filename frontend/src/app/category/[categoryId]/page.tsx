@@ -9,7 +9,7 @@ import { User, useUserContext } from "@/context/UserContext";
 import LocationNav from "@/components/Utils/LocationNav";
 import { Category, Location, NavigationData } from "@/types/types";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import usePagination from "@/hooks/usePagination";
 import usePaginationData from "@/hooks/usePaginationData";
@@ -61,7 +61,6 @@ const CreateNewTopicButton = () => {
 
 export default function topicView() {
   // routing
-  const router = useRouter();
   const { categoryId }: { categoryId: string } = useParams();
 
   // pagination

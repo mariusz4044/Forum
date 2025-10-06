@@ -1,6 +1,5 @@
 import { prisma } from "../../../database/connection";
 import { AppError } from "../../../utils/AppError";
-import { RateBody } from "../../forum/createRate";
 
 interface CreateReportQuery {
   postId: number;

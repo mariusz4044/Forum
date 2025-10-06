@@ -1,7 +1,5 @@
-import { PrismaError } from "types/types";
 import { prisma } from "../../../database/connection";
 import { AppError } from "../../../utils/AppError";
-import { Prisma } from "@prisma/client";
 
 export async function deleteMultiplePostQuery(userId: number) {
   try {

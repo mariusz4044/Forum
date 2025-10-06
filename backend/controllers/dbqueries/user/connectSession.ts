@@ -1,5 +1,5 @@
 import { prisma } from "../../../database/connection";
-import { Prisma, Session } from "@prisma/client";
+import { Session } from "@prisma/client";
 
 export async function connectSession(
   userId: number,

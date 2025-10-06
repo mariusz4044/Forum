@@ -1,6 +1,5 @@
 import { prisma } from "../../../database/connection";
 import { AppError } from "../../../utils/AppError";
-import { Post, Topic } from "@prisma/client";
 
 interface PostQuery {
   message: string;

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AppError } from "../../utils/AppError";
-import { deleteTopicQuery } from "../../controllers/dbqueries/admin/deleteTopicQuery";
+import { deleteTopicQuery } from "../dbqueries/admin/deleteTopicQuery";
 
 export async function deleteTopic(req: Request, res: Response) {
   const { topicId } = req.body;

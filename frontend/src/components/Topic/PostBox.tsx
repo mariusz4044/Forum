@@ -5,7 +5,7 @@ import {
   Plus,
   Send,
   ShieldAlert,
-  User,
+
 } from "lucide-react";
 
 import { formatDateToRelative } from "@/functions/formatDateToRelative";
@@ -14,7 +14,6 @@ import { useUserContext } from "@/context/UserContext";
 import { ReportPostElement } from "@/components/Topic/ReportPostElement";
 import { PostTools } from "@/components/Admin/PostTools";
 import { PostAuthor, PostProps } from "@/types/types";
-import { useState } from "react";
 import Badge, { BadgeColors } from "@/components/Utils/Universal/Badge";
 import { UserNick } from "@/components/Utils/UserNick";
 import { UserAvatar } from "../Utils/UserAvatar";
@@ -95,7 +94,7 @@ function RatingBox({
     });
 
     if (!topicId) return;
-    mutate([`topic/${topicId}`, page]);
+    await mutate([`topic/${topicId}`, page]);
   }
 
   if (!user.id) {
@@ -142,7 +141,7 @@ function EditedBox({ message }: { message: string }) {
 }
 
 function PostContentBox({ post }: { post: PostProps }) {
-  const { author, createdAt, message, ratingSummary, id, editedMessage } = post;
+  const { createdAt, message, ratingSummary, id, editedMessage } = post;
   const { user } = useUserContext();
   const isAdmin = user.role === "ADMIN";
 

@@ -9,7 +9,6 @@ import {
 } from "@/components/Utils/Universal/FormInput";
 import { PostProps } from "@/types/types";
 import { FormEvent } from "react";
-import { useSearchParams } from "next/navigation";
 import { mutate } from "swr";
 import getPageNumber from "../Utils/getPageNumber";
 
@@ -36,7 +35,7 @@ export default function EditPostEditPostWindow() {
     close();
 
     // reload updated data
-    mutate([`topic/${post.topicId}`, page]);
+    await mutate([`topic/${post.topicId}`, page]);
   }
 
   return (

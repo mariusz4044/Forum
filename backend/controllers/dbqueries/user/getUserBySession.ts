@@ -33,8 +33,7 @@ export async function getUserBySession(
       return false;
     }
 
-    const user: User = session.user;
-    return user;
+    return session.user as User;
   } catch (error: any) {
     throw new Error(error.message);
   }

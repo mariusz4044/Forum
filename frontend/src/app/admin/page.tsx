@@ -1,16 +1,12 @@
 "use client";
 
 import ReportsView from "@/components/Admin/ReportsView";
-import { useState } from "react";
-
-type Views = "reports";
+import React from "react";
 
 function HeaderButton({
   children,
-  active,
 }: {
   children: React.ReactNode;
-  active?: boolean;
 }) {
   return (
     <>
@@ -35,8 +31,6 @@ function AdminPanelHeader() {
 }
 
 export default function AdminMenu() {
-  const [view, setView] = useState<Views>("reports");
-
   return (
     <main className="w-full flex justify-center items-center flex-col mt-10">
       <div className="container-70">

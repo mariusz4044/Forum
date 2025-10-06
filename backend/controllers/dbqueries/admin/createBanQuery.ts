@@ -1,6 +1,6 @@
 import { prisma } from "../../../database/connection";
 import { AppError } from "../../../utils/AppError";
-import { Ban, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 export async function createBanQuery(args: Prisma.BanCreateArgs) {
   try {

@@ -1,10 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { AppError } from "../../utils/AppError";
-import { createSectionQuery } from "../dbqueries/forum/createSectionQuery";
 import { createPostQuery } from "../dbqueries/forum/createPostQuery";
 import { prisma } from "../../database/connection";
 import { getLastTopicPostQuery } from "../dbqueries/forum/getLastTopicPostQuery";
-import { getUniqueTopicQuery } from "../../controllers/dbqueries/forum/getUniqueTopicQuery";
+import { getUniqueTopicQuery } from "../dbqueries/forum/getUniqueTopicQuery";
 import { Topic } from "@prisma/client";
 
 interface PostBody {
@@ -13,9 +12,6 @@ interface PostBody {
   blockResponse?: boolean;
 }
 
-const isDev = process.env.NODE_ENV === "development";
-
-const postDelay = parseInt(`${process.env.POST_DELAY_PER_USER}`);
 const postsPerPage = parseInt(`${process.env.POSTS_PER_PAGE}`);
 
 export async function createPost(req: Request, res: Response) {

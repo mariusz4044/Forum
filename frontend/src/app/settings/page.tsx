@@ -33,7 +33,7 @@ export default function page() {
   }
 
   if (error) {
-    return <h1>Please reflesh page!</h1>;
+    return <h1>Please refresh page!</h1>;
   }
 
   const settingsData: UserSettingsData = data;

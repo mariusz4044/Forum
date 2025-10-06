@@ -1,7 +1,7 @@
 export class CacheManager {
   private cache: Array<{ key: string, fn: Function, data: any, args: any[] | null }> = [];
   private interval: any = null;
-  private refreshTime: number;
+  private readonly refreshTime: number;
 
   constructor(intervalMs: number = 5000) {
     this.refreshTime = intervalMs;

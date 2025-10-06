@@ -17,7 +17,7 @@ import {
   createRateSchema,
   createSectionSchema,
   createTopicSchema,
-  postIdSchema,
+
 } from "../middleware/zodSchemas/schemas";
 import { reportPost } from "../controllers/forum/reportPost";
 

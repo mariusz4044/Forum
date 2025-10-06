@@ -1,5 +1,4 @@
 import { User } from "@/context/UserContext";
-import { number } from "motion";
 import { ReactNode } from "react";
 
 export type PostAuthor = User & {

@@ -6,10 +6,8 @@ import {
   SettingsSubHeaderText,
 } from "@/components/Settings/SettingsBox";
 import UploadAvatarBox from "@/components/Settings/UploadAvatarBox";
-import { ReactNode } from "react";
-import { UserSettingsData } from "@/types/types";
 
-export default function ({ data }: { data: UserSettingsData }) {
+export default function () {
   return (
     <SettingsBox>
       <SettingsHeader>

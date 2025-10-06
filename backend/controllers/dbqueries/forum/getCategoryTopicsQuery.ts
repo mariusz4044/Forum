@@ -42,24 +42,6 @@ async function getTopicByCursor({
   return topicsOnPage;
 }
 
-async function getTopicBySkip({
-  categoryId,
-  skip,
-  take,
-}: {
-  skip: number;
-  take: number;
-  categoryId: number;
-}) {
-  return prisma.topic.findMany({
-    where: { categoryId: categoryId },
-    orderBy: { id: "desc" },
-    skip,
-    take,
-    include: includesData,
-  });
-}
-
 async function getCategory(categoryId: number) {
   return prisma.category.findUnique({
     where: { id: categoryId },
@@ -119,7 +101,7 @@ export async function getCategoryTopicsQuery({
 }) {
   try {
     const category = await getCategory(categoryId);
-    let topics: Topic[] = [];
+    let topics: Topic[];
 
     if (cursor && direction) {
       topics = await getTopicByCursor({

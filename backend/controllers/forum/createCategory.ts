@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { AppError } from "../../utils/AppError";
-import { createSectionQuery } from "../dbqueries/forum/createSectionQuery";
 import { createCategoryQuery } from "../dbqueries/forum/createCategoryQuery";
 
 interface SectionBody {

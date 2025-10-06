@@ -53,8 +53,8 @@ export function PostTools({ post }: { post: PostProps & { topicId: number } }) {
   const searchParams = useSearchParams();
   const page = searchParams.get("page") || `1`;
 
-  const reloadPosts = () => {
-    mutate([`topic/${post.topicId}`, parseInt(page as string)]);
+  const reloadPosts = async () => {
+    await mutate([`topic/${post.topicId}`, parseInt(page as string)]);
   };
 
   return (

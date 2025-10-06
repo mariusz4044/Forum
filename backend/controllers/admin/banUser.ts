@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { createBanQuery } from "../../controllers/dbqueries/admin/createBanQuery";
-import { updateUniqueUser } from "../../controllers/dbqueries/user/updateUniqueUser";
+import { createBanQuery } from "../dbqueries/admin/createBanQuery";
+import { updateUniqueUser } from "../dbqueries/user/updateUniqueUser";
 
 export async function banUser(req: Request, res: Response) {
   const { userId, reason, banLength } = req.body;

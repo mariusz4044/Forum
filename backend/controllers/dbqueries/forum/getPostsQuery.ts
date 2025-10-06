@@ -1,4 +1,4 @@
-import { Topic, Post } from "@prisma/client";
+import { Post } from "@prisma/client";
 import { prisma } from "../../../database/connection";
 
 async function getPostsByCursor({
@@ -128,7 +128,7 @@ export async function getPostsQuery({
 }) {
   try {
     const topic = await getTopic(topicId);
-    let posts: Post[] = [];
+    let posts: Post[];
 
     if (cursor && direction) {
       posts = await getPostsByCursor({

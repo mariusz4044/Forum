@@ -3,7 +3,7 @@
 import { SettingsBox } from "@/components/Settings/SettingsBox";
 import { UserAvatar } from "@/components/Utils/UserAvatar";
 import { useUserContext } from "@/context/UserContext";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { BadgeProfile } from "@/components/Dialog/UserProfileWindow";
 import { Accessibility, Clock, User } from "lucide-react";
 import { navigationType } from "@/app/settings/page";

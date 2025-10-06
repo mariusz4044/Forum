@@ -1,5 +1,5 @@
 import { prisma } from "../../../database/connection";
-import { Prisma, Ban } from "@prisma/client";
+import { Ban } from "@prisma/client";
 
 export async function getActiveBan(userId: number): Promise<Ban | false> {
   try {

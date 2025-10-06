@@ -7,7 +7,6 @@ import { getActiveBan } from "../dbqueries/user/getActiveBan";
 
 //types
 import type { LoginBody } from "../../types/types";
-import { updateUniqueUser } from "../dbqueries/user/updateUniqueUser";
 import { AppError } from "../../utils/AppError";
 import { connectSession } from "../dbqueries/user/connectSession";
 import { saveExpressSession } from "../../utils/saveExpressSession";

@@ -1,4 +1,3 @@
-import { PrismaError } from "types/types";
 import { prisma } from "../../../database/connection";
 import { AppError } from "../../../utils/AppError";
 

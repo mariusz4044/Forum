@@ -8,7 +8,6 @@ import {
   SettingsHeaderText,
   SettingsSubHeaderText,
 } from "@/components/Settings/SettingsBox";
-import UploadAvatarBox from "@/components/Settings/UploadAvatarBox";
 
 function StatBox({ children }: { children: ReactNode }) {
   return (

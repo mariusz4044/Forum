@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import { AppError } from "../../utils/AppError";
 import { createTopicQuery } from "../dbqueries/forum/createTopicQuery";
-import { createPostQuery } from "../dbqueries/forum/createPostQuery";
 import { prisma } from "../../database/connection";
 import { createPost } from "./createPost";
-import { updateUniqueUser } from "../../controllers/dbqueries/user/updateUniqueUser";
+import { updateUniqueUser } from "../dbqueries/user/updateUniqueUser";
 
 interface TopicBody {
   title: string;

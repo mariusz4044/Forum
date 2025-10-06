@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import { deletePostQuery } from "../dbqueries/admin/deletePostQuery";
-import { AppError } from "../../utils/AppError";
-import { deleteMultiplePostQuery } from "../../controllers/dbqueries/admin/deleteMultiplePostQuery";
+import { deleteMultiplePostQuery } from "../dbqueries/admin/deleteMultiplePostQuery";
 import { prisma } from "../../database/connection";
 
 export async function deleteAllPosts(req: Request, res: Response) {

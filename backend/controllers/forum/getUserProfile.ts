@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AppError } from "../../utils/AppError";
-import { getUniqueUser } from "../../controllers/dbqueries/user/getUniqueUser";
+import { getUniqueUser } from "../dbqueries/user/getUniqueUser";
 import { User } from "@prisma/client";
 
 type UserWithPostCount = User & {

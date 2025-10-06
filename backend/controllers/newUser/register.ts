@@ -4,7 +4,6 @@ const isDev = process.env.NODE_ENV === "development";
 
 import { Response, Request } from "express";
 import * as bcrypt from "bcrypt";
-import { z } from "zod";
 import { prisma } from "../../database/connection";
 
 import { checkUserExist } from "../dbqueries/user/checkUserExist";
@@ -65,6 +64,6 @@ export async function register(req: Request, res: Response) {
     });
   } catch (e: any) {
     if (isDev) console.error(e);
-    throw new Error("Occured error while creating user!");
+    throw new Error("Occurred error while creating user!");
   }
 }

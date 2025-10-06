@@ -5,7 +5,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { NavigationData, PageNavigationProps } from "@/types/types";
+import { PageNavigationProps } from "@/types/types";
 
 interface PageNumberElementProps {
   pageNumber: number;
