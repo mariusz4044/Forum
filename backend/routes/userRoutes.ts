@@ -19,7 +19,7 @@ import getUsersSettings from "../controllers/user/getUserSettings";
 import changePassword from "../controllers/user/changePassword";
 
 router.get("/", authorization, async (req, res) => {
-  const userData = await getUserData(req, res);
+  const userData = await getUserData(req);
   return res.status(200).send(userData);
 });
 
