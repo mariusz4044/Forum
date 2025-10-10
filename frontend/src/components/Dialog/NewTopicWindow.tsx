@@ -46,7 +46,6 @@ export default function NewTopicWindow() {
           <FormInputArea
             name="Message"
             placeholder="First message in topic..."
-            required
             height={32}
           ></FormInputArea>
         </div>

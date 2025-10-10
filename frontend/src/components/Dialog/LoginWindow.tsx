@@ -6,6 +6,9 @@ import { fetchData } from "@/functions/fetchData";
 import { useDialogContext } from "@/context/DialogContext";
 import { useUserContext } from "@/context/UserContext";
 import { FormEvent } from "react";
+import MultiDialog from "@/components/Dialog/MultiDialog";
+import FooterGithubInfo from "@/components/Utils/FooterGithubInfo";
+import RegisterWindow from "./RegisterWindow";
 
 export default function LoginWindow() {
   const { close } = useDialogContext();
@@ -28,27 +31,21 @@ export default function LoginWindow() {
   }
 
   return (
-    <Window title="Login">
-      <form onSubmit={onSubmit}>
-        <div className="form-element">
-          <FormInput
-            name="Username"
-            defaultValue="test1223"
-            required
-          ></FormInput>
-        </div>
-        <div className="form-element">
-          <FormInput
-            name="Password"
-            defaultValue="jacek"
-            type="password"
-            required
-          ></FormInput>
-        </div>
-        <ClassicButton type="submit" className="w-full mt-3">
-          Sign Up
-        </ClassicButton>
-      </form>
-    </Window>
+    <form onSubmit={onSubmit}>
+      <div className="form-element">
+        <FormInput name="Username" defaultValue="test1223" required></FormInput>
+      </div>
+      <div className="form-element">
+        <FormInput
+          name="Password"
+          defaultValue="jacek"
+          type="password"
+          required
+        ></FormInput>
+      </div>
+      <ClassicButton type="submit" className="w-full mt-3">
+        Sign Up
+      </ClassicButton>
+    </form>
   );
 }
