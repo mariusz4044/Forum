@@ -23,23 +23,22 @@ Modern full-stack internet forum designed with a strong focus on performance.
   - [x] Closing topics
   - [x] Deleting topics
   - [x] Editing user posts
+  - [x] Preview reported posts
 - [x] Topic caching system
 - [x] User settings (change password / Avatar, Stats)
 
 **In Progress:**
 - [ ] Post search engine
 - [ ] Text editor (e.g. [Quill](https://quilljs.com/))
-- [ ] Preview reported posts (admin)
 
 
 ## 🛠️ Tech Stack
 
 ### Backend
 - **Express.js** - Web framework
+- **Express Session** - Session management
 - **Prisma** - Database ORM
 - **TypeScript** - Type-safe JavaScript
-- **CORS** - Cross-Origin Resource Sharing
-- **Express Session** - Session management
 - **Zod** - Runtime schema validation
 
 ### Frontend
