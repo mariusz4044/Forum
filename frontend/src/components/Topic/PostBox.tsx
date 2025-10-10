@@ -182,7 +182,7 @@ function PostContentBox({
       <span className="text-[#9F9FC9] text-sm max-sm:text-[12px]">
         Created {formatDateToRelative(createdAt)}
       </span>
-      <div className="mt-3 wrap-anywhere mb-10 whitespace-pre-line">
+      <div className="mt-3 max-sm:mb-15 wrap-anywhere mb-10 whitespace-pre-line">
         {message}
         {editedMessage && <EditedBox message={editedMessage} />}
         {reports && <ReportStatsBox post={post as PostPropsWithReports} />}

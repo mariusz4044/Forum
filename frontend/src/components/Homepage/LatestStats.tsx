@@ -29,7 +29,7 @@ function StatBox({
 }
 
 function StatTitle({ children }: { children: ReactNode }) {
-  return <div className="text-xs text-[#9F9FC9] font-medium">{children}</div>;
+  return <div className="text-xs text-[#acacda] font-medium">{children}</div>;
 }
 
 function StatValue({ children }: { children: ReactNode }) {

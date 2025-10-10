@@ -19,9 +19,9 @@ export function TopicBox({ topic }: { topic: TopicProps }) {
 
   return (
     <div
-      className="bg-[#1e1e2f]/[.2] rounded-xs px-6 h-25 relative flex flex-row justify-between items-center max-sm:px-2"
+      className="bg-[#1e1e2f]/34 rounded-xl px-6 h-25 relative flex flex-row justify-between items-center max-sm:px-2 my-2"
       style={{
-        borderBottom: "1px solid #a3a3a325",
+        border: "1px solid rgba(58, 58, 95, 0.29)",
       }}
     >
       <div className="left-topic flex flex-row gap-4 items-center">

@@ -33,7 +33,6 @@ export function PageNavigation({
   children,
   navigation,
   onChangePage,
-  reversed,
 }: PageNavigationProps) {
   const { maxPage, currentPage } = navigation;
 
@@ -59,15 +58,14 @@ export function PageNavigation({
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }, [currentPage, maxPage]);
 
-  const borderStyle = reversed
-    ? { borderBottom: "1px solid rgb(50, 50, 79)" }
-    : { borderTop: "1px solid rgb(50, 50, 79)" };
+  const borderStyle = { border: "1px solid rgba(58, 58, 95, 0.29)" };
 
   const iconClassName =
     "cursor-pointer hover:scale-90 transition-transform p-1 select-none";
+
   return (
     <div
-      className="bg-[#1e1e2f]/80 p-4 h-14 rounded-lg flex flex-row justify-between items-center"
+      className="bg-[#1e1e2f]/[.5] p-4 h-14 rounded-lg flex flex-row justify-between items-center"
       style={borderStyle}
     >
       <div className="flex flex-row gap-1 items-center">

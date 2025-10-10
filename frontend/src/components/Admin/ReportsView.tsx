@@ -1,8 +1,8 @@
-import { PostsContent } from "@/app/topic/[topicId]/page";
 import useSWR from "swr";
 import fetcherGet from "@/functions/fetcherGet";
 import Loading from "@/components/Utils/Universal/Loading";
 import { PostPropsWithReports } from "@/types/types";
+import PostsContent from "@/app/topic/[topicId]/PostContent";
 
 export default function () {
   const { isLoading, error, data } = useSWR(

@@ -1,14 +1,8 @@
 "use client";
 
-import {
-  Location,
-  PostAuthor,
-  PostProps,
-  PostPropsWithReports,
-  TopicResponse,
-} from "@/types/types";
+import { Location, PostAuthor, PostProps, TopicResponse } from "@/types/types";
 import Loading from "@/components/Utils/Universal/Loading";
-import { PostBox, PostBoxUserPanel } from "@/components/Topic/PostBox";
+import { PostBoxUserPanel } from "@/components/Topic/PostBox";
 import { useUserContext } from "@/context/UserContext";
 import ForumButton from "@/components/Utils/Buttons/ForumButton";
 import { fetchData } from "@/functions/fetchData";
@@ -17,12 +11,13 @@ import { TopicHeader } from "@/components/Topic/TopicHeader";
 import { TopicContext, useTopicContext } from "@/context/TopicContext";
 import LocationNav from "@/components/Utils/LocationNav";
 
-import { JSX, useRef, useState, useEffect, Fragment } from "react";
+import { JSX, useRef, useState, useEffect } from "react";
 import { Info } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import usePagination from "@/hooks/usePagination";
 import usePaginationData from "@/hooks/usePaginationData";
 import { mutate } from "swr";
+import PostsContent from "@/app/topic/[topicId]/PostContent";
 
 function NewPostElement(): JSX.Element {
   const router = useRouter();
@@ -79,21 +74,6 @@ function NewPostElement(): JSX.Element {
   );
 }
 
-export function PostsContent({
-  posts,
-}: {
-  posts: PostProps[] | PostPropsWithReports[];
-}) {
-  if (!posts) return null;
-  return (
-    <>
-      {posts.map((post: PostProps | PostPropsWithReports) => {
-        return <PostBox postData={post} key={`post-${post.id}`} />;
-      })}
-    </>
-  );
-}
-
 function PostClose() {
   return (
     <div className=" flex flex-row gap-3 w-full bg-red-800/[0.15] text-sm border-1 border-red-500/[0.2] rounded-lg  p-4 hover:scale-105 font-light cursor-pointer">
@@ -103,7 +83,7 @@ function PostClose() {
   );
 }
 
-export default function PostsView() {
+export default function postsView() {
   // context
   const { user } = useUserContext();
 
@@ -168,7 +148,7 @@ export default function PostsView() {
   return (
     <TopicContext value={postResponse}>
       <main className="w-full flex justify-center items-center flex-row mt-10">
-        <div className="w-[80%] h-full max-sm:w-[90%] max-sm:ml-[5%]">
+        <div className="w-[80%] h-full max-sm:w-[90%]">
           <header className="flex flex-col gap-3">
             <LocationNav data={location} />
             <TopicHeader />

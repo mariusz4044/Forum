@@ -39,7 +39,7 @@ function LastPostElement({ lastPost }: { lastPost: LastPost }) {
         size={{ width: 42, height: 42 }}
       />
       <div className="flex flex-col text-sm text-[11px] w-32">
-        <div className="whitespace-nowrap cursor-pointer truncate text-sm">
+        <div className="whitespace-nowrap cursor-pointer truncate text-sm w-full">
           <Link href={`/topic/${topic.id}`}>{topic.title}</Link>
         </div>
         <div className="text-[#9F9FC9] whitespace-nowrap flex flex-col">
@@ -76,12 +76,12 @@ const TopicDetails = ({
   description: string;
   isAdmin: boolean;
 }) => (
-  <div className="flex-grow flex flex-col justify-center gap-0.5">
-    <Link href={`/category/${id}`} className="text-base font-medium truncate">
+  <div className="flex-grow flex flex-col justify-center gap-0.5 truncate">
+    <Link href={`/category/${id}`} className="text-base font-medium">
       <span className="text-sm">{title}</span>
       {isAdmin && <span className="text-xs ml-1 opacity-30">(#{id})</span>}
     </Link>
-    <p className="text-xs text-[#9F9FC9] truncate">{description}</p>
+    <p className="text-xs text-[#9F9FC9]">{description}</p>
   </div>
 );
 

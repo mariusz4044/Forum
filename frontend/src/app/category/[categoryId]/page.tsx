@@ -97,7 +97,7 @@ export default function topicView() {
 
   return (
     <main className="w-full flex justify-center items-center flex-col mt-10">
-      <div className="container-70">
+      <div className="w-[90%] ml-[1/2]">
         <header className="flex flex-col gap-3">
           <LocationNav data={location} />
           <PageNavigation onChangePage={onChangePage} navigation={navigation}>

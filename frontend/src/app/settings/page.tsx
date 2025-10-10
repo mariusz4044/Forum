@@ -47,7 +47,7 @@ export default function page() {
 
   return (
     <div className="w-full">
-      <div className="container-70 ml-[15%] mt-10 settings-grid">
+      <div className="container-70 ml-[15%] max-sm:ml-[2%] mt-10 grid grid-cols-none lg:grid-cols-[300px_1fr] gap-8 mb-10">
         <div>
           <SettingsNavigation currentNav={currentView} onChange={changeView} />
         </div>
