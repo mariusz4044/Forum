@@ -5,7 +5,7 @@ import Window from "@/components/Utils/Universal/Window";
 import { X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
-interface MultiDialogProps {
+export interface MultiDialogProps {
   view: React.ComponentType;
   header: string;
   name: string;
@@ -14,13 +14,20 @@ interface MultiDialogProps {
 
 type MultiDialogButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
+  isActive?: boolean;
 };
 
-function MultiDialogButton({ children, ...props }: MultiDialogButtonProps) {
+function MultiDialogButton({
+  children,
+  isActive,
+  ...props
+}: MultiDialogButtonProps) {
   return (
     <button
       {...props}
-      className="text-md flex size-full cursor-pointer items-center justify-center p-3 rouned-lg z-10"
+      className={`text-md flex size-full cursor-pointer items-center justify-center p-3 rouned-lg z-10 ${
+        !isActive ? "text-gray-400" : null
+      }`}
     >
       {children}
     </button>
@@ -77,9 +84,9 @@ export default function ({ views }: { views: MultiDialogProps[] }) {
   }
 
   useEffect(() => {
-    const isDefaultViewExist = views.find((el) => el.default);
-    if (isDefaultViewExist) setCurrentView(isDefaultViewExist);
-    changeView(isDefaultViewExist || currentView);
+    const defaultView = views.find((el) => el.default);
+    if (defaultView) setCurrentView(defaultView);
+    changeView(defaultView || currentView);
   }, []);
 
   return (
@@ -100,6 +107,7 @@ export default function ({ views }: { views: MultiDialogProps[] }) {
             <MultiDialogButton
               key={view.name}
               data-name={view.name}
+              isActive={currentView.name === view.name}
               onClick={() => changeView(view)}
             >
               {view.name}

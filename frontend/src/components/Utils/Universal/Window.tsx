@@ -17,7 +17,7 @@ export default function Window({ children, title }: WindowProps) {
   return (
     <div>
       <motion.div
-        className="fixed w-screen h-screen bg-black/50 left-0 top-0 z-30 "
+        className="fixed w-screen h-screen bg-black/70 left-0 top-0 z-30 "
         id="dialog-background"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
