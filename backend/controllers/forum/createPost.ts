@@ -6,6 +6,9 @@ import { getLastTopicPostQuery } from "../dbqueries/forum/getLastTopicPostQuery"
 import { getUniqueTopicQuery } from "../dbqueries/forum/getUniqueTopicQuery";
 import { Topic } from "@prisma/client";
 
+import { JSDOM } from "jsdom";
+import DOMPurify from "dompurify";
+
 interface PostBody {
   message: string;
   topicId: number;
@@ -14,19 +17,55 @@ interface PostBody {
 
 const postsPerPage = parseInt(`${process.env.POSTS_PER_PAGE}`);
 
+const window = new JSDOM("").window;
+//@ts-ignore
+const purify = DOMPurify(window as unknown as Window);
+
+const sanitizeConfig = {
+  ALLOWED_TAGS: [
+    "p",
+    "b",
+    "strong",
+    "u",
+    "h1",
+    "h2",
+    "h3",
+    "br",
+    "text-left",
+    "text-center",
+    "text-right",
+  ],
+  ALLOWED_ATTR: ["style"],
+  ALLOW_DATA_ATTR: false,
+  transformTags: {
+    "*": (tagName: string, attribs: Record<string, string>) => {
+      //Allow only text align style tag
+      if (attribs.style) {
+        const match = attribs.style.match(
+          /text-align\s*:\s*(left|center|right|justify);?/i,
+        );
+        if (!match) return { tagName, attribs: {} };
+        if (match)
+          return {
+            tagName,
+            attribs: { style: `text-align: ${match[1]}` },
+          };
+      }
+      return { tagName, attribs };
+    },
+  },
+};
+
 export async function createPost(req: Request, res: Response) {
   const { message, topicId, blockResponse }: PostBody = req.body;
-
   const user = req.user!;
 
-  // const nextUserPostTime = new Date(user.lastPostTs);
-  // nextUserPostTime.setSeconds(nextUserPostTime.getSeconds() + postDelay);
+  const sanitizedMessage = purify.sanitize(message, sanitizeConfig);
+  const messageLength = sanitizedMessage.replace(/<[^>]*>/g, "").length;
 
-  // if (nextUserPostTime.getTime() > Date.now() && !isDev) {
-  //   throw new AppError(
-  //     `Slow down! Create post is possible every ${postDelay} second!`,
-  //   );
-  // }
+  if (messageLength < 4) {
+    throw new AppError("Minimum message length is 5!");
+  }
 
   const lastPostInTopic = await getLastTopicPostQuery({
     topicId,
@@ -50,7 +89,7 @@ export async function createPost(req: Request, res: Response) {
 
   const createdPost = await createPostQuery({
     authorId: user.id,
-    message,
+    message: sanitizedMessage,
     topicId,
   });
 
