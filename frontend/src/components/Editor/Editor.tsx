@@ -25,6 +25,7 @@ interface ToolbarProps {
 
 interface EditorForumProps {
   onChange: (richText: string) => void;
+  content?: string;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
@@ -111,7 +112,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   );
 };
 
-const EditorForum = ({ onChange }: EditorForumProps) => {
+const EditorForum = ({ onChange, content }: EditorForumProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -147,7 +148,7 @@ const EditorForum = ({ onChange }: EditorForumProps) => {
         },
       }),
     ],
-    content: "",
+    content: content ? content : "",
     editorProps: {
       attributes: {
         class:
