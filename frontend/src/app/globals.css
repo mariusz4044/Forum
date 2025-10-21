@@ -254,6 +254,18 @@ div [role="dialog"] {
     border: 1px solid rgba(86, 105, 219, 0.2);
 }
 
+.right-panel-post h1 {
+ font-size: 30px;
+}
+
+.right-panel-post h2 {
+ font-size: 25px;
+}
+
+.right-panel-post h3 {
+ font-size: 20px;
+}
+
 .rank-first {
     background: linear-gradient(135deg, #ffd700, #ffed4e);
     color: #1a1a1a;
