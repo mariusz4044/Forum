@@ -26,10 +26,10 @@ Modern full-stack internet forum designed with a strong focus on performance.
   - [x] Preview reported posts
 - [x] Topic caching system
 - [x] User settings (change password / Avatar, Stats)
+- [x] Text editor [TipTap](https://tiptap.dev)
 
 **In Progress:**
 - [ ] Post search engine
-- [ ] Text editor (e.g. [Quill](https://quilljs.com/))
 
 
 ## 🛠️ Tech Stack
