@@ -3,15 +3,17 @@
 import { motion } from "framer-motion";
 
 import { ReactNode } from "react";
+import { clsx } from "clsx";
 
 import { useDialogContext } from "@/context/DialogContext";
 
 interface WindowProps {
   title?: string;
   children?: ReactNode;
+  widthSize?: string;
 }
 
-export default function Window({ children, title }: WindowProps) {
+export default function Window({ children, title, widthSize }: WindowProps) {
   const { close } = useDialogContext();
 
   return (
@@ -30,10 +32,12 @@ export default function Window({ children, title }: WindowProps) {
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
         exit={{ opacity: 0, y: -30 }}
-        className="
-        max-sm:mx-4 max-sm:w-[90%] max-sm:left-1/2
-    fixed top-2/4 left-1/2 -translate-x-1/2 -translate-y-1/2
-    w-sm h-auto bg-[#1a1a2ee6] z-30 rounded-lg p-5 px-8 pb-8"
+        className={clsx(
+          "max-sm:mx-4 max-sm:w-[90%] max-sm:left-1/2",
+          "fixed top-2/4 left-1/2 -translate-x-1/2 -translate-y-1/2",
+          "h-auto bg-[#1a1a2ee6] z-30 rounded-lg p-5 px-8 pb-8",
+          widthSize ? widthSize : "w-sm",
+        )}
       >
         <header className="flex flex-col justify-between items-center relative">
           {title && (
