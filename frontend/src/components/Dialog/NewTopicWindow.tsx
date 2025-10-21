@@ -4,13 +4,15 @@ import { fetchData } from "@/functions/fetchData";
 import { useRouter } from "next/navigation";
 import { useDialogContext } from "@/context/DialogContext";
 import { useParams } from "next/navigation";
-import {
-  FormInput,
-  FormInputArea,
-} from "@/components/Utils/Universal/FormInput";
-import { FormEvent } from "react";
+import { FormInput } from "@/components/Utils/Universal/FormInput";
+
+import { FormEvent, useState } from "react";
+
+import EditorForum from "@/components/Editor/Editor";
 
 export default function NewTopicWindow() {
+  const [message, setMessage] = useState("");
+
   const router = useRouter();
   const { categoryId = 0 } = useParams();
   const { close } = useDialogContext();
@@ -20,20 +22,23 @@ export default function NewTopicWindow() {
     const formData = new FormData(e.target as HTMLFormElement);
     const data = {
       title: formData.get("Title"),
-      message: formData.get("Message"),
+      message,
       categoryId: +categoryId,
     };
 
     const res = await fetchData("/api/forum/topic/create", data);
-
     if (res.error) return;
 
     close();
     router.push(`/topic/${res.data.id}`);
   }
 
+  function changeMessage(text: string) {
+    setMessage(text);
+  }
+
   return (
-    <Window title="Add new Topic">
+    <Window title="Add new Topic" widthSize="w-xl">
       <form onSubmit={handleSubmit}>
         <div className="form-element">
           <FormInput
@@ -43,11 +48,7 @@ export default function NewTopicWindow() {
           ></FormInput>
         </div>
         <div className="form-element">
-          <FormInputArea
-            name="Message"
-            placeholder="First message in topic..."
-            height={32}
-          ></FormInputArea>
+          <EditorForum onChange={changeMessage} />
         </div>
         <ClassicButton type="submit" className="w-full mt-2">
           Create new Topic

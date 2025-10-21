@@ -8,11 +8,13 @@ import {
   FormInputArea,
 } from "@/components/Utils/Universal/FormInput";
 import { PostProps } from "@/types/types";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { mutate } from "swr";
 import getPageNumber from "../Utils/getPageNumber";
+import EditorForum from "@/components/Editor/Editor";
 
 export default function EditPostEditPostWindow() {
+  const [message, setMessage] = useState("");
   const { close, data } = useDialogContext();
   const post: PostProps = data!;
 
@@ -27,7 +29,7 @@ export default function EditPostEditPostWindow() {
     };
 
     await fetchData("/api/post/edit", {
-      message: dataForm.message,
+      message,
       postId: post.id,
       reason: dataForm.reason,
     });
@@ -38,16 +40,16 @@ export default function EditPostEditPostWindow() {
     await mutate([`topic/${post.topicId}`, page]);
   }
 
+  function changeMessage(text: string) {
+    setMessage(text);
+  }
+
   return (
-    <Window title={`Edit "${post?.author?.name}" post`}>
+    <Window title={`Edit "${post?.author?.name}" post`} widthSize="w-xl">
       <form onSubmit={handleSubmit}>
         <div className="form-element">
           <FormInput name="Reason" placeholder="Not required"></FormInput>
-          <FormInputArea
-            name="Post"
-            height={32}
-            defaultValue={post?.message}
-          ></FormInputArea>
+          <EditorForum onChange={changeMessage} content={post?.message} />
         </div>
         <ClassicButton type="submit" className="w-full mt-2">
           Edit
