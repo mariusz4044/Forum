@@ -9,8 +9,6 @@ import { AnimatePresence } from "framer-motion";
 
 //Components
 import Header from "@/components/Utils/Header";
-import RegisterWindow from "@/components/Dialog/RegisterWindow";
-import LoginWindow from "@/components/Dialog/LoginWindow";
 
 //Context's
 import { useDialogContext } from "@/context/DialogContext";
