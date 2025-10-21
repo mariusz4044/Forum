@@ -18,8 +18,10 @@ import usePagination from "@/hooks/usePagination";
 import usePaginationData from "@/hooks/usePaginationData";
 import { mutate } from "swr";
 import PostsContent from "@/app/topic/[topicId]/PostContent";
+import EditorForum from "@/components/Editor/Editor";
 
 function NewPostElement(): JSX.Element {
+  const [editorId, setEditorId] = useState(Date.now());
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -53,6 +55,11 @@ function NewPostElement(): JSX.Element {
 
     router.push(`?${params.toString()}`, { scroll: false });
     setMessage("");
+    setEditorId(Date.now());
+  }
+
+  function changeEditor(text: string) {
+    setMessage(text);
   }
 
   return (
@@ -60,12 +67,7 @@ function NewPostElement(): JSX.Element {
       <PostBoxUserPanel user={user as PostAuthor} />
       <div className="w-full ml-4 flex flex-col gap-4 max-sm:ml-0 max-sm:mt-4">
         <b className="text-sm">Add new post:</b>
-        <textarea
-          className="right bg-[#1e1e2f80] w-full h-auto rounded-sm min-h-32 p-4  resize-none"
-          placeholder="Type your answer..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
+        <EditorForum onChange={changeEditor} key={editorId} />
         <ForumButton className="w-full h-10" onClick={handleSubmit}>
           <span ref={buttonRef}>Create Post</span>
         </ForumButton>

@@ -183,7 +183,7 @@ function PostContentBox({
         Created {formatDateToRelative(createdAt)}
       </span>
       <div className="mt-3 max-sm:mb-15 wrap-anywhere mb-10 whitespace-pre-line">
-        {message}
+        <div dangerouslySetInnerHTML={{__html: message}}></div>
         {editedMessage && <EditedBox message={editedMessage} />}
         {reports && <ReportStatsBox post={post as PostPropsWithReports} />}
       </div>
