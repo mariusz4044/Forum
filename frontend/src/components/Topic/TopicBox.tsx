@@ -46,7 +46,7 @@ export function TopicBox({ topic }: { topic: TopicProps }) {
       <div
         className=" text-[#94a3b8]/60 bg-[#1e1e2f]/50 hover:scale-95
       inset-shadow-xs inset-shadow-gray-700/50 rounded-xl
-      py-1 font-medium text-[14px] flex flex-row items-center justify-center gap-2 min-w-24 mr-12 select-none"
+      py-1 font-medium text-[14px] flex flex-row items-center justify-center gap-2 min-w-24 mr-12 select-none max-sm:mr-4"
       >
         <span>{formatShortNumber(postsCount)} posts</span>
         <MessageCircle size={12} />
