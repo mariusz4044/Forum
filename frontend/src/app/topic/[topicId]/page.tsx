@@ -10,7 +10,6 @@ import { PageNavigation } from "@/components/PageNavigation";
 import { TopicHeader } from "@/components/Topic/TopicHeader";
 import { TopicContext, useTopicContext } from "@/context/TopicContext";
 import LocationNav from "@/components/Utils/LocationNav";
-
 import { JSX, useRef, useState, useEffect } from "react";
 import { Info } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -133,7 +132,6 @@ export default function postsView() {
 
   // location;
   let location: Location[] = [
-    { href: "/", name: "Home", id: 1 },
     {
       href: `/category/${topic.category.id}`,
       name: topic.category.title,

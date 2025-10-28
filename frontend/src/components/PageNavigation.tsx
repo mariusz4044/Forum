@@ -6,6 +6,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { PageNavigationProps } from "@/types/types";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface PageNumberElementProps {
   pageNumber: number;
@@ -34,11 +35,11 @@ export function PageNavigation({
   navigation,
   onChangePage,
 }: PageNavigationProps) {
+  const isMobile = useIsMobile();
+  const visiblePages = isMobile ? 2 : 5;
   const { maxPage, currentPage } = navigation;
 
   const pages = useMemo(() => {
-    const visiblePages = 5;
-
     if (maxPage <= visiblePages) {
       return Array.from({ length: maxPage }, (_, i) => i + 1);
     }
@@ -65,7 +66,7 @@ export function PageNavigation({
 
   return (
     <div
-      className="bg-[#1e1e2f]/[.5] p-4 h-14 rounded-lg flex flex-row justify-between items-center"
+      className="bg-[#1e1e2f]/[.5] p-4 h-14 rounded-lg flex flex-row justify-between items-center max-sm:justify-center"
       style={borderStyle}
     >
       <div className="flex flex-row gap-1 items-center">
@@ -91,7 +92,7 @@ export function PageNavigation({
           />
         ))}
         {/*Max page*/}
-        {currentPage < maxPage - 5 && (
+        {currentPage < maxPage - visiblePages && !isMobile && (
           <div className="ml-5">
             <PageNumberElement
               pageNumber={maxPage}

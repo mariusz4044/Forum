@@ -25,7 +25,7 @@ export default function Badge(props: BadgeProps) {
     <>
       <div
         className={clsx(
-          `font-bold flex flex-row items-center rounded p-1 gap-1 w-full `,
+          `font-bold flex flex-row items-center rounded p-1 gap-1 w-full max-sm:justify-between max-sm:px-3`,
           colors[color],
         )}
         data-tooltip-id="badge-tooltip"

@@ -41,14 +41,14 @@ export function PostBoxUserPanel({ user }: { user: PostAuthor }) {
     <div
       className="left-panel-post border-r-[1px] border-r-[#6161614d] flex flex-col
       items-center w-32 min-w-32 pr-3
-      max-sm:min-w-10 max-sm:flex-row max-sm:w-full max-sm:pb-3 max-sm:gap-1
+       max-sm:flex-row max-sm:w-full max-sm:pb-3 max-sm:gap-1
       max-sm:border-r-0 max-sm:border-b-1 max-sm:border-b-[#6161614d]"
     >
       <div className="text-sm mb-2 font-bold flex flex-col items-center gap-2">
         <UserNick user={user} />
         <UserAvatar user={user} className="w-24 rounded-full max-sm:size-12" />
       </div>
-      <div className="p-1 mt-3 w-[90%] flex flex-col gap-2 justify-center max-sm:mt-0">
+      <div className="p-1 mt-3 w-[90%] flex flex-col gap-2 justify-center ">
         <div className="flex flex-col-reverse w-full gap-1 max-sm:flex-col ">
           {user.totalPosts !== undefined && (
             <Badge
@@ -112,7 +112,7 @@ function RatingBox({
   return (
     <div className="flex flex-row  items-center gap-2 pr-8 opacity-50 hover:opacity-100">
       <div
-        className="bg-[#31314f] p-1 rounded-xl"
+        className="bg-[#31314f] p-1 rounded-sm"
         onClick={async () => {
           await handleClick(1);
         }}
@@ -125,7 +125,7 @@ function RatingBox({
         {ratingSummary}
       </b>
       <div
-        className="bg-[#31314f] p-1 rounded-xl"
+        className="bg-[#31314f] p-1 rounded-sm"
         onClick={async () => {
           await handleClick(-1);
         }}
@@ -183,7 +183,7 @@ function PostContentBox({
         Created {formatDateToRelative(createdAt)}
       </span>
       <div className="mt-3 max-sm:mb-15 wrap-anywhere mb-10 whitespace-pre-line">
-        <div dangerouslySetInnerHTML={{__html: message}}></div>
+        <div dangerouslySetInnerHTML={{ __html: message }}></div>
         {editedMessage && <EditedBox message={editedMessage} />}
         {reports && <ReportStatsBox post={post as PostPropsWithReports} />}
       </div>

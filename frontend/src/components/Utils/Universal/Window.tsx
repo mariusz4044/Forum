@@ -33,7 +33,7 @@ export default function Window({ children, title, widthSize }: WindowProps) {
         transition={{ duration: 0.2, ease: "easeOut" }}
         exit={{ opacity: 0, y: -30 }}
         className={clsx(
-          "max-sm:mx-4 max-sm:w-[90%] max-sm:left-1/2",
+          "max-sm:w-[90%] max-sm:left-1/2",
           "fixed top-2/4 left-1/2 -translate-x-1/2 -translate-y-1/2",
           "h-auto bg-[#1a1a2ee6] z-30 rounded-lg p-5 px-8 pb-8",
           widthSize ? widthSize : "w-sm",

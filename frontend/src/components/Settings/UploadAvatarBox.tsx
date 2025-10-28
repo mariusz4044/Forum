@@ -56,7 +56,7 @@ export default function () {
             512KB
           </p>
         </div>
-        <div className="flex gap-3 mt-2">
+        <div className="flex gap-3 mt-2 max-sm:flex-col">
           <label className="cursor-pointer">
             <input
               type="file"
@@ -64,7 +64,7 @@ export default function () {
               className="hidden"
               onChange={handleFileChange}
             />
-            <div className="bg-[#ffffff1a]/[0.5] px-4 py-2.5 rounded-md border-1 border-[#ffffff1a] text-sm">
+            <div className="bg-[#ffffff1a]/[0.5] px-4 py-2.5 rounded-md border-1 border-[#ffffff1a] text-sm text-center">
               Select file
             </div>
           </label>
