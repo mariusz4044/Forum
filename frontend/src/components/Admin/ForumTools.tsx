@@ -20,18 +20,17 @@ export function ForumToolsMenu() {
   );
 }
 
-export default function ({ type }: { type: "section" | "category" }) {
+export default function () {
   const data: MultiDialogProps[] = [
     {
       name: "Create section",
       header: "",
-      default: type === "section" ? true : false,
+      default: true,
       view: CreateSection,
     },
     {
       name: "Create category",
       header: "",
-      default: type === "category" ? true : false,
       view: CreateCategory,
     },
   ];

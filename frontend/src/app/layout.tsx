@@ -57,8 +57,7 @@ function Content({ children }: { children: React.ReactNode }) {
         {mode === "editPost" && <EditPostEditPostWindow />}
         {mode === "banUser" && <BanUserWindow />}
         {mode === "userProfile" && <UserProfileWindow />}
-        {mode === "createSection" && <ForumTools type="section" />}
-        {mode === "createCategory" && <ForumTools type="category" />}
+        {mode === "createSection" && <ForumTools />}
       </AnimatePresence>
       <ToastContainer />
     </>
