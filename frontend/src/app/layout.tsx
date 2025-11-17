@@ -19,6 +19,7 @@ import BanUserWindow from "@/components/Dialog/BanUserWindow";
 import UserProfileWindow from "@/components/Dialog/UserProfileWindow";
 import FooterGithubInfo from "@/components/Utils/FooterGithubInfo";
 import NewUserDialog from "@/components/Dialog/NewUserDialog";
+import ForumTools from "@/components/Admin/ForumTools";
 
 export default function RootLayout({
   children,
@@ -56,6 +57,8 @@ function Content({ children }: { children: React.ReactNode }) {
         {mode === "editPost" && <EditPostEditPostWindow />}
         {mode === "banUser" && <BanUserWindow />}
         {mode === "userProfile" && <UserProfileWindow />}
+        {mode === "createSection" && <ForumTools type="section" />}
+        {mode === "createCategory" && <ForumTools type="category" />}
       </AnimatePresence>
       <ToastContainer />
     </>

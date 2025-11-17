@@ -11,6 +11,8 @@ import { formatNumber } from "@/components/Utils/formatNumbers";
 
 import { ReactNode } from "react";
 import Link from "next/link";
+import { useUserContext } from "@/context/UserContext";
+import { ForumToolsMenu } from "@/components/Admin/ForumTools";
 
 export function LastPostStatistic({ post }: { post: StatisticPost }) {
   const { author, topic, createdAt } = post;
@@ -133,6 +135,8 @@ function PositionRanking({
 }
 
 export function Statistics({ data }: { data: StatisticsData }) {
+  const { user } = useUserContext();
+
   const LastTopics = [];
   for (let i in data.lastTopics) {
     const topic: TopicResponseData = data.lastTopics[i];
@@ -156,6 +160,7 @@ export function Statistics({ data }: { data: StatisticsData }) {
 
   return (
     <>
+      {user.role === "ADMIN" && <ForumToolsMenu />}
       <ForumBox>
         <ForumBoxHeader>💬 Best posters </ForumBoxHeader>
         <ForumBoxContent>{BestPosters}</ForumBoxContent>

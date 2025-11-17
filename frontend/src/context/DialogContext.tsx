@@ -7,6 +7,7 @@ type Mode =
   | "editPost"
   | "banUser"
   | "userProfile"
+  | "createSection"
   | "none";
 
 const DialogContext = createContext({
