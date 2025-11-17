@@ -62,15 +62,19 @@ export default function ({ stats }: { stats: StatsData }) {
           <StatTitle>Total Topics</StatTitle>
         </div>
       </StatBox>
-      <StatBox color="#2f2f2f33" borderColor="#4d4d4d45">
-        <UserIcon size={40} className="p-2 bg-[#4d4d4d45] rounded-full" />
-        <div className="flex flex-col">
-          <StatValue>
-            <UserNick user={lastUser} />
-          </StatValue>
-          <StatTitle>Join {formatDateToRelative(lastUser.createdAt)}</StatTitle>
-        </div>
-      </StatBox>
+      {lastUser && (
+        <StatBox color="#2f2f2f33" borderColor="#4d4d4d45">
+          <UserIcon size={40} className="p-2 bg-[#4d4d4d45] rounded-full" />
+          <div className="flex flex-col">
+            <StatValue>
+              <UserNick user={lastUser} />
+            </StatValue>
+            <StatTitle>
+              Join {formatDateToRelative(lastUser.createdAt)}
+            </StatTitle>
+          </div>
+        </StatBox>
+      )}
     </div>
   );
 }
