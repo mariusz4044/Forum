@@ -137,26 +137,19 @@ function PositionRanking({
 export function Statistics({ data }: { data: StatisticsData }) {
   const { user } = useUserContext();
 
-  const LastTopics = [];
-  for (let i in data.lastTopics) {
-    const topic: TopicResponseData = data.lastTopics[i];
-    LastTopics.push(<LastTopicStatistic topic={topic} key={`topics-${i}`} />);
-  }
+  const LastTopics = data.lastTopics.map((topic, index) => (
+    <LastTopicStatistic topic={topic} key={`topics-${index}`} />
+  ));
 
-  const LastPosts = [];
-  for (let i in data.lastPosts) {
-    const post: StatisticPost = data.lastPosts[i];
-    LastPosts.push(<LastPostStatistic post={post} key={`post-${i}`} />);
-  }
+  const LastPosts = data.lastPosts.map((post, index) => (
+    <LastPostStatistic post={post} key={`post-${index}`} />
+  ));
 
-  const BestPosters = [];
-  for (let i in data.bestPosters) {
-    const user = data.bestPosters[i];
-    if (!user.name) continue;
-    BestPosters.push(
-      <PositionRanking rank={+i + 1} user={user} key={`poster-${i}`} />,
-    );
-  }
+  const BestPosters = data.bestPosters
+    .filter((user) => user.name)
+    .map((user, index) => (
+      <PositionRanking rank={index + 1} user={user} key={`poster-${index}`} />
+    ));
 
   return (
     <>
