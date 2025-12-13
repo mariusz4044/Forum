@@ -5,7 +5,7 @@ import { AppError } from "../../utils/AppError";
 const postsPerPage = parseInt(`${process.env.POSTS_PER_PAGE}`);
 
 export async function getPosts(req: Request, res: Response) {
-  const { page = 1, cursor = 0, direction = "next", type } = req.query;
+  const { page = 1, cursor = 0, direction = "next" } = req.query;
   const { id } = req.params;
 
   if (!id) {
@@ -18,10 +18,6 @@ export async function getPosts(req: Request, res: Response) {
 
   if (Number.isNaN(cursor)) {
     throw new AppError("Invalid cursor!");
-  }
-
-  if (type && req.user!.role !== "ADMIN") {
-    throw new AppError("Access denied!");
   }
 
   const { topic, posts } = await getPostsQuery({
