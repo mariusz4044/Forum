@@ -24,6 +24,7 @@ Modern full-stack internet forum designed with a strong focus on performance.
   - [x] Deleting topics
   - [x] Editing user posts
   - [x] Preview reported posts
+  - [x] Create new Category/Sections
 - [x] Topic caching system
 - [x] User settings (change password / Avatar, Stats)
 - [x] Text editor [TipTap](https://tiptap.dev)
@@ -50,7 +51,7 @@ Modern full-stack internet forum designed with a strong focus on performance.
 - **Framer Motion** - Animation library
 - **Lucide React** - Icon library
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 - Node.js (v18 or higher)
@@ -93,7 +94,7 @@ npm start
 
 This will start both backend and frontend servers concurrently.
 
-## 🚦 Available Scripts
+##  Available Scripts
 
 - `npm start` - Start both backend and frontend servers
 - `npm run start:backend` - Start only backend server
@@ -109,7 +110,7 @@ This will start both backend and frontend servers concurrently.
 - `npm run build` - Build for production
 - `npm run lint` - Run ESLint
 
-## 🔧 Configuration
+##  Configuration
 
 ### Environment Variables
 
@@ -129,9 +130,24 @@ TOPIC_PER_PAGE=10
 POSTS_PER_PAGE=10
 ```
 
-#### Frontend (.env.local)
-```env
-NEXT_PUBLIC_API_URL="http://localhost:3001"
+#### Frontend (next.config.ts)
+```ts
+const nextConfig: NextConfig = {
+  env: {
+    SERVER_URL: "http://localhost:2137",
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "2137",
+        pathname: "/image/avatar/**",
+      },
+    ],
+  },
+};
+
 ```
 
 ## 🤝 Contributing
@@ -145,6 +161,7 @@ NEXT_PUBLIC_API_URL="http://localhost:3001"
 ## 📄 License
 
 This project is licensed under the MIT License.
+
 
 
 
